@@ -15,7 +15,7 @@ const frontendJsSourceLocation = "./../source/frontend/js/app/**/**/**/*.ts";
 const frontendJsDestinationLocation = "./tmp/";
 const frontendJsConcatLocation = "../app/frontend/static/js/app/";
 
-const frontendCssSourceLocation = "./../source/frontend/css/**/**/*.scss";
+const frontendCssSourceLocation = "./../source/frontend/css/**/**/main.scss";
 const frontendCssDestinationLocation = "../app/frontend/static/css/";
 
 const tsBackendProject = ts.createProject(backendTsConfigLocation);

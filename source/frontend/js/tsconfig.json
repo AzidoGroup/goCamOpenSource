@@ -14,6 +14,10 @@
     "pretty": true,
     "declaration": false,
     "strictNullChecks": false,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      // This is solely to stop a bug with @types/node as of 12/15/2023
+      "undici-types": ["../node_modules/undici-types/index.d.ts"]
+    }
   }
 }
