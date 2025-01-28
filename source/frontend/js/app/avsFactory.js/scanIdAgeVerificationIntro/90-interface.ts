@@ -1,9 +1,3 @@
 namespace AvsFactory {
-
-	export namespace ScanIdAgeVerificationIntro {
-
-
-
-	}
-
+  export namespace ScanIdAgeVerificationIntro {}
 }
