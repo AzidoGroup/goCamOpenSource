@@ -1,61 +1,49 @@
-import {config} from "../config";
+import { config } from "../config";
 
 export class AvsStoragePayload {
+  private payloadList: IPayloadList;
 
-	private payloadList: IPayloadList;
+  constructor() {
+    this.payloadList = {};
+  }
 
-	constructor() {
+  public store(payload: string) {
+    if (this.isStored(payload)) {
+      return;
+    }
 
-		this.payloadList = {};
+    this.payloadList[payload] = {
+      payload: payload,
+      created: this.getNow(),
+    };
+  }
 
-	}
+  public isStored(payload: string) {
+    return typeof this.payloadList[payload] != "undefined";
+  }
 
-	public store(payload: string) {
+  public isExpired(payload: string) {
+    if (!this.isStored(payload)) {
+      return false;
+    }
 
-		if (this.isStored(payload)) {
-			return;
-		}
+    let payloadData = this.payloadList[payload];
+    let created = payloadData.created;
+    let now = this.getNow();
 
-		this.payloadList[payload] = {
-			payload: payload,
-			created: this.getNow(),
-		}
+    return created + config.storage.payloadExpirationTime > now;
+  }
 
-	}
-
-	public isStored(payload: string) {
-
-		return typeof this.payloadList[payload] != 'undefined';
-
-	}
-
-	public isExpired(payload: string) {
-
-		if (!this.isStored(payload)) {
-			return false;
-		}
-
-		let payloadData = this.payloadList[payload];
-		let created     = payloadData.created;
-		let now         = this.getNow();
-
-		return created + config.storage.payloadExpirationTime > now;
-
-	}
-
-	private getNow() {
-
-		return +new Date();
-
-	}
-
+  private getNow() {
+    return +new Date();
+  }
 }
 
 export interface IPayloadList {
-	[key: string]: IPayloadListItem
+  [key: string]: IPayloadListItem;
 }
 
 export interface IPayloadListItem {
-	payload: string,
-	created: number
+  payload: string;
+  created: number;
 }
