@@ -1,120 +1,90 @@
 namespace AvsFactoryIframeSdk {
+  export namespace V1 {
+    export class Core {
+      public iframeInstance: IframeHandler;
 
-	export namespace V1 {
+      public iframeSelectorId: string;
+      public iframeLocationUrl: string;
 
-		export class Core {
+      constructor() {
+        this.iframeSelectorId = Config.IFRAME_SELECTOR_ID;
+        this.iframeLocationUrl = Config.IFRAME_LOCATION_URL;
 
-			public iframeInstance: IframeHandler;
+        this.iframeInstance = new IframeHandler({
+          iframeSelectorId: this.iframeSelectorId,
+          iframeLocationUrl: this.iframeLocationUrl,
+        });
+      }
 
-			public iframeSelectorId: string;
-			public iframeLocationUrl: string;
+      public init() {
+        this.iframeInstance.create();
+        this.iframeInstance.open();
 
-			constructor() {
+        this.iframeInstance.onMessage = (eventMessage: any) => {
+          this.onMessage(eventMessage);
 
-				this.iframeSelectorId  = Config.IFRAME_SELECTOR_ID;
-				this.iframeLocationUrl = Config.IFRAME_LOCATION_URL;
+          switch (eventMessage.name) {
+            case Config.EVENT_ON_CHECK_IFRAME_LOADED:
+              break;
 
-				this.iframeInstance = new IframeHandler({
-					iframeSelectorId : this.iframeSelectorId,
-					iframeLocationUrl: this.iframeLocationUrl
-				});
+            case Config.EVENT_ON_INITIAL_VERIFICATION_SUCCESS:
+              if (eventMessage.data.status) {
+                this.iframeInstance.destroy();
+              }
 
-			}
+              break;
 
-			public init() {
+            case Config.EVENT_ON_INITIAL_VERIFICATION_NOT_FOUND:
+              //
 
-				this.iframeInstance.create();
-				this.iframeInstance.open();
+              break;
 
-				this.iframeInstance.onMessage = ((eventMessage: any) => {
+            case Config.EVENT_ON_INITIAL_VERIFICATION_FATAL_ERROR:
+              //
 
-					this.onMessage(eventMessage);
+              break;
 
-					switch (eventMessage.name) {
+            case Config.EVENT_ON_RESOURCES_LOADED:
+              //
 
-						case Config.EVENT_ON_CHECK_IFRAME_LOADED:
+              break;
 
-							break;
+            case Config.EVENT_ON_VERIFICATION_DONE:
+              //
 
-						case Config.EVENT_ON_INITIAL_VERIFICATION_SUCCESS:
+              break;
 
-							if (eventMessage.data.status) {
-								this.iframeInstance.destroy();
-							}
+            case Config.EVENT_ON_VERIFICATION_SUCCESS:
+              if (eventMessage.data.status) {
+                this.iframeInstance.destroy();
+              }
 
-							break;
+              break;
 
-						case Config.EVENT_ON_INITIAL_VERIFICATION_NOT_FOUND:
+            case Config.EVENT_ON_VERIFICATION_ERROR:
+              //
 
-							//
+              break;
 
-							break;
+            case Config.EVENT_ON_CLOSE_IFRAME:
+              //
 
-						case Config.EVENT_ON_INITIAL_VERIFICATION_FATAL_ERROR:
+              break;
 
-							//
+            default:
 
-							break;
+            //
+          }
+        };
+      }
 
-						case Config.EVENT_ON_RESOURCES_LOADED:
+      public onMessage(eventMessage: any) {
+        return;
+      }
 
-							//
-
-							break;
-
-						case Config.EVENT_ON_VERIFICATION_DONE:
-
-							//
-
-							break;
-
-						case Config.EVENT_ON_VERIFICATION_SUCCESS:
-
-							if (eventMessage.data.status) {
-								this.iframeInstance.destroy();
-							}
-
-							break;
-
-						case Config.EVENT_ON_VERIFICATION_ERROR:
-
-							//
-
-							break;
-
-						case Config.EVENT_ON_CLOSE_IFRAME:
-
-							//
-
-							break;
-
-
-
-						default:
-
-						//
-
-
-					}
-
-				});
-
-			}
-
-			public onMessage(eventMessage: any) {
-
-				return;
-
-			}
-
-			public emit(messageName: string, messageData?: Object) {
-
-				this.iframeInstance.emit(messageName, messageData);
-
-			}
-
-		}
-
-	}
-
+      public emit(messageName: string, messageData?: Object) {
+        this.iframeInstance.emit(messageName, messageData);
+      }
+    }
+  }
 }

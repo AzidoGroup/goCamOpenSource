@@ -49,6 +49,9 @@ function buildJsFrontend(cb) {
 }
 
 function cleanJsFrontend(cb) {
+  if (!fs.existsSync(frontendJsDestinationLocation)) {
+    fs.mkdirSync(frontendJsDestinationLocation, { recursive: true });
+  }
   let folderToConcatList = fs.readdirSync(frontendJsDestinationLocation);
   for (let i = 0, j = folderToConcatList.length; i < j; i++) {
     gulp
