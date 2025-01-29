@@ -1,190 +1,183 @@
 namespace Core {
+  export var MSG_INTERNAL_ERROR = "Internal error";
 
-	export var MSG_INTERNAL_ERROR = 'Internal error';
+  export namespace Ajax {
+    function extractError(data: IAppAjaxResponse): IAppAjaxResponseError {
+      if ("content" in data) {
+        return {
+          code: 0,
+          msg: "No error found",
+        };
+      }
 
-	export namespace Ajax {
+      if (!data) {
+        return {
+          code: 1,
+          msg: Core.MSG_INTERNAL_ERROR,
+        };
+      }
 
-		function extractError(data: IAppAjaxResponse): IAppAjaxResponseError {
-			if ('content' in data) {
-				return {
-					code: 0,
-					msg: 'No error found'
-				};
-			}
+      if (!("error" in data)) {
+        return {
+          code: 2,
+          msg: Core.MSG_INTERNAL_ERROR,
+        };
+      }
 
-			if (!data) {
-				return {
-					code: 1,
-					msg: Core.MSG_INTERNAL_ERROR
-				};
-			}
+      let errorInfoIn = data.error;
+      let errorInfoOut: IAppAjaxResponseError = {
+        code: 3,
+        msg: Core.MSG_INTERNAL_ERROR,
+      };
 
-			if (!('error' in data)) {
-				return {
-					code: 2,
-					msg: Core.MSG_INTERNAL_ERROR
-				};
-			}
+      if (errorInfoIn) {
+        if ("code" in errorInfoIn) {
+          errorInfoOut.code = errorInfoIn.code;
+        }
 
-			let errorInfoIn = data.error;
-			let errorInfoOut: IAppAjaxResponseError = {
-				code: 3,
-				msg: Core.MSG_INTERNAL_ERROR
-			};
+        if ("msg" in errorInfoIn) {
+          errorInfoOut.msg = errorInfoIn.msg;
+        }
 
-			if (errorInfoIn) {
-				if ('code' in errorInfoIn) {
-					errorInfoOut.code = errorInfoIn.code;
-				}
+        if ("extra" in errorInfoIn) {
+          errorInfoOut.extra = errorInfoIn.extra;
+        }
+      }
 
-				if ('msg' in errorInfoIn) {
-					errorInfoOut.msg = errorInfoIn.msg;
-				}
+      return errorInfoOut;
+    }
 
-				if ('extra' in errorInfoIn) {
-					errorInfoOut.extra = errorInfoIn.extra;
-				}
-			}
+    export function post(
+      path: string,
+      content: any = null
+    ): JQueryPromise<any> {
+      let jqXHR = $.ajax({
+        type: "post",
+        dataType: "json",
+        data: content,
 
-			return errorInfoOut;
-		}
+        url: path,
+      });
 
-		export function post(path: string, content: any = null): JQueryPromise<any> {
+      let promise: any = jqXHR.then(
+        function (data: IAppAjaxResponse) {
+          let promiseDeferred;
 
-			let jqXHR = $.ajax({
-				type: 'post',
-				dataType: 'json',
-				data: content,
+          if (!data || !("content" in data)) {
+            // application error
+            promiseDeferred = $.Deferred();
+            promiseDeferred.reject(extractError(data));
+            return promiseDeferred;
+          }
 
-				url: path
+          return data.content;
+        },
+        function (xhr) {
+          let contentType = xhr.getResponseHeader("content-type");
+          if (
+            contentType === "application/json" ||
+            contentType === "text/json"
+          ) {
+            if ("JSON" in window) {
+              let dataObj = JSON.parse(xhr.responseText);
 
-			});
+              if ("error" in dataObj && dataObj.error) {
+                let errorObj = dataObj.error;
 
+                if ("code" in errorObj && errorObj.code > 0) {
+                  return errorObj;
+                }
+              }
+            }
+          }
 
-			let promise: any = jqXHR.then(function(data: IAppAjaxResponse) {
-				let promiseDeferred;
+          let errorObj = {
+            code: 0,
 
-				if (!data || !('content' in data)) {
-					// application error
-					promiseDeferred = $.Deferred();
-					promiseDeferred.reject(extractError(data));
-					return promiseDeferred;
-				}
+            msg: Core.MSG_INTERNAL_ERROR,
+          };
 
-				return data.content;
+          if (xhr.status == 500) {
+            errorObj.code = 4;
+          } else if (xhr.status == 200) {
+            errorObj.code = 5;
+          } else if (xhr.statusText == "abort") {
+            errorObj.code = 7;
+          } else if (xhr.status > 500 && xhr.status < 600) {
+            errorObj.code = 8;
+          } else {
+            errorObj.code = 6;
+          }
 
-			}, function(xhr) {
-				let contentType = xhr.getResponseHeader('content-type');
-				if ((contentType === "application/json") || (contentType === "text/json")) {
-					if ('JSON' in window) {
-						let dataObj = JSON.parse(xhr.responseText);
+          return errorObj;
+        }
+      );
 
-						if ('error' in dataObj && dataObj.error) {
-							let errorObj = dataObj.error;
+      promise.jqXHR = jqXHR;
 
-							if (('code' in errorObj) && errorObj.code > 0) {
-								return errorObj;
-							}
-						}
-					}
-				}
+      return promise;
+    }
+  }
 
-				let errorObj = {
-					code: 0,
+  export function clone(obj: any): any {
+    // Handle the 3 simple types, and null or undefined
+    if (null == obj || "object" != typeof obj) {
+      return obj;
+    }
 
-					msg: Core.MSG_INTERNAL_ERROR
-				};
+    // Handle Date
+    if (obj instanceof Date) {
+      let copyDate = new Date();
+      copyDate.setTime(obj.getTime());
+      return copyDate;
+    }
 
-				if (xhr.status == 500) {
-					errorObj.code = 4;
+    // Handle Array
+    if (obj instanceof Array) {
+      let copyList = [];
+      for (let i = 0, len = obj.length; i < len; i++) {
+        copyList[i] = clone(obj[i]);
+      }
+      return copyList;
+    }
 
-				} else if (xhr.status == 200) {
-					errorObj.code = 5;
-				}
-				else if (xhr.statusText == "abort") {
-					errorObj.code = 7;
-				}
-				else if (xhr.status > 500 && xhr.status < 600) {
-					errorObj.code = 8;
-				}
-				else {
-					errorObj.code = 6;
-				}
+    // Handle Object
+    if (obj instanceof Object) {
+      let copyObj: any = {};
+      for (let attr in obj) {
+        if (obj.hasOwnProperty(attr)) {
+          copyObj[attr] = clone(obj[attr]);
+        }
+      }
+      return copyObj;
+    }
 
-				return errorObj;
-			});
+    throw new Error("Unable to copy obj! Its type isn't supported.");
+  }
 
-			promise.jqXHR = jqXHR;
+  export function bootstrap() {
+    if ("onDocumentReady" in Application) {
+      let fonctionStr = Application["onDocumentReady"];
 
-			return promise;
-		}
-	}
+      let tokenList = fonctionStr.split(/\./);
 
-	export function clone(obj: any): any {
-		// Handle the 3 simple types, and null or undefined
-		if (null == obj || "object" != typeof obj) {
-			return obj;
-		}
+      let currentObj: any = window;
+      let currentToken;
 
-		// Handle Date
-		if (obj instanceof Date) {
-			let copyDate = new Date();
-			copyDate.setTime(obj.getTime());
-			return copyDate;
-		}
+      while ((currentToken = tokenList.shift())) {
+        if (currentToken in currentObj) {
+          currentObj = currentObj[currentToken];
+        } else {
+          currentObj = null;
+          break;
+        }
+      }
 
-		// Handle Array
-		if (obj instanceof Array) {
-			let copyList = [];
-			for (let i = 0, len = obj.length; i < len; i++) {
-				copyList[i] = clone(obj[i]);
-			}
-			return copyList;
-		}
-
-		// Handle Object
-		if (obj instanceof Object) {
-			let copyObj: any = {};
-			for (let attr in obj) {
-				if (obj.hasOwnProperty(attr)) {
-					copyObj[attr] = clone(obj[attr]);
-				}
-			}
-			return copyObj;
-		}
-
-		throw new Error("Unable to copy obj! Its type isn't supported.");
-	}
-
-	export function bootstrap() {
-
-		if ('onDocumentReady' in Application) {
-
-			let fonctionStr = Application['onDocumentReady'];
-
-			let tokenList = fonctionStr.split(/\./);
-
-			let currentObj: any = window;
-			let currentToken;
-
-			while (currentToken = tokenList.shift()) {
-				if (currentToken in currentObj) {
-					currentObj = currentObj[currentToken];
-				}
-				else {
-					currentObj = null;
-					break;
-				}
-			}
-
-			if (typeof currentObj === "function") {
-				window.setTimeout(function() {
-					currentObj();
-				}, 1);
-			}
-
-		}
-	}
+      if (typeof currentObj === "function") {
+        window.setTimeout(function () {
+          currentObj();
+        }, 1);
+      }
+    }
+  }
 }
-
-

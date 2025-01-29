@@ -1,52 +1,40 @@
 namespace Avs {
+  export namespace Ui {
+    export namespace Library {
+      export class ScanIdAgeVerificationDocumentProcessingArea extends Avs.Ui
+        .Handler.Text {
+        public element: JQuery;
+        public states: any;
+        public event: Avs.Event.Listener;
 
-	export namespace Ui {
+        constructor(event: Avs.Event.Listener, selector?: string) {
+          super(event);
+          this.event = event;
 
-		export namespace Library {
+          this.getElement(selector);
+          this.initStates();
+        }
 
-			export class ScanIdAgeVerificationDocumentProcessingArea extends Avs.Ui.Handler.Text {
+        public getElement(selector?: string) {
+          if (!selector) {
+            selector = "#scanIdAgeVerificationDocumentProcessingArea";
+          }
 
-				public element: JQuery;
-				public states: any;
-				public event: Avs.Event.Listener;
+          this.element = $(selector);
+        }
 
-				constructor(event: Avs.Event.Listener, selector?: string) {
+        public initStates() {
+          let entity = Avs.Entity.Ui.getInstance();
 
-					super(event);
-					this.event = event;
+          entity.states.ScanIdAgeVerificationDocumentProcessingArea = {
+            visible: this.element.is(":visible"),
+            value: this.element.html(),
+          };
 
-					this.getElement(selector);
-					this.initStates();
-
-				}
-
-				public getElement(selector?: string) {
-
-					if (!selector) {
-						selector = '#scanIdAgeVerificationDocumentProcessingArea';
-					}
-
-					this.element = $(selector);
-
-				}
-
-				public initStates() {
-
-					let entity = Avs.Entity.Ui.getInstance();
-
-					entity.states.ScanIdAgeVerificationDocumentProcessingArea = {
-						visible: this.element.is(':visible'),
-						value  : this.element.html()
-					};
-
-					this.states = entity.states.ScanIdAgeVerificationDocumentProcessingArea;
-
-				}
-
-			}
-
-		}
-
-	}
-
+          this.states =
+            entity.states.ScanIdAgeVerificationDocumentProcessingArea;
+        }
+      }
+    }
+  }
 }

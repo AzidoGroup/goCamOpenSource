@@ -1,9 +1,3 @@
 namespace AvsFactory {
-
-	export namespace ResultPageFail {
-
-
-
-	}
-
+  export namespace ResultPageFail {}
 }

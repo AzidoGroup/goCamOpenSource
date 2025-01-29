@@ -1,9 +1,3 @@
 namespace AvsFactory {
-
-	export namespace SelfieAgeDetectionIntro {
-
-
-
-	}
-
+  export namespace SelfieAgeDetectionIntro {}
 }

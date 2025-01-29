@@ -15,7 +15,7 @@ const frontendJsSourceLocation = "./../source/frontend/js/app/**/**/**/*.ts";
 const frontendJsDestinationLocation = "./tmp/";
 const frontendJsConcatLocation = "../app/frontend/static/js/app/";
 
-const frontendCssSourceLocation = "./../source/frontend/css/**/**/*.scss";
+const frontendCssSourceLocation = "./../source/frontend/css/**/**/main.scss";
 const frontendCssDestinationLocation = "../app/frontend/static/css/";
 
 const tsBackendProject = ts.createProject(backendTsConfigLocation);
@@ -49,6 +49,9 @@ function buildJsFrontend(cb) {
 }
 
 function cleanJsFrontend(cb) {
+  if (!fs.existsSync(frontendJsDestinationLocation)) {
+    fs.mkdirSync(frontendJsDestinationLocation, { recursive: true });
+  }
   let folderToConcatList = fs.readdirSync(frontendJsDestinationLocation);
   for (let i = 0, j = folderToConcatList.length; i < j; i++) {
     gulp

@@ -1,2122 +1,2009 @@
+@use "../variables";
+@use "./mixins";
+
 body {
-	background-color: $colorWhite;
+  background-color: variables.$colorWhite;
 }
 
 a {
-	color: $colorBlack;
+  color: variables.$colorBlack;
 }
 
 #globalIframeCloseButton {
-	position: fixed;
-	top: 0;
-	right: 0;
-	padding: 10px;
-	background: $colorWhiteTransparent;
-	z-index: 3;
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  background: variables.$colorWhiteTransparent;
+  z-index: 3;
 
-	&:hover {
-		cursor: pointer;
-	}
-
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .text-center {
-	text-align: center;
+  text-align: center;
 }
 
 #avsMainContainer {
-	margin: auto;
-	max-width: 800px;
+  margin: auto;
+  max-width: 800px;
 
-	.page {
-		@include flexCenter;
-		flex-direction: column;
-		text-align: center;
-		flex-wrap: wrap;
+  .page {
+    @include mixins.flexCenter;
+    flex-direction: column;
+    text-align: center;
+    flex-wrap: wrap;
 
-		&.isHidden {
-			display: none;
-		}
+    &.isHidden {
+      display: none;
+    }
 
-		&.layoutHint {
-			width: 100%;
-			height: 100%;
-			position: fixed;
-			z-index: 2;
-			background: $colorWhite;
-			top: 0;
-		}
+    &.layoutHint {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      z-index: 2;
+      background: variables.$colorWhite;
+      top: 0;
+    }
 
-		&.layoutDocumentProcessing {
-			display: block;
-			width: 100%;
-			height: 100%;
-			position: fixed;
-			z-index: 2;
-			background: $colorWhite;
-			top: 0;
-			overflow-y: scroll;
+    &.layoutDocumentProcessing {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      z-index: 2;
+      background: variables.$colorWhite;
+      top: 0;
+      overflow-y: scroll;
 
-			.imageContainer {
-				height: 266px;
-				width: auto;
-				padding: 20px 20px 0px 20px;
-				box-sizing: border-box;
-				position: relative;
-				overflow: hidden;
+      .imageContainer {
+        height: 266px;
+        width: auto;
+        padding: 20px 20px 0px 20px;
+        box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
 
-				.loadingOverlay {
-					position: absolute;
-					width: 100%;
-					height: 100%;
-					top: 0;
-					left: 0;
-					background: $colorWhiteTransparent;
-					@include flexCenter;
+        .loadingOverlay {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          background: variables.$colorWhiteTransparent;
+          @include mixins.flexCenter;
 
-					i {
-						font-size: 24px;
-						color: $colorWhite;
-					}
-				}
+          i {
+            font-size: 24px;
+            color: variables.$colorWhite;
+          }
+        }
 
-				.documentProcessingCanvas {
-					max-width: 100%;
-					max-height: 100%;
-					border-radius: 20px;
-					background: $colorBlack;
+        .documentProcessingCanvas {
+          max-width: 100%;
+          max-height: 100%;
+          border-radius: 20px;
+          background: variables.$colorBlack;
 
-					/* for tests do not delete */
-					/*position: absolute;
+          /* for tests do not delete */
+          /*position: absolute;
 					top: 0;
 					left: 0;
 					width: 370px;
 					height: 236px;
 					z-index: 3;*/
+        }
 
-				}
+        .documentProcessingCanvasOverlay {
+          display: none;
 
-				.documentProcessingCanvasOverlay {
-					display: none;
-
-					/* for tests do not delete */
-					/*position: absolute;
+          /* for tests do not delete */
+          /*position: absolute;
 					width: 370px;
 					height: 236px;
 					top: 0;
 					left: 0;
 					z-index: 4;*/
-				}
-
-			}
-
-			.confirmationArea {
-				@include flexCenter;
-				flex-direction: column;
-				box-sizing: border-box;
-			}
-
-			.processArea {
-				@include flexCenter;
-				flex-direction: column;
-				box-sizing: border-box;
-
-				.checkOutList {
-					padding: 20px;
-
-					.checkOutItem {
-						padding: 5px;
-
-						.statusIcon {
-							color: $colorLightGreen;
-						}
-
-					}
-
-				}
-
-			}
-
-			.submitArea {
-				padding: 10px;
-
-				.button {
-					margin: 0 0 10px 0;
-				}
-
-			}
-
-		}
-
-		&.layoutError {
-			display: block;
-			width: 100%;
-			height: 100%;
-			position: fixed;
-			z-index: 2;
-			background: $colorWhite;
-			top: 0;
-			left: 0;
-			overflow: scroll;
-
-			.introText {
-				font-weight: normal;
-			}
-		}
-
-		&.layoutStaticPage {
-			display: block;
-			width: 100%;
-			height: 100%;
-			position: fixed;
-			z-index: 2;
-			background: $colorWhite;
-			top: 0;
-			left: 0;
-			overflow: scroll;
-
-			.introText {
-				font-weight: normal;
-			}
-		}
-
-		&.layoutTextBlock {
-			padding: 10px;
-			box-sizing: border-box;
-
-			h1, h2, h3 {
-				font-weight: bold;
-				font-size: 22px;
-				margin: 15px;
-			}
-
-			p {
-				margin: 10px;
-			}
-
-			&:not(.layoutStaticPage) {
-				a {
-					color: $colorWhite;
-				}
-			}
-
-
-		}
-
-		.headerLogo {
-			padding: 20px;
-
-			img {
-				width: 120px;
-			}
-		}
-
-		.introIcon {
-			background: $colorLightBlue;
-			border-radius: 100%;
-			padding: 15px;
-			border: solid 10px $colorLightBlueLighter;
-			overflow: hidden;
-			color: $colorWhite;
-			background-clip: padding-box;
-
-			img {
-				width: 100px;
-				height: 100px;
-			}
-
-			&.layoutFontIcon {
-				i {
-					@include flexCenter;
-					font-size: 100px;
-					width: 100px;
-					height: 100px;
-				}
-
-			}
-
-			&.layoutGreen {
-				background: $colorLightGreen;
-				border: solid 10px $colorLightGreenLighter;
-			}
-
-			&.layoutBlue {
-				background: $colorLightBlue;
-				border: solid 10px $colorLightBlueLighter;
-			}
-
-			&.layoutRed {
-				background: $colorLightRed;
-				border: solid 10px $colorLightRedLighter;
-			}
-
-		}
-
-		.introHeading {
-			font-weight: bold;
-			font-size: 24px;
-			padding: 10px;
-		}
-
-		.introText {
-			font-size: 16px;
-			padding: 10px 20px;
-			line-height: 18px;
-
-			.layoutRedText {
-				color: $colorLightRed;
-			}
-
-			a {
-				color: $colorLightGreen;
-				text-decoration: none;
-			}
-
-			p {
-				margin-bottom: 10px;
-			}
-
-			strong {
-				&.layoutBiggerText {
-					font-size: 18px;
-				}
-			}
-
-			ol {
-				li {
-					line-height: 18px;
-					margin-bottom: 10px;
-				}
-			}
-
-
-			&.avsTabContent {
-				font-size: 12px;
-			}
-
-			.certificationLabel {
-				font-size: 12px;
-				padding-top: 10px;
-				display: block;
-			}
-
-			.certificationImageList {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-
-				img {
-					width: 40px;
-					border-radius: 100%;
-					margin: 10px;
-					border: solid 3px $colorWhite;
-				}
-
-			}
-
-		}
-
-		.selectionArea {
-			@include flexCenter;
-			flex-direction: column;
-			text-align: center;
-			padding: 5px 10px;
-			font-size: 12px;
-
-			.label {
-				padding-bottom: 5px;
-			}
-
-			.select {
-				padding: 7px;
-			}
-
-		}
-
-		.browseArea {
-			@include flexCenter;
-			flex-direction: column;
-			text-align: center;
-			padding: 5px 10px;
-			font-size: 12px;
-
-			i {
-				font-size: 48px;
-				color: $colorLightGrey;
-				cursor: pointer;
-
-				&:hover {
-					opacity: 0.8;
-				}
-
-			}
-
-		}
-
-		.inputArea {
-			@include flexCenter;
-			flex-direction: column;
-			text-align: center;
-			padding: 5px 10px;
-			font-size: 12px;
-
-			.label {
-				padding-bottom: 5px;
-			}
-
-			.inputList {
-
-				.textInput {
-					padding: 10px;
-
-					&.layoutBoldText {
-						font-weight: bold;
-					}
-
-				}
-
-				&.layoutOneInputPerLine .textInput {
-					min-width: 180px;
-				}
-
-				&.layoutTwoInputPerLine .textInput {
-					min-width: 90px;
-				}
-
-				&.layoutCreditCardExpiration .textInput {
-					width: 45px;
-					font-size: 14px;
-					text-align: center;
-				}
-
-				&.layoutCreditCardNumber .textInput {
-					min-width: 180px;
-					font-size: 14px;
-					text-align: center;
-				}
-
-			}
-
-		}
-
-		.iconArea {
-			@include flexCenter;
-			flex-direction: row;
-			text-align: center;
-			padding: 10px;
-			font-size: 12px;
-			align-items: flex-start;
-
-			.iconItem {
-				@include flexCenter;
-				flex-direction: column;
-				text-align: left;
-				width: 90px;
-				margin: 5px;
-				padding: 5px;
-				cursor: pointer;
-
-				@include respond-to(wide-screen) {
-					width: 200px;
-
-					.iconLabel {
-						.verificationTypeRadioButton {
-							margin-right: 5px;
-						}
-
-						.iconDescription {
-							max-width: 170px;
-						}
-					}
-				}
-
-				@include respond-to(medium-screen) {
-					width: 140px;
-
-					.iconLabel {
-						flex-direction: column;
-						margin-top: 5px;
-
-						.verificationTypeRadioButton {
-							margin-right: 5px;
-						}
-
-						.iconDescription {
-							text-align: center;
-							margin-top: 5px;
-						}
-					}
-				}
-
-				@include respond-to(small-screen) {
-
-					.iconLabel {
-						flex-direction: column;
-						margin-top: 5px;
-
-						.verificationTypeRadioButton {
-							margin-right: 5px;
-						}
-
-						.iconDescription {
-							text-align: center;
-							margin-top: 5px;
-						}
-
-					}
-
-				}
-
-				&.isSelected {
-					.iconImage {
-						background-color: $colorLightBlue;
-						border: solid 5px $colorLightBlueLighter;
-
-						svg {
-							fill: $colorWhite;
-						}
-					}
-
-					.iconLabel {
-						.verificationTypeRadioButton {
-							background-color: $colorLightGreen;
-							position: relative;
-
-							&:after {
-								position: absolute;
-								content: " ";
-								display: block;
-								width: 8px;
-								height: 8px;
-								background-color: $colorWhite;
-								border-radius: 50%;
-								top: 5px;
-								left: 5px;
-							}
-
-						}
-					}
-				}
-
-				.iconImage {
-					width: 80px;
-					height: 80px;
-					border-radius: 100%;
-					border: solid 5px $colorWhiteInvisible;
-					padding: 10px;
-					margin-bottom: 10px;
-					@include flexCenter;
-					flex-direction: column;
-					text-align: center;
-					background-clip: padding-box;
-
-					svg {
-						width: 80px;
-						height: 80px;
-						fill: $colorBlack;
-					}
-
-				}
-
-				.iconLabel {
-					@include flexCenter;
-
-					.verificationTypeRadioButton {
-						width: 18px;
-						height: 18px;
-						border: 1px solid $colorLightGreen;
-						background-color: transparent;
-						border-radius: 50%;
-						margin-right: 8px;
-
-						@include respond-to(small-screen) {
-							margin-right: 5px;
-						}
-					}
-				}
-
-				.iconDescription {
-					line-height: 14px;
-
-					@include respond-to(small-screen) {
-						max-width: 60px;
-						text-align: left;
-					}
-				}
-
-			}
-
-		}
-
-		.textArea {
-			@include flexCenter;
-			flex-direction: column;
-			text-align: center;
-			padding: 5px 10px;
-			font-size: 12px;
-			line-height: 16px;
-
-			p.layoutMoreLineHeight {
-				margin-bottom: 10px;
-			}
-
-			a {
-				color: $colorBlack;
-				text-decoration: underline;
-			}
-
-		}
-
-		.documentHelperArea {
-			@include flexCenter;
-			flex-direction: column;
-			text-align: center;
-			padding: 5px 0 10px 0;
-			height: 100px;
-			overflow: hidden;
-
-			img {
-				height: 100%;
-			}
-
-		}
-
-		.submitArea {
-			padding: 10px;
-			@include flexCenter;
-			flex-direction: column;
-			text-align: center;
-
-			.button {
-				color: $colorWhite;
-				background: $colorLightGreen;
-				border-radius: 40px;
-				display: block;
-				padding: 20px 40px;
-				border: solid 10px $colorLightGreenLighter;
-				font-size: 16px;
-				min-width: 180px;
-				cursor: pointer;
-				background-clip: padding-box;
-
-				&:hover {
-					opacity: 0.8;
-				}
-
-				&.layoutRed {
-					background-color: $colorLightRed;
-					border: solid 10px $colorLightRedLighter;
-				}
-
-				&.isDisabled {
-					background-color: $colorLightGrey;
-					border: solid 10px $colorLightGreyLighter;
-				}
-
-				i {
-					margin-right: 5px;
-				}
-
-			}
-
-			.linkButton {
-				padding: 15px;
-				cursor: pointer;
-			}
-
-		}
-
-		.termsArea {
-			font-size: 14px;
-			@include flexCenter;
-			margin-bottom: 15px;
-			margin-top: 10px;
-
-			label {
-
-				input {
-					margin-right: 5px;
-				}
-
-				a {
-					margin: 0 5px;
-					font-weight: bold;
-					color: $colorLightGreen;
-					text-decoration: none;
-				}
-
-			}
-		}
-
-		.qrCodeArea {
-			padding: 10px 0;
-		}
-
-		.videoOverlay {
-			position: fixed;
-			z-index: 1;
-			width: 100%;
-			height: 100%;
-			top: 0;
-			left: 0;
-			background: rgba(0, 0, 0, 0.2);
-		}
-
-		.videoSource {
-			position: fixed;
-			z-index: 0;
-			width: 100%;
-			height: 100%;
-			top: 0;
-			left: 0;
-			overflow: hidden;
-
-			video {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-				z-index: 0;
-				background: $colorBlack;
-
-				&.mirrored {
-					transform: rotateY(180deg);
-					-webkit-transform: rotateY(180deg);
-					-moz-transform: rotateY(180deg);
-				}
-
-			}
-
-			.overlayCanvas {
-				width: 100%;
-				height: 100%;
-				object-fit: cover;
-				position: absolute;
-				top: 0;
-				left: 0;
-			}
-
-			.resultCanvas {
-				width: 50%;
-				height: auto;
-				position: absolute;
-				right: 0;
-				left: 0;
-			}
-
-		}
-
-		.maskGuide {
-			border: dashed 6px $colorLightGreen;
-			box-sizing: border-box;
-			position: fixed;
-
-			&.layoutFace {
-				position: fixed;
-				opacity: 0.8;
-				border-radius: 100%;
-				@include flexCenter;
-				flex-direction: column;
-				color: $colorWhite;
-				overflow: hidden;
-				text-shadow: 1px 1px 2px $colorBlack;
-
-				.loadingIconArea {
-					display: flex;
-					font-size: 16px;
-					align-items: center;
-					justify-content: center;
-
-					.loadingProgressBarContainer {
-						box-shadow: $colorBlackTransparentMore 0 0 3px 1px;
-						width: 100px;
-						height: 10px;
-						border: solid 2px $colorWhiteTransparent;
-						border-radius: 10px;
-						margin: 0 8px;
-
-						.loadingProgressBar {
-							display: block;
-							width: 0;
-							background: $colorLightGreen;
-							height: 10px;
-							border-radius: 10px;
-							transition: all 0.5s ease-out;
-						}
-
-					}
-
-				}
-				.statusArea {
-					padding: 15px;
-					font-size: 20px;
-					line-height: 24px;
-				}
-
-				.emoticonArea {
-					@include flexCenter;
-					font-size: 28px;
-					padding-bottom: 25px;
-					margin: 0;
-
-					.layoutSmallerEmoticon {
-						font-size: 18px;
-						padding: 10px;
-					}
-
-				}
-
-				.hintArea {
-					padding-bottom: 15px;
-				}
-
-				.ageGuideArea {
-					@include flexCenter;
-					font-size: 22px;
-					line-height: 24px;
-					flex-direction: column;
-
-					p {
-						padding: 4px;
-						margin: 0;
-					}
-				}
-
-				.hintArea {
-					font-size: 24px;
-					line-height: 24px;
-					margin: 0;
-				}
-
-			}
-
-			&.layoutIdentityCardGeneric {
-				border-radius: 20px;
-			}
-
-		}
-
-		.maskGuideField {
-			position: fixed;
-			/*border: solid 2px $colorWhiteTransparent;*/
-			border: none;
-			box-sizing: border-box;
-		}
-
-		.informationArea {
-			z-index: 1;
-			color: $colorWhite;
-			padding: 30px 20px;
-			position: fixed;
-			/*bottom: 0;*/
-			top: 110px;
-
-			&.layoutTransparent {
-				text-shadow: 1px 1px 2px $colorBlack;
-				opacity: 0.7;
-			}
-
-			&.layoutRelative {
-				position: relative;
-			}
-
-			&.layoutBlack {
-				color: $colorBlack;
-			}
-
-			&.layoutStickyTop {
-				position: fixed;
-				top: 10px;
-				left: 0;
-				width: 100%;
-				padding: 0;
-				max-height: 50px;
-				line-height: 20px;
-				text-shadow: 1px 1px 2px $colorBlack;
-			}
-
-			&.layoutSmallerText {
-				font-size: 14px;
-			}
-
-			.loadingArea {
-				@include flexCenter;
-				flex-direction: column;
-
-				i {
-					font-size: 28px;
-					margin-bottom: 10px;
-				}
-
-				strong {
-					margin-bottom: 10px;
-					font-size: 16px;
-					line-height: 20px;
-				}
-
-			}
-
-			.statusArea {
-				font-size: 14px;
-				padding: 0 30px;
-				line-height: 16px;
-			}
-
-		}
-
-		.imageCaptureArea {
-			@include flexCenter;
-
-			.captureOption {
-				@include flexCenter;
-				flex-direction: column;
-				padding: 30px;
-				cursor: pointer;
-
-				.icon {
-					font-size: 24px;
-					padding: 5px;
-				}
-
-				.text {
-
-				}
-
-			}
-		}
-
-		&#termsAndConditionsArea {
-			text-align: left;
-
-			p {
-				a {
-					/*color: $colorBlack;*/
-					text-decoration: underline;
-				}
-			}
-
-			.introHeading {
-				margin-left: 0;
-			}
-
-		}
-
-	}
-
-	#debugArea {
-		position: fixed;
-		top: 0;
-		right: 0;
-		width: 200px;
-		height: 100%;
-		background: $colorBlackTransparent;
-		color: $colorWhite;
-		z-index: 3;
-		padding: 10px 10px 50px 10px;
-		font-size: 12px;
-		overflow-y: scroll;
-		box-sizing: border-box;
-		opacity: 0.7;
-
-		p {
-			padding: 5px 0;
-
-			.green {
-				color: $colorLightGreen;
-			}
-
-			.red {
-				color: $colorLightRed;
-			}
-
-		}
-
-		img {
-			max-height: 60px;
-			height: auto;
-		}
-
-		#debugCloseButton {
-			float: right;
-		}
-
-	}
-
-	.preloader {
-		@include flexCenter;
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		font-size: 14px;
-		padding: 10px;
-		text-align: center;
-		background: $colorWhiteTransparent;
-		width: 100%;
-
-		.counter {
-			font-weight: bold;
-			padding-left: 5px;
-		}
-
-	}
-
-	#scanIdAgeVerificationPage, #selfieAgeDetectionPage {
-		position: absolute;
-		top: 0;
-		left: 0;
-		margin: auto;
-		text-align: center;
-		width: 100%;
-		height: calc(100%);
-	}
-
+        }
+      }
+
+      .confirmationArea {
+        @include mixins.flexCenter;
+        flex-direction: column;
+        box-sizing: border-box;
+      }
+
+      .processArea {
+        @include mixins.flexCenter;
+        flex-direction: column;
+        box-sizing: border-box;
+
+        .checkOutList {
+          padding: 20px;
+
+          .checkOutItem {
+            padding: 5px;
+
+            .statusIcon {
+              color: variables.$colorLightGreen;
+            }
+          }
+        }
+      }
+
+      .submitArea {
+        padding: 10px;
+
+        .button {
+          margin: 0 0 10px 0;
+        }
+      }
+    }
+
+    &.layoutError {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      z-index: 2;
+      background: variables.$colorWhite;
+      top: 0;
+      left: 0;
+      overflow: scroll;
+
+      .introText {
+        font-weight: normal;
+      }
+    }
+
+    &.layoutStaticPage {
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      z-index: 2;
+      background: variables.$colorWhite;
+      top: 0;
+      left: 0;
+      overflow: scroll;
+
+      .introText {
+        font-weight: normal;
+      }
+    }
+
+    &.layoutTextBlock {
+      padding: 10px;
+      box-sizing: border-box;
+
+      h1,
+      h2,
+      h3 {
+        font-weight: bold;
+        font-size: 22px;
+        margin: 15px;
+      }
+
+      p {
+        margin: 10px;
+      }
+
+      &:not(.layoutStaticPage) {
+        a {
+          color: variables.$colorWhite;
+        }
+      }
+    }
+
+    .headerLogo {
+      padding: 20px;
+
+      img {
+        width: 120px;
+      }
+    }
+
+    .introIcon {
+      background: variables.$colorLightBlue;
+      border-radius: 100%;
+      padding: 15px;
+      border: solid 10px variables.$colorLightBlueLighter;
+      overflow: hidden;
+      color: variables.$colorWhite;
+      background-clip: padding-box;
+
+      img {
+        width: 100px;
+        height: 100px;
+      }
+
+      &.layoutFontIcon {
+        i {
+          @include mixins.flexCenter;
+          font-size: 100px;
+          width: 100px;
+          height: 100px;
+        }
+      }
+
+      &.layoutGreen {
+        background: variables.$colorLightGreen;
+        border: solid 10px variables.$colorLightGreenLighter;
+      }
+
+      &.layoutBlue {
+        background: variables.$colorLightBlue;
+        border: solid 10px variables.$colorLightBlueLighter;
+      }
+
+      &.layoutRed {
+        background: variables.$colorLightRed;
+        border: solid 10px variables.$colorLightRedLighter;
+      }
+    }
+
+    .introHeading {
+      font-weight: bold;
+      font-size: 24px;
+      padding: 10px;
+    }
+
+    .introText {
+      font-size: 16px;
+      padding: 10px 20px;
+      line-height: 18px;
+
+      .layoutRedText {
+        color: variables.$colorLightRed;
+      }
+
+      a {
+        color: variables.$colorLightGreen;
+        text-decoration: none;
+      }
+
+      p {
+        margin-bottom: 10px;
+      }
+
+      strong {
+        &.layoutBiggerText {
+          font-size: 18px;
+        }
+      }
+
+      ol {
+        li {
+          line-height: 18px;
+          margin-bottom: 10px;
+        }
+      }
+
+      &.avsTabContent {
+        font-size: 12px;
+      }
+
+      .certificationLabel {
+        font-size: 12px;
+        padding-top: 10px;
+        display: block;
+      }
+
+      .certificationImageList {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 40px;
+          border-radius: 100%;
+          margin: 10px;
+          border: solid 3px variables.$colorWhite;
+        }
+      }
+    }
+
+    .selectionArea {
+      @include mixins.flexCenter;
+      flex-direction: column;
+      text-align: center;
+      padding: 5px 10px;
+      font-size: 12px;
+
+      .label {
+        padding-bottom: 5px;
+      }
+
+      .select {
+        padding: 7px;
+      }
+    }
+
+    .browseArea {
+      @include mixins.flexCenter;
+      flex-direction: column;
+      text-align: center;
+      padding: 5px 10px;
+      font-size: 12px;
+
+      i {
+        font-size: 48px;
+        color: variables.$colorLightGrey;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+
+    .inputArea {
+      @include mixins.flexCenter;
+      flex-direction: column;
+      text-align: center;
+      padding: 5px 10px;
+      font-size: 12px;
+
+      .label {
+        padding-bottom: 5px;
+      }
+
+      .inputList {
+        .textInput {
+          padding: 10px;
+
+          &.layoutBoldText {
+            font-weight: bold;
+          }
+        }
+
+        &.layoutOneInputPerLine .textInput {
+          min-width: 180px;
+        }
+
+        &.layoutTwoInputPerLine .textInput {
+          min-width: 90px;
+        }
+
+        &.layoutCreditCardExpiration .textInput {
+          width: 45px;
+          font-size: 14px;
+          text-align: center;
+        }
+
+        &.layoutCreditCardNumber .textInput {
+          min-width: 180px;
+          font-size: 14px;
+          text-align: center;
+        }
+      }
+    }
+
+    .iconArea {
+      @include mixins.flexCenter;
+      flex-direction: row;
+      text-align: center;
+      padding: 10px;
+      font-size: 12px;
+      align-items: flex-start;
+
+      .iconItem {
+        @include mixins.flexCenter;
+        flex-direction: column;
+        text-align: left;
+        width: 90px;
+        margin: 5px;
+        padding: 5px;
+        cursor: pointer;
+
+        @include variables.respond-to(wide-screen) {
+          width: 200px;
+
+          .iconLabel {
+            .verificationTypeRadioButton {
+              margin-right: 5px;
+            }
+
+            .iconDescription {
+              max-width: 170px;
+            }
+          }
+        }
+
+        @include variables.respond-to(medium-screen) {
+          width: 140px;
+
+          .iconLabel {
+            flex-direction: column;
+            margin-top: 5px;
+
+            .verificationTypeRadioButton {
+              margin-right: 5px;
+            }
+
+            .iconDescription {
+              text-align: center;
+              margin-top: 5px;
+            }
+          }
+        }
+
+        @include variables.respond-to(small-screen) {
+          .iconLabel {
+            flex-direction: column;
+            margin-top: 5px;
+
+            .verificationTypeRadioButton {
+              margin-right: 5px;
+            }
+
+            .iconDescription {
+              text-align: center;
+              margin-top: 5px;
+            }
+          }
+        }
+
+        &.isSelected {
+          .iconImage {
+            background-color: variables.$colorLightBlue;
+            border: solid 5px variables.$colorLightBlueLighter;
+
+            svg {
+              fill: variables.$colorWhite;
+            }
+          }
+
+          .iconLabel {
+            .verificationTypeRadioButton {
+              background-color: variables.$colorLightGreen;
+              position: relative;
+
+              &:after {
+                position: absolute;
+                content: " ";
+                display: block;
+                width: 8px;
+                height: 8px;
+                background-color: variables.$colorWhite;
+                border-radius: 50%;
+                top: 5px;
+                left: 5px;
+              }
+            }
+          }
+        }
+
+        .iconImage {
+          width: 80px;
+          height: 80px;
+          border-radius: 100%;
+          border: solid 5px variables.$colorWhiteInvisible;
+          padding: 10px;
+          margin-bottom: 10px;
+          @include mixins.flexCenter;
+          flex-direction: column;
+          text-align: center;
+          background-clip: padding-box;
+
+          svg {
+            width: 80px;
+            height: 80px;
+            fill: variables.$colorBlack;
+          }
+        }
+
+        .iconLabel {
+          @include mixins.flexCenter;
+
+          .verificationTypeRadioButton {
+            width: 18px;
+            height: 18px;
+            border: 1px solid variables.$colorLightGreen;
+            background-color: transparent;
+            border-radius: 50%;
+            margin-right: 8px;
+
+            @include variables.respond-to(small-screen) {
+              margin-right: 5px;
+            }
+          }
+        }
+
+        .iconDescription {
+          line-height: 14px;
+
+          @include variables.respond-to(small-screen) {
+            max-width: 60px;
+            text-align: left;
+          }
+        }
+      }
+    }
+
+    .textArea {
+      @include mixins.flexCenter;
+      flex-direction: column;
+      text-align: center;
+      padding: 5px 10px;
+      font-size: 12px;
+      line-height: 16px;
+
+      p.layoutMoreLineHeight {
+        margin-bottom: 10px;
+      }
+
+      a {
+        color: variables.$colorBlack;
+        text-decoration: underline;
+      }
+    }
+
+    .documentHelperArea {
+      @include mixins.flexCenter;
+      flex-direction: column;
+      text-align: center;
+      padding: 5px 0 10px 0;
+      height: 100px;
+      overflow: hidden;
+
+      img {
+        height: 100%;
+      }
+    }
+
+    .submitArea {
+      padding: 10px;
+      @include mixins.flexCenter;
+      flex-direction: column;
+      text-align: center;
+
+      .button {
+        color: variables.$colorWhite;
+        background: variables.$colorLightGreen;
+        border-radius: 40px;
+        display: block;
+        padding: 20px 40px;
+        border: solid 10px variables.$colorLightGreenLighter;
+        font-size: 16px;
+        min-width: 180px;
+        cursor: pointer;
+        background-clip: padding-box;
+
+        &:hover {
+          opacity: 0.8;
+        }
+
+        &.layoutRed {
+          background-color: variables.$colorLightRed;
+          border: solid 10px variables.$colorLightRedLighter;
+        }
+
+        &.isDisabled {
+          background-color: variables.$colorLightGrey;
+          border: solid 10px variables.$colorLightGreyLighter;
+        }
+
+        i {
+          margin-right: 5px;
+        }
+      }
+
+      .linkButton {
+        padding: 15px;
+        cursor: pointer;
+      }
+    }
+
+    .termsArea {
+      font-size: 14px;
+      @include mixins.flexCenter;
+      margin-bottom: 15px;
+      margin-top: 10px;
+
+      label {
+        input {
+          margin-right: 5px;
+        }
+
+        a {
+          margin: 0 5px;
+          font-weight: bold;
+          color: variables.$colorLightGreen;
+          text-decoration: none;
+        }
+      }
+    }
+
+    .qrCodeArea {
+      padding: 10px 0;
+    }
+
+    .videoOverlay {
+      position: fixed;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .videoSource {
+      position: fixed;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+        background: variables.$colorBlack;
+
+        &.mirrored {
+          transform: rotateY(180deg);
+          -webkit-transform: rotateY(180deg);
+          -moz-transform: rotateY(180deg);
+        }
+      }
+
+      .overlayCanvas {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .resultCanvas {
+        width: 50%;
+        height: auto;
+        position: absolute;
+        right: 0;
+        left: 0;
+      }
+    }
+
+    .maskGuide {
+      border: dashed 6px variables.$colorLightGreen;
+      box-sizing: border-box;
+      position: fixed;
+
+      &.layoutFace {
+        position: fixed;
+        opacity: 0.8;
+        border-radius: 100%;
+        @include mixins.flexCenter;
+        flex-direction: column;
+        color: variables.$colorWhite;
+        overflow: hidden;
+        text-shadow: 1px 1px 2px variables.$colorBlack;
+
+        .loadingIconArea {
+          display: flex;
+          font-size: 16px;
+          align-items: center;
+          justify-content: center;
+
+          .loadingProgressBarContainer {
+            box-shadow: variables.$colorBlackTransparentMore 0 0 3px 1px;
+            width: 100px;
+            height: 10px;
+            border: solid 2px variables.$colorWhiteTransparent;
+            border-radius: 10px;
+            margin: 0 8px;
+
+            .loadingProgressBar {
+              display: block;
+              width: 0;
+              background: variables.$colorLightGreen;
+              height: 10px;
+              border-radius: 10px;
+              transition: all 0.5s ease-out;
+            }
+          }
+        }
+        .statusArea {
+          padding: 15px;
+          font-size: 20px;
+          line-height: 24px;
+        }
+
+        .emoticonArea {
+          @include mixins.flexCenter;
+          font-size: 28px;
+          padding-bottom: 25px;
+          margin: 0;
+
+          .layoutSmallerEmoticon {
+            font-size: 18px;
+            padding: 10px;
+          }
+        }
+
+        .hintArea {
+          padding-bottom: 15px;
+        }
+
+        .ageGuideArea {
+          @include mixins.flexCenter;
+          font-size: 22px;
+          line-height: 24px;
+          flex-direction: column;
+
+          p {
+            padding: 4px;
+            margin: 0;
+          }
+        }
+
+        .hintArea {
+          font-size: 24px;
+          line-height: 24px;
+          margin: 0;
+        }
+      }
+
+      &.layoutIdentityCardGeneric {
+        border-radius: 20px;
+      }
+    }
+
+    .maskGuideField {
+      position: fixed;
+      /*border: solid 2px variables.$colorWhiteTransparent;*/
+      border: none;
+      box-sizing: border-box;
+    }
+
+    .informationArea {
+      z-index: 1;
+      color: variables.$colorWhite;
+      padding: 30px 20px;
+      position: fixed;
+      /*bottom: 0;*/
+      top: 110px;
+
+      &.layoutTransparent {
+        text-shadow: 1px 1px 2px variables.$colorBlack;
+        opacity: 0.7;
+      }
+
+      &.layoutRelative {
+        position: relative;
+      }
+
+      &.layoutBlack {
+        color: variables.$colorBlack;
+      }
+
+      &.layoutStickyTop {
+        position: fixed;
+        top: 10px;
+        left: 0;
+        width: 100%;
+        padding: 0;
+        max-height: 50px;
+        line-height: 20px;
+        text-shadow: 1px 1px 2px variables.$colorBlack;
+      }
+
+      &.layoutSmallerText {
+        font-size: 14px;
+      }
+
+      .loadingArea {
+        @include mixins.flexCenter;
+        flex-direction: column;
+
+        i {
+          font-size: 28px;
+          margin-bottom: 10px;
+        }
+
+        strong {
+          margin-bottom: 10px;
+          font-size: 16px;
+          line-height: 20px;
+        }
+      }
+
+      .statusArea {
+        font-size: 14px;
+        padding: 0 30px;
+        line-height: 16px;
+      }
+    }
+
+    .imageCaptureArea {
+      @include mixins.flexCenter;
+
+      .captureOption {
+        @include mixins.flexCenter;
+        flex-direction: column;
+        padding: 30px;
+        cursor: pointer;
+
+        .icon {
+          font-size: 24px;
+          padding: 5px;
+        }
+      }
+    }
+
+    &#termsAndConditionsArea {
+      text-align: left;
+
+      p {
+        a {
+          /*color: variables.$colorBlack;*/
+          text-decoration: underline;
+        }
+      }
+
+      .introHeading {
+        margin-left: 0;
+      }
+    }
+  }
+
+  #debugArea {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 100%;
+    background: variables.$colorBlackTransparent;
+    color: variables.$colorWhite;
+    z-index: 3;
+    padding: 10px 10px 50px 10px;
+    font-size: 12px;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    opacity: 0.7;
+
+    p {
+      padding: 5px 0;
+
+      .green {
+        color: variables.$colorLightGreen;
+      }
+
+      .red {
+        color: variables.$colorLightRed;
+      }
+    }
+
+    img {
+      max-height: 60px;
+      height: auto;
+    }
+
+    #debugCloseButton {
+      float: right;
+    }
+  }
+
+  .preloader {
+    @include mixins.flexCenter;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    font-size: 14px;
+    padding: 10px;
+    text-align: center;
+    background: variables.$colorWhiteTransparent;
+    width: 100%;
+
+    .counter {
+      font-weight: bold;
+      padding-left: 5px;
+    }
+  }
+
+  #scanIdAgeVerificationPage,
+  #selfieAgeDetectionPage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: auto;
+    text-align: center;
+    width: 100%;
+    height: calc(100%);
+  }
 }
 
 @keyframes scanning {
-	50% {
-		transform: translate(0, 200%);
-	}
+  50% {
+    transform: translate(0, 200%);
+  }
 }
 
 #staticPage {
-
-	.clear {
-		clear: both;
-	}
-
-	.layoutGreenBackground {
-		background: url("/static/img/staticPage/backTexture.png") center center $colorLightGreenLightest;
-	}
-
-	.layoutRelative {
-		position: relative;
-	}
-
-	.rectangleComponentHeroFooter {
-		position: absolute;
-		bottom: 0;
-		width: 100%;
-		height: 85px;
-		background-color: $colorWhite;
-	}
-
-	.testButton {
-		@include testButton($colorWhite, $colorLightGreenLighter, $colorLightGreen);
-
-		z-index: 2;
-
-		i {
-			margin-right: 5px;
-		}
-	}
-
-	.headerContainer {
-		width: 100%;
-
-		height: auto;
-		margin: auto;
-
-		text-align: center;
-		background: url("/static/img/backgroundHeader.png") center center $headerColorBackground;
-		background-repeat: no-repeat;
-
-		z-index: 3;
-
-		position: sticky;
-		top: 0;
-
-		.headerTop {
-			width: 1310px;
-			height: auto;
-			margin: auto;
-			text-align: left;
-			min-height: 80px;
-
-			top: 0;
-
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-
-			.headerLogoArea img {
-				width: 120px;
-			}
-
-			.headerLanguageArea {
-				width: auto;
-				padding: 10px;
-				color: $colorLightGreen;
-				text-align: right;
-				@include flexCenter;
-				font-size: 14px;
-				height: 40px;
-
-				a {
-					text-decoration: none;
-					color: $headerMenuItemColorFont;
-				}
-
-				select {
-					padding: 5px;
-					margin-left: 5px;
-					display: inline;
-					height: 28px;
-					font-family: Arial, Helvetica, sans-serif;
-					background-color: transparent;
-					color: $headerMenuItemColorFont;
-					outline: none;
-				}
-
-				select:focus > option {
-					color: $colorBlack;
-				}
-
-				.authenticationArea {
-					padding: 10px;
-					font-size: 14px;
-
-					> a {
-						margin-left: 15px;
-
-						i {
-							margin-right: 6px;
-						}
-					}
-
-					a:hover,
-					div.dropdown-content > a:hover {
-						color: $headerMenuItemColorFontHover;
-					}
-
-					div.dropdown-content > a.parent:hover {
-						color: $headerMenuItemColorFont;
-						cursor: default;
-					}
-
-				}
-
-			}
-
-			.dropdown-content {
-				position: absolute;
-				top: 80px;
-				right: 8px;
-				background-color: $headerDropdownMenuColorBackground;
-				min-width: 250px;
-				box-shadow: $headerDropdownMenuColorShadow 0 10px 10px -5px inset;
-				padding: 20px;
-
-				a {
-					color: $headerMenuItemColorFont;
-					padding: 12px 16px;
-					text-decoration: none;
-					display: block;
-					text-align: left;
-					border-bottom: 1px solid $headerDropdownMenuItemBorderColor;
-
-					&:last-child {
-						border-bottom: 0 none;
-					}
-
-					&.sub-menu-item {
-						padding-left: 40px;
-					}
-
-					i {
-						margin-right: 3px;
-					}
-				}
-
-			}
-
-		}
-
-	}
-
-	.separator {
-		background-color: $headerSeparatorColorBackground;
-		width: 100%;
-		height: 2px;
-
-		&.separatorWithButton {
-			position: relative;
-
-			.testButton {
-				position: absolute;
-				top: -50px;
-				left: 50%;
-				transform: translateX(-50%);
-
-				// Overwrites
-				font-size: 22px;
-				padding: 25px 100px;
-				border-radius: 50px;
-			}
-		}
-	}
-
-	.headerHeroImage {
-		width: 1310px;
-		height: auto;
-		margin: auto;
-		text-align: left;
-		position: relative;
-		overflow: hidden;
-
-		.heroHeadingContainer {
-			position: absolute;
-
-			.heroHeading {
-				font-size: 48px;
-				width: 475px;
-				padding-top: 35px;
-				padding-left: 10px;
-				font-weight: bold;
-				text-align: left;
-
-				strong {
-					color: $colorLightGreen;
-				}
-
-			}
-
-			.heroSubHeading {
-				font-size: 36px;
-				padding-top: 5px;
-				padding-left: 10px;
-			}
-
-		}
-
-		.heroImage {
-			float: right;
-		}
-
-	}
-
-	.contentAreaContainer {
-		width: 100%;
-		height: auto;
-		margin: auto;
-		text-align: center;
-
-		&.layoutFloat {
-			float: left;
-		}
-
-		&.layoutPaddingTop50 {
-			padding-top: 50px;
-		}
-
-		.contentArea {
-			max-width: 1310px;
-			width: 100%;
-			height: auto;
-			margin: auto;
-			text-align: left;
-			padding: 25px 0;
-			@include flexCenter;
-			position: relative;
-			overflow: hidden;
-
-			&.layoutNoPadding {
-				padding: 0;
-			}
-
-			.imageArea {
-				width: 50%;
-				padding: 10px;
-				box-sizing: border-box;
-				text-align: center;
-
-				img {
-					border-radius: 100%;
-				}
-
-			}
-
-			.textBlockArea {
-				width: 50%;
-				padding: 10px;
-				box-sizing: border-box;
-				text-align: left;
-
-				h2 {
-					font-size: 36px;
-					font-weight: bold;
-					padding-bottom: 25px;
-
-					&.no-padding {
-						padding: 0;
-					}
-
-					strong {
-						color: $colorLightGreen;
-					}
-				}
-
-				p {
-					font-size: 16px;
-					line-height: 24px;
-					padding-bottom: 25px;
-				}
-
-				.certificationList {
-
-					p {
-						display: flex;
-						align-items: center;
-						justify-content: start;
-
-						img {
-							width: 40px;
-							border-radius: 100%;
-							padding: 10px 10px 10px 0;
-						}
-
-					}
-
-				}
-
-			}
-
-			.textBlockAreaWide {
-				width: 100%;
-				padding: 25px 10px;
-				box-sizing: border-box;
-				text-align: left;
-
-				&.devDocLayout {
-					p {
-						padding: 5px 0;
-
-						&.layoutImageSchema {
-							text-align: center;
-							img {
-								box-sizing: border-box;
-								max-width: 400px;
-								width: 100%;
-								border: solid 1px $colorLightGreen;
-								padding: 10px;
-								border-radius: 5px;
-							}
-
-							small {
-								font-size: 12px;
-								font-weight: bold;
-							}
-						}
-
-					}
-
-					blockquote {
-						background: $colorLightGreenLightest;
-						padding: 10px;
-						margin: 10px 0;
-						border-left: solid 2px $colorLightGreen;
-						font-size: 14px;
-					}
-
-					h2 {
-						padding: 30px 0 20px 0;
-						line-height: 24px;
-
-						a {
-							border-bottom: solid 3px $colorLightGreen;
-						}
-					}
-
-					h3 {
-						padding: 20px 0;
-						line-height: 24px;
-					}
-
-					hr {
-						border: none;
-						height: 1px;
-						background: $colorLightGreen;
-						margin: 30px 0 20px 0;
-					}
-
-				}
-
-				.text-center {
-					text-align: center;
-				}
-
-				h1 {
-					font-size: 36px;
-					font-weight: bold;
-					text-align: left;
-
-					strong {
-						color: $colorLightGreen;
-					}
-				}
-
-				h2 {
-					font-size: 24px;
-					font-weight: bold;
-					padding-bottom: 25px;
-
-					strong {
-						color: $colorLightGreen;
-					}
-				}
-
-				h3 {
-					font-size: 18px;
-					font-weight: bold;
-					padding-bottom: 25px;
-
-					strong {
-						color: $colorLightGreen;
-					}
-				}
-
-				p {
-					font-size: 16px;
-					line-height: 24px;
-					padding-bottom: 25px;
-
-					a {
-						color: $colorBlack;
-						text-decoration: underline;
-						font-weight: bold;
-
-					}
-
-					&.hintLayout {
-						background: $colorLightGreenLightest;
-						padding: 10px;
-						margin: 10px 0;
-						border-left: solid 2px $colorLightGreen;
-						font-size: 14px;
-					}
-
-				}
-
-				.emailImage {
-					height: 23px;
-					margin-left: -7px;
-				}
-
-				ul, ol {
-					padding: 0 10px 25px 10px;
-					margin-left: 10px;
-
-					li {
-						padding: 0 5px;
-						line-height: 24px;
-						list-style: circle;
-						margin-left: 10px;
-
-						a {
-							color: $colorBlack;
-						}
-
-					}
-				}
-
-				table {
-					margin: 0 0 20px 0;
-					font-size: 14px;
-					line-height: 18px;
-
-					tr {
-						border-bottom: solid 1px $colorLightGreenLighter;
-
-						th {
-							padding: 10px;
-							vertical-align: top;
-							font-weight: bold;
-							background: $colorLightGreen;
-							min-width: 150px;
-						}
-					}
-
-					tr {
-						td {
-							padding: 10px;
-							vertical-align: top;
-							background: $colorLightGreenLightest;
-						}
-					}
-
-				}
-
-				ul.pressList {
-					margin: 0;
-					padding: 0;
-
-					li {
-						list-style: none;
-						margin: 0;
-						padding: 25px;
-						line-height: unset;
-						background-color: #f4ffdb;
-
-						a {
-							text-decoration: underline;
-						}
-
-						p {
-							padding-bottom: 0;
-							margin: 24px 0 0 0;
-
-							&:first-child {
-								margin: 0;
-							}
-
-							a {
-								font-size: 26px;
-								color: $colorLightGreen;
-							}
-
-							strong {
-								font-size: 24px;
-							}
-						}
-
-						p:last-child {
-							margin: 5px 0 0 0;
-
-							a {
-								font-size: 16px;
-								color: #333;
-							}
-						}
-					}
-
-					li:nth-child(odd) {
-						background-color: transparent;
-					}
-				}
-
-				.tesContactLogo {
-					text-decoration: none;
-					display: inline-block;
-					img {
-						width: 100px;
-						padding: 5px;
-					}
-
-				}
-
-				&.loginPage,
-				&.signupPage,
-				&.forgotPasswordPage,
-				&.newPasswordPage {
-					.form-top {
-						width: 300px;
-						margin: 0 auto;
-					}
-
-					label {
-						font-size: 14px;
-						margin-bottom: 5px;
-					}
-
-					a {
-						color: $colorLightGreen;
-						text-decoration: none;
-					}
-
-					.submitButton {
-						@include testButton($colorWhite, $colorLightGreenLighter, $colorLightGreen);
-
-						width: 100%;
-						margin: 10px 0;
-					}
-
-					.error {
-						margin-top: 15px;
-						color: $colorLightRed;
-						font-size: 14px;
-					}
-				}
-
-				&.signupPage {
-					#termAcceptance {
-						margin-top: 0;
-					}
-				}
-
-				&.faqPage {
-					h2 {
-						transition: 0.4s;
-						outline: none;
-					}
-
-					h2:hover {
-						cursor: pointer;
-					}
-
-					h2+blockquote {
-						max-height: 0;
-						overflow: hidden;
-						transition: max-height 0.2s ease-out;
-					}
-				}
-			}
-
-			&.layoutImageRight {
-				flex-direction: row-reverse;
-
-				.textBlockArea {
-					text-align: right;
-				}
-			}
-
-			.testCallToActionAreaTop {
-				text-align: center;
-				overflow: hidden;
-				padding-top: 20px;
-			}
-
-			.testCallToActionAreaBottom,
-			.testCallToActionAreaHeader {
-				overflow: hidden;
-				position: relative;
-
-				.testCallToActionButtonArea {
-					position: absolute;
-					z-index: 2;
-					width: 100%;
-
-					.testCallToActionButtonAreaAlign {
-						@include flexCenter;
-						padding-top: 25px;
-
-						.testButton {
-							@include testButton($colorWhite, $colorLightGreenLighter, $colorLightGreen);
-
-							i {
-								margin-right: 5px;
-							}
-
-						}
-
-					}
-
-				}
-
-			}
-
-			.testCallToActionAreaHeader > img {
-				visibility: hidden;
-				height: 140px;
-			}
-
-			.signupButton {
-				@include testButton($colorWhite, $colorLightGreenLighter, $colorLightGreen);
-
-				min-width: 120px;
-				float: right;
-				padding: 15px 30px;
-
-				i {
-					margin-right: 5px;
-				}
-
-			}
-
-		}
-
-	}
-
-	.footerContainer {
-		width: 100%;
-		height: auto;
-		margin: auto;
-		padding-top: 30px;
-		text-align: center;
-		background: url("/static/img/layout/backgroundFooter.png") center center $footerColorBackground;
-		background-repeat: no-repeat;
-		box-shadow: $footerColorShadow 0 100px 50px -50px inset;
-
-		.footerContent {
-			max-width: 1310px;
-			width: 100%;
-			margin: 0 auto;
-			padding: 80px 0;
-			position: relative;
-		}
-
-		.footerGrid {
-			display: grid;
-			grid-template-columns: repeat(4, 1fr);
-			gap: 50px;
-
-			margin-bottom: 50px;
-		}
-
-		.footerColumn {
-			text-align: left;
-
-			&.columnLogo {
-				align-self: flex-start;
-				text-align: center;
-
-				img {
-					margin-top: -10px;
-				}
-
-				.avsSloganArea {
-					color: $footerColorFontPrimary;
-					font-size: 16px;
-					line-height: 20px;
-
-					> span {
-						&:first-child {
-							display: block;
-						}
-
-						strong {
-							color: $footerColorFontSecondary;
-						}
-					}
-				}
-			}
-
-			.column-header {
-				margin-bottom: 20px;
-				text-transform: uppercase;
-				color: $footerColorFontSecondary;
-				font-weight: bold;
-
-				> i {
-					margin-right: 2px;
-				}
-			}
-
-			ul {
-				list-style: none;
-
-				li {
-					padding: 8px 0;
-				}
-			}
-
-			li a, span {
-				color: $footerColorFontPrimary;
-				font-weight: 500;
-			}
-
-			li a:hover {
-				color: $footerColorFontSecondary;
-			}
-
-			span {
-				line-height: 28px;
-			}
-		}
-
-		.footerCopyrightArea {
-			color: $footerCopyrightTextColorFont;
-		}
-	}
-
+  .clear {
+    clear: both;
+  }
+
+  .layoutGreenBackground {
+    background: url("/static/img/staticPage/backTexture.png") center center
+      variables.$colorLightGreenLightest;
+  }
+
+  .layoutRelative {
+    position: relative;
+  }
+
+  .rectangleComponentHeroFooter {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 85px;
+    background-color: variables.$colorWhite;
+  }
+
+  .testButton {
+    @include mixins.testButton(
+      variables.$colorWhite,
+      variables.$colorLightGreenLighter,
+      variables.$colorLightGreen
+    );
+
+    z-index: 2;
+
+    i {
+      margin-right: 5px;
+    }
+  }
+
+  .headerContainer {
+    width: 100%;
+
+    height: auto;
+    margin: auto;
+
+    text-align: center;
+    background: url("/static/img/backgroundHeader.png") center center
+      variables.$headerColorBackground;
+    background-repeat: no-repeat;
+
+    z-index: 3;
+
+    position: sticky;
+    top: 0;
+
+    .headerTop {
+      width: 1310px;
+      height: auto;
+      margin: auto;
+      text-align: left;
+      min-height: 80px;
+
+      top: 0;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .headerLogoArea img {
+        width: 120px;
+      }
+
+      .headerLanguageArea {
+        width: auto;
+        padding: 10px;
+        color: variables.$colorLightGreen;
+        text-align: right;
+        @include mixins.flexCenter;
+        font-size: 14px;
+        height: 40px;
+
+        a {
+          text-decoration: none;
+          color: variables.$headerMenuItemColorFont;
+        }
+
+        select {
+          padding: 5px;
+          margin-left: 5px;
+          display: inline;
+          height: 28px;
+          font-family: Arial, Helvetica, sans-serif;
+          background-color: transparent;
+          color: variables.$headerMenuItemColorFont;
+          outline: none;
+        }
+
+        select:focus > option {
+          color: variables.$colorBlack;
+        }
+
+        .authenticationArea {
+          padding: 10px;
+          font-size: 14px;
+
+          > a {
+            margin-left: 15px;
+
+            i {
+              margin-right: 6px;
+            }
+          }
+
+          a:hover,
+          div.dropdown-content > a:hover {
+            color: variables.$headerMenuItemColorFontHover;
+          }
+
+          div.dropdown-content > a.parent:hover {
+            color: variables.$headerMenuItemColorFont;
+            cursor: default;
+          }
+        }
+      }
+
+      .dropdown-content {
+        position: absolute;
+        top: 80px;
+        right: 8px;
+        background-color: variables.$headerDropdownMenuColorBackground;
+        min-width: 250px;
+        box-shadow: variables.$headerDropdownMenuColorShadow 0 10px 10px -5px inset;
+        padding: 20px;
+
+        a {
+          color: variables.$headerMenuItemColorFont;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+          text-align: left;
+          border-bottom: 1px solid variables.$headerDropdownMenuItemBorderColor;
+
+          &:last-child {
+            border-bottom: 0 none;
+          }
+
+          &.sub-menu-item {
+            padding-left: 40px;
+          }
+
+          i {
+            margin-right: 3px;
+          }
+        }
+      }
+    }
+  }
+
+  .separator {
+    background-color: variables.$headerSeparatorColorBackground;
+    width: 100%;
+    height: 2px;
+
+    &.separatorWithButton {
+      position: relative;
+
+      .testButton {
+        position: absolute;
+        top: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        // Overwrites
+        font-size: 22px;
+        padding: 25px 100px;
+        border-radius: 50px;
+      }
+    }
+  }
+
+  .headerHeroImage {
+    width: 1310px;
+    height: auto;
+    margin: auto;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+
+    .heroHeadingContainer {
+      position: absolute;
+
+      .heroHeading {
+        font-size: 48px;
+        width: 475px;
+        padding-top: 35px;
+        padding-left: 10px;
+        font-weight: bold;
+        text-align: left;
+
+        strong {
+          color: variables.$colorLightGreen;
+        }
+      }
+
+      .heroSubHeading {
+        font-size: 36px;
+        padding-top: 5px;
+        padding-left: 10px;
+      }
+    }
+
+    .heroImage {
+      float: right;
+    }
+  }
+
+  .contentAreaContainer {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    text-align: center;
+
+    &.layoutFloat {
+      float: left;
+    }
+
+    &.layoutPaddingTop50 {
+      padding-top: 50px;
+    }
+
+    .contentArea {
+      max-width: 1310px;
+      width: 100%;
+      height: auto;
+      margin: auto;
+      text-align: left;
+      padding: 25px 0;
+      @include mixins.flexCenter;
+      position: relative;
+      overflow: hidden;
+
+      &.layoutNoPadding {
+        padding: 0;
+      }
+
+      .imageArea {
+        width: 50%;
+        padding: 10px;
+        box-sizing: border-box;
+        text-align: center;
+
+        img {
+          border-radius: 100%;
+        }
+      }
+
+      .textBlockArea {
+        width: 50%;
+        padding: 10px;
+        box-sizing: border-box;
+        text-align: left;
+
+        h2 {
+          font-size: 36px;
+          font-weight: bold;
+          padding-bottom: 25px;
+
+          &.no-padding {
+            padding: 0;
+          }
+
+          strong {
+            color: variables.$colorLightGreen;
+          }
+        }
+
+        p {
+          font-size: 16px;
+          line-height: 24px;
+          padding-bottom: 25px;
+        }
+
+        .certificationList {
+          p {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+
+            img {
+              width: 40px;
+              border-radius: 100%;
+              padding: 10px 10px 10px 0;
+            }
+          }
+        }
+      }
+
+      .textBlockAreaWide {
+        width: 100%;
+        padding: 25px 10px;
+        box-sizing: border-box;
+        text-align: left;
+
+        &.devDocLayout {
+          p {
+            padding: 5px 0;
+
+            &.layoutImageSchema {
+              text-align: center;
+              img {
+                box-sizing: border-box;
+                max-width: 400px;
+                width: 100%;
+                border: solid 1px variables.$colorLightGreen;
+                padding: 10px;
+                border-radius: 5px;
+              }
+
+              small {
+                font-size: 12px;
+                font-weight: bold;
+              }
+            }
+          }
+
+          blockquote {
+            background: variables.$colorLightGreenLightest;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: solid 2px variables.$colorLightGreen;
+            font-size: 14px;
+          }
+
+          h2 {
+            padding: 30px 0 20px 0;
+            line-height: 24px;
+
+            a {
+              border-bottom: solid 3px variables.$colorLightGreen;
+            }
+          }
+
+          h3 {
+            padding: 20px 0;
+            line-height: 24px;
+          }
+
+          hr {
+            border: none;
+            height: 1px;
+            background: variables.$colorLightGreen;
+            margin: 30px 0 20px 0;
+          }
+        }
+
+        .text-center {
+          text-align: center;
+        }
+
+        h1 {
+          font-size: 36px;
+          font-weight: bold;
+          text-align: left;
+
+          strong {
+            color: variables.$colorLightGreen;
+          }
+        }
+
+        h2 {
+          font-size: 24px;
+          font-weight: bold;
+          padding-bottom: 25px;
+
+          strong {
+            color: variables.$colorLightGreen;
+          }
+        }
+
+        h3 {
+          font-size: 18px;
+          font-weight: bold;
+          padding-bottom: 25px;
+
+          strong {
+            color: variables.$colorLightGreen;
+          }
+        }
+
+        p {
+          font-size: 16px;
+          line-height: 24px;
+          padding-bottom: 25px;
+
+          a {
+            color: variables.$colorBlack;
+            text-decoration: underline;
+            font-weight: bold;
+          }
+
+          &.hintLayout {
+            background: variables.$colorLightGreenLightest;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: solid 2px variables.$colorLightGreen;
+            font-size: 14px;
+          }
+        }
+
+        .emailImage {
+          height: 23px;
+          margin-left: -7px;
+        }
+
+        ul,
+        ol {
+          padding: 0 10px 25px 10px;
+          margin-left: 10px;
+
+          li {
+            padding: 0 5px;
+            line-height: 24px;
+            list-style: circle;
+            margin-left: 10px;
+
+            a {
+              color: variables.$colorBlack;
+            }
+          }
+        }
+
+        table {
+          margin: 0 0 20px 0;
+          font-size: 14px;
+          line-height: 18px;
+
+          tr {
+            border-bottom: solid 1px variables.$colorLightGreenLighter;
+
+            th {
+              padding: 10px;
+              vertical-align: top;
+              font-weight: bold;
+              background: variables.$colorLightGreen;
+              min-width: 150px;
+            }
+          }
+
+          tr {
+            td {
+              padding: 10px;
+              vertical-align: top;
+              background: variables.$colorLightGreenLightest;
+            }
+          }
+        }
+
+        ul.pressList {
+          margin: 0;
+          padding: 0;
+
+          li {
+            list-style: none;
+            margin: 0;
+            padding: 25px;
+            line-height: unset;
+            background-color: #f4ffdb;
+
+            a {
+              text-decoration: underline;
+            }
+
+            p {
+              padding-bottom: 0;
+              margin: 24px 0 0 0;
+
+              &:first-child {
+                margin: 0;
+              }
+
+              a {
+                font-size: 26px;
+                color: variables.$colorLightGreen;
+              }
+
+              strong {
+                font-size: 24px;
+              }
+            }
+
+            p:last-child {
+              margin: 5px 0 0 0;
+
+              a {
+                font-size: 16px;
+                color: #333;
+              }
+            }
+          }
+
+          li:nth-child(odd) {
+            background-color: transparent;
+          }
+        }
+
+        .tesContactLogo {
+          text-decoration: none;
+          display: inline-block;
+          img {
+            width: 100px;
+            padding: 5px;
+          }
+        }
+
+        &.loginPage,
+        &.signupPage,
+        &.forgotPasswordPage,
+        &.newPasswordPage {
+          .form-top {
+            width: 300px;
+            margin: 0 auto;
+          }
+
+          label {
+            font-size: 14px;
+            margin-bottom: 5px;
+          }
+
+          a {
+            color: variables.$colorLightGreen;
+            text-decoration: none;
+          }
+
+          .submitButton {
+            @include mixins.testButton(
+              variables.$colorWhite,
+              variables.$colorLightGreenLighter,
+              variables.$colorLightGreen
+            );
+
+            width: 100%;
+            margin: 10px 0;
+          }
+
+          .error {
+            margin-top: 15px;
+            color: variables.$colorLightRed;
+            font-size: 14px;
+          }
+        }
+
+        &.signupPage {
+          #termAcceptance {
+            margin-top: 0;
+          }
+        }
+
+        &.faqPage {
+          h2 {
+            transition: 0.4s;
+            outline: none;
+          }
+
+          h2:hover {
+            cursor: pointer;
+          }
+
+          h2 + blockquote {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+          }
+        }
+      }
+
+      &.layoutImageRight {
+        flex-direction: row-reverse;
+
+        .textBlockArea {
+          text-align: right;
+        }
+      }
+
+      .testCallToActionAreaTop {
+        text-align: center;
+        overflow: hidden;
+        padding-top: 20px;
+      }
+
+      .testCallToActionAreaBottom,
+      .testCallToActionAreaHeader {
+        overflow: hidden;
+        position: relative;
+
+        .testCallToActionButtonArea {
+          position: absolute;
+          z-index: 2;
+          width: 100%;
+
+          .testCallToActionButtonAreaAlign {
+            @include mixins.flexCenter;
+            padding-top: 25px;
+
+            .testButton {
+              @include mixins.testButton(
+                variables.$colorWhite,
+                variables.$colorLightGreenLighter,
+                variables.$colorLightGreen
+              );
+
+              i {
+                margin-right: 5px;
+              }
+            }
+          }
+        }
+      }
+
+      .testCallToActionAreaHeader > img {
+        visibility: hidden;
+        height: 140px;
+      }
+
+      .signupButton {
+        @include mixins.testButton(
+          variables.$colorWhite,
+          variables.$colorLightGreenLighter,
+          variables.$colorLightGreen
+        );
+
+        min-width: 120px;
+        float: right;
+        padding: 15px 30px;
+
+        i {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+
+  .footerContainer {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    padding-top: 30px;
+    text-align: center;
+    background: url("/static/img/layout/backgroundFooter.png") center center
+      variables.$footerColorBackground;
+    background-repeat: no-repeat;
+    box-shadow: variables.$footerColorShadow 0 100px 50px -50px inset;
+
+    .footerContent {
+      max-width: 1310px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 80px 0;
+      position: relative;
+    }
+
+    .footerGrid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 50px;
+
+      margin-bottom: 50px;
+    }
+
+    .footerColumn {
+      text-align: left;
+
+      &.columnLogo {
+        align-self: flex-start;
+        text-align: center;
+
+        img {
+          margin-top: -10px;
+        }
+
+        .avsSloganArea {
+          color: variables.$footerColorFontPrimary;
+          font-size: 16px;
+          line-height: 20px;
+
+          > span {
+            &:first-child {
+              display: block;
+            }
+
+            strong {
+              color: variables.$footerColorFontSecondary;
+            }
+          }
+        }
+      }
+
+      .column-header {
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        color: variables.$footerColorFontSecondary;
+        font-weight: bold;
+
+        > i {
+          margin-right: 2px;
+        }
+      }
+
+      ul {
+        list-style: none;
+
+        li {
+          padding: 8px 0;
+        }
+      }
+
+      li a,
+      span {
+        color: variables.$footerColorFontPrimary;
+        font-weight: 500;
+      }
+
+      li a:hover {
+        color: variables.$footerColorFontSecondary;
+      }
+
+      span {
+        line-height: 28px;
+      }
+    }
+
+    .footerCopyrightArea {
+      color: variables.$footerCopyrightTextColorFont;
+    }
+  }
 }
 
 @media (max-width: 1310px) {
-	#staticPage {
-		.headerHeroImage {
-			width: 100%;
+  #staticPage {
+    .headerHeroImage {
+      width: 100%;
 
-			.heroHeadingContainer {
+      .heroHeadingContainer {
+        .heroHeading {
+          padding: 35px 20px 0 20px;
+          font-size: 36px;
+          width: 430px;
+        }
 
-				.heroHeading {
-					padding: 35px 20px 0 20px;
-					font-size: 36px;
-					width: 430px;
-				}
+        .heroSubHeading {
+          padding: 5px 0 0 20px;
+          font-size: 24px;
+        }
+      }
 
-				.heroSubHeading {
-					padding: 5px 0 0 20px;
-					font-size: 24px;
-				}
-			}
-
-			.heroImage {
-				width: 75%;
-			}
-		}
-	}
+      .heroImage {
+        width: 75%;
+      }
+    }
+  }
 }
 
 @media (min-width: 1025px) and (max-width: 1300px) {
-	#staticPage {
-		.footerContainer {
-			.footerContent {
-				padding-left: 30px;
-				padding-right: 30px;
-				box-sizing: border-box;
-			}
+  #staticPage {
+    .footerContainer {
+      .footerContent {
+        padding-left: 30px;
+        padding-right: 30px;
+        box-sizing: border-box;
+      }
 
-			.columnLogo {
-				text-align: left !important;
+      .columnLogo {
+        text-align: left !important;
 
-				img {
-					margin-left: -20px;
-				}
+        img {
+          margin-left: -20px;
+        }
 
-				.avsSloganArea > span:first-child {
-					display: inline-block;
-				}
-			}
-		}
-
-	}
-
+        .avsSloganArea > span:first-child {
+          display: inline-block;
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 1200px) {
+  #staticPage {
+    .headerContainer {
+      .headerTop {
+        width: 100%;
 
-	#staticPage {
+        .headerLogoArea {
+          margin-left: 10px;
+        }
 
-		.headerContainer {
+        .headerLanguageArea {
+          margin-right: 15px;
+          padding: 0;
+          height: auto;
 
-			.headerTop {
-				width: 100%;
+          select {
+            margin-left: 20px;
+          }
 
-				.headerLogoArea {
-					margin-left: 10px;
-				}
+          .authenticationArea {
+            padding: 0;
+          }
+        }
+      }
+    }
 
-				.headerLanguageArea {
-					margin-right: 15px;
-					padding: 0;
-					height: auto;
+    .contentAreaContainer {
+      .contentArea {
+        width: 100%;
 
-					select {
-						margin-left: 20px;
-					}
+        .imageArea {
+          width: 50%;
 
-					.authenticationArea {
-						padding: 0;
-					}
-				}
-			}
+          img {
+            width: 100%;
+          }
+        }
 
-		}
+        .textBlockArea {
+          width: 50%;
 
-		.contentAreaContainer {
+          h2 {
+            font-size: 24px;
+          }
+        }
 
-			.contentArea {
-				width: 100%;
+        .testCallToActionAreaTop {
+          text-align: center;
+          overflow: hidden;
 
-				.imageArea {
-					width: 50%;
+          img {
+            width: 100%;
+          }
+        }
+      }
+    }
 
-					img {
-						width: 100%;
-					}
-				}
-
-				.textBlockArea {
-					width: 50%;
-
-					h2 {
-						font-size: 24px;
-					}
-				}
-
-				.testCallToActionAreaTop {
-					text-align: center;
-					overflow: hidden;
-
-					img {
-						width: 100%;
-					}
-				}
-
-			}
-
-		}
-
-		.footerContainer {
-
-			.footerContent {
-				.footerGrid {
-					gap: 25px;
-				}
-
-			}
-
-		}
-
-	}
-
+    .footerContainer {
+      .footerContent {
+        .footerGrid {
+          gap: 25px;
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 1024px) {
-	#staticPage {
-		.headerTop {
-			.dropdown-content {
-				right: 0 !important;
-			}
+  #staticPage {
+    .headerTop {
+      .dropdown-content {
+        right: 0 !important;
+      }
 
-			.headerLogoArea img {
-				width: 100px !important;
-			}
-		}
+      .headerLogoArea img {
+        width: 100px !important;
+      }
+    }
 
-		.separator {
-			&.separatorWithButton {
-				.testButton {
-					top: -34px;
-					font-size: 18px;
-					padding: 18px 50px;
-					border-width: 5px;
-				}
-			}
+    .separator {
+      &.separatorWithButton {
+        .testButton {
+          top: -34px;
+          font-size: 18px;
+          padding: 18px 50px;
+          border-width: 5px;
+        }
+      }
 
-			&.separatorNoBorder {
-				.testButton {
-					top: -28px;
-				}
-			}
-		}
+      &.separatorNoBorder {
+        .testButton {
+          top: -28px;
+        }
+      }
+    }
 
-		.footerContainer {
-			padding-left: 30px;
-			padding-right: 30px;
-			box-sizing: border-box;
+    .footerContainer {
+      padding-left: 30px;
+      padding-right: 30px;
+      box-sizing: border-box;
 
-			.footerContent {
-				padding: 80px 0 30px 0;
+      .footerContent {
+        padding: 80px 0 30px 0;
 
-				.footerGrid {
-					grid-template-columns: unset;
+        .footerGrid {
+          grid-template-columns: unset;
 
-					.footerColumn {
-						text-align: center;
+          .footerColumn {
+            text-align: center;
 
-						&.columnLogo {
-							max-width: 100%;
-							margin-bottom: 20px;
+            &.columnLogo {
+              max-width: 100%;
+              margin-bottom: 20px;
 
-							.avsSloganArea {
-								font-size: 14px;
-							}
-						}
+              .avsSloganArea {
+                font-size: 14px;
+              }
+            }
 
-						span {
-							line-height: unset;
-						}
-
-					}
-
-				}
-
-			}
-
-		}
-
-	}
-
+            span {
+              line-height: unset;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 768px) {
+  #staticPage {
+    .headerContainer {
+      .headerTop {
+        margin-bottom: 40px;
 
-	#staticPage {
+        .dropdown-content {
+          right: 0;
+          width: 100%;
+          text-align: center !important;
+          box-sizing: border-box;
+          padding: 10px 0 10px 0;
 
-		.headerContainer {
+          a {
+            padding: 15px 0 15px 0 !important;
+            text-align: center;
+          }
+        }
+      }
+    }
 
-			.headerTop {
-				margin-bottom: 40px;
+    .headerHeroImage {
+      width: 100%;
 
-				.dropdown-content {
-					right: 0;
-					width: 100%;
-					text-align: center !important;
-					box-sizing: border-box;
-					padding: 10px 0 10px 0;
+      .heroHeadingContainer {
+        position: relative;
+        width: 100%;
 
-					a {
-						padding: 15px 0 15px 0 !important;
-						text-align: center;
-					}
+        .heroHeading {
+          width: 100%;
+          box-sizing: border-box;
+          font-size: 36px;
+          padding: 0 10px;
+          font-weight: bold;
 
-				}
+          strong {
+            color: variables.$colorLightGreen;
+          }
+        }
 
-			}
+        .heroSubHeading {
+          padding: 0 10px;
+          font-size: 24px;
+        }
+      }
 
-		}
+      .heroImage {
+        padding: 0;
+        width: 100%;
+      }
+    }
 
-		.headerHeroImage {
-			width: 100%;
+    .contentAreaContainer {
+      .contentArea {
+        width: 100%;
+        display: block;
 
-			.heroHeadingContainer {
-				position: relative;
-				width: 100%;
+        .imageArea {
+          width: 100%;
 
-				.heroHeading {
-					width: 100%;
-					box-sizing: border-box;
-					font-size: 36px;
-					padding: 0 10px;
-					font-weight: bold;
+          img {
+            width: auto;
+          }
+        }
 
-					strong {
-						color: $colorLightGreen;
-					}
+        .textBlockArea {
+          width: 100%;
+          text-align: left !important;
+          padding: 25px;
 
-				}
+          h2 {
+            font-size: 24px;
+          }
+        }
 
-				.heroSubHeading {
-					padding: 0 10px;
-					font-size: 24px;
-				}
-			}
+        .textBlockAreaWide {
+          h2 {
+            font-size: 24px;
+            font-weight: bold;
+          }
+        }
 
-			.heroImage {
-				padding: 0;
-				width: 100%;
-			}
-		}
+        .testCallToActionAreaTop {
+          text-align: center;
+          overflow: hidden;
 
-		.contentAreaContainer {
+          img {
+            width: 100%;
+          }
+        }
 
-			.contentArea {
-				width: 100%;
-				display: block;
+        .testCallToActionAreaBottom {
+          img {
+            width: 100%;
+          }
+        }
 
-				.imageArea {
-					width: 100%;
-
-					img {
-						width: auto;
-					}
-				}
-
-				.textBlockArea {
-					width: 100%;
-					text-align: left !important;
-					padding: 25px;
-
-					h2 {
-						font-size: 24px;
-					}
-				}
-
-				.textBlockAreaWide {
-
-					h2 {
-						font-size: 24px;
-						font-weight: bold;
-
-					}
-
-				}
-
-				.testCallToActionAreaTop {
-					text-align: center;
-					overflow: hidden;
-
-					img {
-						width: 100%;
-					}
-				}
-
-				.testCallToActionAreaBottom {
-
-
-					img {
-						width: 100%;
-					}
-				}
-
-				.signupButton {
-					width: 130px;
-					margin: 0 auto;
-					float: none;
-				}
-
-			}
-
-		}
-
-	}
-
+        .signupButton {
+          width: 130px;
+          margin: 0 auto;
+          float: none;
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 600px) {
+  #staticPage {
+    .contentAreaContainer {
+      .contentArea {
+        .testCallToActionAreaBottom {
+          .testCallToActionButtonArea {
+            .testCallToActionButtonAreaAlign {
+              padding-top: 2.5%;
 
-	#staticPage {
+              .testButton {
+                color: variables.$colorWhite;
+                background: variables.$colorLightGreen;
+                border-radius: 40px;
+                display: block;
+                padding: 15px 20px;
+                border: solid 10px variables.$colorLightGreenLighter;
+                font-size: 14px;
+                min-width: 180px;
+                cursor: pointer;
+                text-align: center;
+              }
+            }
 
-		.contentAreaContainer {
-
-			.contentArea {
-
-				.testCallToActionAreaBottom {
-
-					.testCallToActionButtonArea {
-
-						.testCallToActionButtonAreaAlign {
-							padding-top: 2.5%;
-
-							.testButton {
-								color: $colorWhite;
-								background: $colorLightGreen;
-								border-radius: 40px;
-								display: block;
-								padding: 15px 20px;
-								border: solid 10px $colorLightGreenLighter;
-								font-size: 14px;
-								min-width: 180px;
-								cursor: pointer;
-								text-align: center;
-							}
-
-						}
-
-						img {
-							width: 100%;
-						}
-
-					}
-
-				}
-
-			}
-
-		}
-
-	}
-
+            img {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 480px) {
+  #staticPage {
+    .headerTop {
+      .authenticationArea {
+        > a {
+          font-size: 12px;
+          margin-left: 10px !important;
 
-	#staticPage {
-		.headerTop {
-			.authenticationArea {
-				> a {
-					font-size: 12px;
-					margin-left: 10px !important;
-
-					&:first-child {
-						margin-left: 0 !important;
-					}
-				}
-			}
-		}
-	}
-
+          &:first-child {
+            margin-left: 0 !important;
+          }
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 380px) {
-	#staticPage {
-		.headerContainer {
-			.authenticationArea {
-				span {
-					display: none;
-				}
-			}
-
-		}
-
-	}
-
+  #staticPage {
+    .headerContainer {
+      .authenticationArea {
+        span {
+          display: none;
+        }
+      }
+    }
+  }
 }
