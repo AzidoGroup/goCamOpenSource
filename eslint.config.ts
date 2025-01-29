@@ -22,6 +22,7 @@ export default tseslint.config(
       "@stylistic/max-len": ["error", { code: 260 }],
 
       // remove these rules after figuring out what's broken
+      "@stylistic/ts/comma-dangle": "off",
       "@typescript-eslint/prefer-namespace-keyword": "off", //fixable?
       "no-prototype-builtins": "off",
       "@typescript-eslint/no-unused-vars": "off",
