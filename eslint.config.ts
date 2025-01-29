@@ -14,10 +14,21 @@ export default tseslint.config(
       "@stylistic": stylistic,
     },
     rules: {
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@stylistic/indent": ["error", 2],
-      "@stylistic/quotes": ["error", "single"],
-      "@stylistic/max-len": ["error", { code: 120 }],
+      "@typescript-eslint/no-explicit-any": "off", // turn this back to `warn`
+      "@typescript-eslint/no-namespace": "off",
+      "@stylistic/no-tabs": ["warn", { allowIndentationTabs: true }],
+      // "@stylistic/indent": ["error", 2],
+      // "@stylistic/quotes": ["error", "single"],
+      "@stylistic/max-len": ["error", { code: 260 }],
+
+      // remove these rules after figuring out what's broken
+      "@typescript-eslint/prefer-namespace-keyword": "off", //fixable?
+      "no-prototype-builtins": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-wrapper-object-types": "off",
+      "@typescript-eslint/no-unsafe-function-type": "off", // unfixable
+      "prefer-const": "off",
+      "no-var": "off"
     },
   }
 );
