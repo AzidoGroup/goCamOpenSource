@@ -1,12 +1,12 @@
-import Express from "express";
-import fs from "node:fs";
-import path from "path";
-import URL from "url";
+import Express from 'express';
+import fs from 'node:fs';
+import path from 'path';
+import URL from 'url';
 
-import { config } from "../config";
-import { AvsEncryption } from "../lib/encryption";
-import { AvsResponse } from "../lib/response";
-import { AvsStorageSession } from "../storage/session";
+import { config } from '../config';
+import { AvsEncryption } from '../lib/encryption';
+import { AvsResponse } from '../lib/response';
+import { AvsStorageSession } from '../storage/session';
 
 export function load(app: Express.Application) {
   app.use(
@@ -19,28 +19,28 @@ export function load(app: Express.Application) {
     }
   );
 
-  app.get("/", (req: Express.Request, res: Express.Response) => {
-    res.render("home/index.twig", {
+  app.get('/', (req: Express.Request, res: Express.Response) => {
+    res.render('home/index.twig', {
       js: {
-        onDocumentReady: "AvsHome.main",
+        onDocumentReady: 'AvsHome.main',
       },
     });
   });
 
   app.post(
-    "/getVerificationPayloadAndUrl",
+    '/getVerificationPayloadAndUrl',
     (req: Express.Request, res: Express.Response) => {
       const colorConfigBodyBackgroundInput =
-        req.body["colorConfigBodyBackgroundInput"];
+        req.body['colorConfigBodyBackgroundInput'];
       const colorConfigBodyForegroundInput =
-        req.body["colorConfigBodyForegroundInput"];
+        req.body['colorConfigBodyForegroundInput'];
       const colorConfigButtonBackgroundInput =
-        req.body["colorConfigButtonBackgroundInput"];
+        req.body['colorConfigButtonBackgroundInput'];
       const colorConfigButtonForegroundInput =
-        req.body["colorConfigButtonForegroundInput"];
+        req.body['colorConfigButtonForegroundInput'];
       const colorConfigButtonForegroundCTAInput =
-        req.body["colorConfigButtonForegroundCTAInput"];
-      const callbackUrl = req.body["callbackUrl"];
+        req.body['colorConfigButtonForegroundCTAInput'];
+      const callbackUrl = req.body['callbackUrl'];
 
       if (
         colorConfigBodyBackgroundInput == undefined ||
@@ -50,17 +50,17 @@ export function load(app: Express.Application) {
         colorConfigButtonForegroundCTAInput == undefined ||
         callbackUrl == undefined
       ) {
-        res.send(AvsResponse.errorResponse(30000, "Invalid payload config"));
+        res.send(AvsResponse.errorResponse(30000, 'Invalid payload config'));
         return;
       }
 
-      const userAgent = req.headers["user-agent"];
-      const linkBack = "/";
-      const userIpCountry = "US";
-      const userIpState = "TX";
+      const userAgent = req.headers['user-agent'];
+      const linkBack = '/';
+      const userIpCountry = 'US';
+      const userIpState = 'TX';
       const creationTimestamp = +new Date();
-      const testPathRedirect = "/token";
-      const testPathIframe = "/token/iframeCheck";
+      const testPathRedirect = '/token';
+      const testPathIframe = '/token/iframeCheck';
 
       const requestPayload = AvsEncryption.encryptObject({
         userData: {
@@ -128,21 +128,21 @@ export function load(app: Express.Application) {
   );
 
   app.post(
-    "/validateVerificationPayload",
+    '/validateVerificationPayload',
     (req: Express.Request, res: Express.Response) => {
       const verificationPayload = req.body.verificationPayload;
 
-      if (typeof verificationPayload == "undefined") {
-        res.send(AvsResponse.errorResponse(30001, "Invalid payload"));
+      if (typeof verificationPayload == 'undefined') {
+        res.send(AvsResponse.errorResponse(30001, 'Invalid payload'));
         return;
       }
 
       const payloadParsed = AvsEncryption.decryptString(verificationPayload);
-      if (typeof payloadParsed.verificationResult == "undefined") {
+      if (typeof payloadParsed.verificationResult == 'undefined') {
         res.send(
           AvsResponse.errorResponse(
             30002,
-            "Verification payload integrity check failed"
+            'Verification payload integrity check failed'
           )
         );
         return;
@@ -152,7 +152,7 @@ export function load(app: Express.Application) {
         payloadParsed.verificationResult.stateInt !=
         AvsStorageSession.SESSION_STATE_SUCCESS
       ) {
-        res.send(AvsResponse.errorResponse(30003, "Payload state invalid"));
+        res.send(AvsResponse.errorResponse(30003, 'Payload state invalid'));
         return;
       }
 
@@ -164,17 +164,17 @@ export function load(app: Express.Application) {
     }
   );
 
-  app.post("/callback", (req: Express.Request, res: Express.Response) => {
-    const responseString = JSON.stringify(req.body) + "\n";
+  app.post('/callback', (req: Express.Request, res: Express.Response) => {
+    const responseString = JSON.stringify(req.body) + '\n';
     fs.appendFile(
-      path.join(__dirname, "./../../../log/callback.log"),
+      path.join(__dirname, './../../../log/callback.log'),
       responseString,
       (err: unknown) => {
         if (err) {
           res.send(
             AvsResponse.errorResponse(
               30004,
-              "Callback file log error: " + err.toString()
+              'Callback file log error: ' + err.toString()
             )
           );
           return;
@@ -186,12 +186,12 @@ export function load(app: Express.Application) {
     );
   });
 
-  app.get("/test", (req: Express.Request, res: Express.Response) => {
-    res.send("test");
+  app.get('/test', (req: Express.Request, res: Express.Response) => {
+    res.send('test');
   });
 
-  app.all("*", (req: Express.Request, res: Express.Response) => {
-    res.send("404");
+  app.all('*', (req: Express.Request, res: Express.Response) => {
+    res.send('404');
   });
 }
 

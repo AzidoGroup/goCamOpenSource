@@ -1,7 +1,7 @@
-import axios from "axios";
-import { UAParser } from "ua-parser-js";
-import { AvsEncryption } from "../lib/encryption";
-import { AvsStoragePayload } from "./payload";
+import axios from 'axios';
+import { UAParser } from 'ua-parser-js';
+import { AvsEncryption } from '../lib/encryption';
+import { AvsStoragePayload } from './payload';
 
 export class AvsStorageSession {
   static VERIFICATION_STANDARD_V1 = 1;
@@ -39,11 +39,11 @@ export class AvsStorageSession {
 
   static getStateMap() {
     return {
-      [AvsStorageSession.SESSION_STATE_IN_PROGRESS]: "inProgress",
-      [AvsStorageSession.SESSION_STATE_SUCCESS]: "success",
-      [AvsStorageSession.SESSION_STATE_FAILED]: "fail",
-      [AvsStorageSession.SESSION_STATE_LINK_EXPIRED]: "expired",
-      [AvsStorageSession.SESSION_STATE_LINK_ALREADY_USED]: "alreadyUsed",
+      [AvsStorageSession.SESSION_STATE_IN_PROGRESS]: 'inProgress',
+      [AvsStorageSession.SESSION_STATE_SUCCESS]: 'success',
+      [AvsStorageSession.SESSION_STATE_FAILED]: 'fail',
+      [AvsStorageSession.SESSION_STATE_LINK_EXPIRED]: 'expired',
+      [AvsStorageSession.SESSION_STATE_LINK_ALREADY_USED]: 'alreadyUsed',
     };
   }
 
@@ -91,7 +91,7 @@ export class AvsStorageSession {
       ipState: payloadParsed.userIpState,
       websiteHostname: payloadParsed.websiteHostname,
       verificationVersion: payloadParsed.verificationVersion,
-      deviceType: device.type || "",
+      deviceType: device.type || '',
       userAgent: payloadParsed.httpParamList.userAgent,
       stateInt: sessionState,
       state: this.stateMap[sessionState],
@@ -134,11 +134,11 @@ export class AvsStorageSession {
     sessionData.errorCode = errorCode;
 
     axios({
-      method: "post",
+      method: 'post',
       url: sessionData.callbackUrl,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        "Access-Control-Allow-Origin": "*",
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Access-Control-Allow-Origin': '*',
       },
       data: {
         userData: JSON.stringify(sessionData.userData),
@@ -159,19 +159,19 @@ export class AvsStorageSession {
       },
     })
       .then(() => {
-        console.log("Callback data success!");
+        console.log('Callback data success!');
       })
       .catch((err: Error) => {
-        console.log("Error: ", err);
+        console.log('Error: ', err);
       });
 
     this.update(sessionId, sessionData);
 
     const payload = AvsEncryption.decryptString(sessionData.payload);
-    payload.userIpStr = "127.0.0.1";
-    payload.userIpCountry = "A1";
+    payload.userIpStr = '127.0.0.1';
+    payload.userIpCountry = 'A1';
     payload.userData = sessionData.userData;
-    payload.callbackUrl = "";
+    payload.callbackUrl = '';
     payload.verificationResult = {
       state: this.stateMap[sessionStateInt],
       stateInt: sessionStateInt,
@@ -225,7 +225,7 @@ export class AvsStorageSession {
   }
 
   private getById(sessionId: number) {
-    if (typeof this.sessionList[sessionId] == "undefined") {
+    if (typeof this.sessionList[sessionId] == 'undefined') {
       return null;
     }
 

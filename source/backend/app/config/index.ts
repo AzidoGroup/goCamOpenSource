@@ -1,13 +1,13 @@
 const configObject = {
-  httpServerProtocol: "http",
-  httpServerHost: "localhost",
+  httpServerProtocol: 'http',
+  httpServerHost: 'localhost',
   httpServerPort: 3300,
 
-  htmlFilePath: "./app/frontend/views/",
+  htmlFilePath: './app/frontend/views/',
 
   encryption: {
-    key: "zIkmW2zEgzlTLTRC5xeMbcOhHcE5sBHB",
-    algorithm: "aes-256-cbc",
+    key: 'zIkmW2zEgzlTLTRC5xeMbcOhHcE5sBHB',
+    algorithm: 'aes-256-cbc',
   },
 
   storage: {

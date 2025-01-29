@@ -1,6 +1,6 @@
-import { config } from "../config";
+import { config } from '../config';
 
-import crypto from "crypto";
+import crypto from 'crypto';
 
 export class AvsEncryption {
   static encryptObject(object: object): string {
@@ -15,14 +15,14 @@ export class AvsEncryption {
 
     encrypted = Buffer.concat([encrypted, cipher.final()]);
 
-    return iv.toString("hex") + "|:" + encrypted.toString("hex");
+    return iv.toString('hex') + '|:' + encrypted.toString('hex');
   }
 
   static decryptString(encryptedString: string): any {
-    const encryptedStringParts = encryptedString.split(":");
+    const encryptedStringParts = encryptedString.split(':');
 
-    const iv = Buffer.from(encryptedStringParts[0], "hex");
-    const encryptedData = Buffer.from(encryptedStringParts[1], "hex");
+    const iv = Buffer.from(encryptedStringParts[0], 'hex');
+    const encryptedData = Buffer.from(encryptedStringParts[1], 'hex');
 
     const decipher = crypto.createDecipheriv(
       config.encryption.algorithm,
@@ -37,10 +37,10 @@ export class AvsEncryption {
   }
 
   static base64EncodeObject(object: object): string {
-    return Buffer.from(JSON.stringify(object)).toString("base64");
+    return Buffer.from(JSON.stringify(object)).toString('base64');
   }
 
   static base64DecodeString(encryptedString: string): any {
-    return JSON.parse(Buffer.from(encryptedString, "base64").toString("ascii"));
+    return JSON.parse(Buffer.from(encryptedString, 'base64').toString('ascii'));
   }
 }

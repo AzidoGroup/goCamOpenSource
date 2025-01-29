@@ -1,4 +1,4 @@
-import { config } from "../config";
+import { config } from '../config';
 
 export class AvsStoragePayload {
   private payloadList: IPayloadList;
@@ -19,7 +19,7 @@ export class AvsStoragePayload {
   }
 
   public isStored(payload: string) {
-    return typeof this.payloadList[payload] != "undefined";
+    return typeof this.payloadList[payload] != 'undefined';
   }
 
   public isExpired(payload: string) {

@@ -1,9 +1,9 @@
-import Express from "express";
-import { config } from "../config";
-import { AvsResponse } from "../lib/response";
-import { AvsStorageSession } from "../storage/session";
+import Express from 'express';
+import { config } from '../config';
+import { AvsResponse } from '../lib/response';
+import { AvsStorageSession } from '../storage/session';
 
-const ROUTE_ROOT: string = "/result";
+const ROUTE_ROOT: string = '/result';
 
 const MAX_TEST_DURATION: number = config.test.maxDuration;
 const DEVICE_LOCATION_VERIFICATION_INTERNAL = 0;
@@ -11,7 +11,7 @@ const DEVICE_LOCATION_VERIFICATION_INTERNAL = 0;
 
 export function load(app: Express.Application, storage: AvsStorageSession) {
   app.post(
-    ROUTE_ROOT + "/success",
+    ROUTE_ROOT + '/success',
     (req: Express.Request, res: Express.Response) => {
       const token = req.body.token;
       const stepId = req.body.stepId;
@@ -39,7 +39,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
         sessionResult.stepId = 0;
         sessionResult.errorCode = 30007;
         storage.updateState(req.session.sessionStartId, sessionResult);
-        res.send(AvsResponse.errorResponse(30007, "Invalid step id"));
+        res.send(AvsResponse.errorResponse(30007, 'Invalid step id'));
         return;
       }
 
@@ -47,7 +47,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
         sessionResult.errorCode = 30008;
         storage.updateState(req.session.sessionStartId, sessionResult);
         res.send(
-          AvsResponse.errorResponse(30008, "Test max allowed time expired")
+          AvsResponse.errorResponse(30008, 'Test max allowed time expired')
         );
         return;
       }
@@ -56,7 +56,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
         if (!(req.session.successKey && token == req.session.successKey)) {
           sessionResult.errorCode = 30009;
           storage.updateState(req.session.sessionStartId, sessionResult);
-          res.send(AvsResponse.errorResponse(30009, "Invalid token"));
+          res.send(AvsResponse.errorResponse(30009, 'Invalid token'));
           return;
         }
       }
@@ -71,18 +71,18 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
         idType
       );
 
-      if (typeof avsSession == "undefined") {
+      if (typeof avsSession == 'undefined') {
         sessionResult.errorCode = 30010;
         storage.updateState(req.session.sessionStartId, sessionResult);
         res.send(
-          AvsResponse.errorResponse(30010, "Failed to save session data")
+          AvsResponse.errorResponse(30010, 'Failed to save session data')
         );
         return;
       }
 
       const successPayload = avsSession.payload;
 
-      res.cookie("isAgeVerified", successPayload, {
+      res.cookie('isAgeVerified', successPayload, {
         httpOnly: config.cookie.httpOnly,
         secure: config.cookie.secure,
         maxAge: config.cookie.maxAge,
@@ -97,7 +97,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
   );
 
   app.post(
-    ROUTE_ROOT + "/fail",
+    ROUTE_ROOT + '/fail',
     (req: Express.Request, res: Express.Response) => {
       const token = req.body.token;
       const stepId = req.body.stepId;
@@ -126,7 +126,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
         sessionResult.stepId = 0;
         sessionResult.errorCode = 30011;
         storage.updateState(req.session.sessionStartId, sessionResult);
-        res.send(AvsResponse.errorResponse(30011, "Invalid step id"));
+        res.send(AvsResponse.errorResponse(30011, 'Invalid step id'));
         return;
       }
 
@@ -134,7 +134,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
         sessionResult.errorCode = 30012;
         storage.updateState(req.session.sessionStartId, sessionResult);
         res.send(
-          AvsResponse.errorResponse(30012, "Test max allowed time expired")
+          AvsResponse.errorResponse(30012, 'Test max allowed time expired')
         );
         return;
       }
@@ -143,7 +143,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
         if (!(req.session.successKey && token == req.session.successKey)) {
           sessionResult.errorCode = 30013;
           storage.updateState(req.session.sessionStartId, sessionResult);
-          res.send(AvsResponse.errorResponse(30013, "Invalid token"));
+          res.send(AvsResponse.errorResponse(30013, 'Invalid token'));
           return;
         }
       }
@@ -158,11 +158,11 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
         idType
       );
 
-      if (typeof avsSession == "undefined") {
+      if (typeof avsSession == 'undefined') {
         sessionResult.errorCode = 30014;
         storage.updateState(req.session.sessionStartId, sessionResult);
         res.send(
-          AvsResponse.errorResponse(30014, "Failed to save session data")
+          AvsResponse.errorResponse(30014, 'Failed to save session data')
         );
         return;
       }
@@ -172,9 +172,9 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
   );
 
   app.post(
-    ROUTE_ROOT + "/isSuccess",
+    ROUTE_ROOT + '/isSuccess',
     (req: Express.Request, res: Express.Response) => {
-      const payload = req.body["d"];
+      const payload = req.body['d'];
 
       res.send(
         AvsResponse.successResponse({

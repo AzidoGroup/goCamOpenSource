@@ -1,12 +1,12 @@
-import Express from "express";
-import uaParser from "ua-parser-js";
+import Express from 'express';
+import uaParser from 'ua-parser-js';
 
-import { config } from "../config";
-import { AvsEncryption } from "../lib/encryption";
-import { AvsRandom } from "../lib/random";
-import { AvsStorageSession } from "../storage/session";
+import { config } from '../config';
+import { AvsEncryption } from '../lib/encryption';
+import { AvsRandom } from '../lib/random';
+import { AvsStorageSession } from '../storage/session';
 
-const ROUTE_ROOT = "/token";
+const ROUTE_ROOT = '/token';
 
 export function load(app: Express.Application, storage: AvsStorageSession) {
   app.get(ROUTE_ROOT, (req: Express.Request, res: Express.Response) => {
@@ -18,7 +18,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
   });
 
   app.get(
-    ROUTE_ROOT + "/iframeRender",
+    ROUTE_ROOT + '/iframeRender',
     (req: Express.Request, res: Express.Response) => {
       return renderTokenPage(
         req,
@@ -29,16 +29,16 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
   );
 
   app.get(
-    ROUTE_ROOT + "/iframeCheck",
+    ROUTE_ROOT + '/iframeCheck',
     (req: Express.Request, res: Express.Response) => {
-      const isAgeVerified = typeof req.cookies["isAgeVerified"] != "undefined";
+      const isAgeVerified = typeof req.cookies['isAgeVerified'] != 'undefined';
       let verificationPayload = null;
 
       if (isAgeVerified) {
-        verificationPayload = req.cookies["isAgeVerified"];
+        verificationPayload = req.cookies['isAgeVerified'];
       }
 
-      res.render("token/embedCheck.twig", {
+      res.render('token/embedCheck.twig', {
         js: {
           isAgeVerified: isAgeVerified,
           verificationPayload: verificationPayload,
@@ -52,11 +52,11 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
     res: Express.Response,
     verificationVersion: number = 1
   ) => {
-    const payload = req.query["d"];
-    if (typeof payload == "undefined") {
-      res.render("token/error.twig", {
+    const payload = req.query['d'];
+    if (typeof payload == 'undefined') {
+      res.render('token/error.twig', {
         code: 30005,
-        msg: "Invalid payload",
+        msg: 'Invalid payload',
       });
       return;
     }
@@ -69,9 +69,9 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
     }
 
     if (avsSession == null) {
-      res.render("token/error.twig", {
+      res.render('token/error.twig', {
         code: 30006,
-        msg: "Invalid payload",
+        msg: 'Invalid payload',
       });
       return;
     }
@@ -83,7 +83,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
     const failKey = AvsRandom.generateRandomString(32);
 
     const sessionId = req.session.id;
-    const ipCountry = "FR";
+    const ipCountry = 'FR';
 
     req.session.successKey = successKey;
     req.session.failKey = failKey;
@@ -92,13 +92,13 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
     req.session.payload = payload;
 
     const userAgent =
-      typeof req.headers["user-agent"] != "undefined"
-        ? uaParser(req.headers["user-agent"])
-        : "";
+      typeof req.headers['user-agent'] != 'undefined'
+        ? uaParser(req.headers['user-agent'])
+        : '';
 
-    res.render("token/index.twig", {
+    res.render('token/index.twig', {
       js: {
-        onDocumentReady: "AvsToken.main",
+        onDocumentReady: 'AvsToken.main',
         token: AvsEncryption.base64EncodeObject({
           successKey: successKey,
           failKey: failKey,
@@ -109,7 +109,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
         verificationVersion: verificationVersion,
         d: payload,
         sessionId: sessionId,
-        partnerColorConfig: payloadParsed["userData"]["colorConfig"],
+        partnerColorConfig: payloadParsed['userData']['colorConfig'],
         ipCountry: ipCountry,
         deviceInfo: userAgent,
         countryAgeMajority: config.countryAgeMajority,

@@ -1,23 +1,23 @@
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import express from "express";
-import session from "express-session";
-import http from "http";
-import morgan from "morgan";
-import path from "path";
-import favicon from "serve-favicon";
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import express from 'express';
+import session from 'express-session';
+import http from 'http';
+import morgan from 'morgan';
+import path from 'path';
+import favicon from 'serve-favicon';
 
-import { config } from "./config";
-import { AvsRandom } from "./lib/random";
-import { AvsStorageSession } from "./storage/session";
+import { config } from './config';
+import { AvsRandom } from './lib/random';
+import { AvsStorageSession } from './storage/session';
 
-import indexRoute from "./route";
-import resultRoute from "./route/result";
-import tokenRoute from "./route/token";
+import indexRoute from './route';
+import resultRoute from './route/result';
+import tokenRoute from './route/token';
 
 const app = express();
 
-declare module "express-session" {
+declare module 'express-session' {
   export interface SessionData {
     [key: string]: any;
   }
@@ -37,14 +37,14 @@ app.use(
     },
   })
 );
-app.use(express.static("app/frontend"));
-app.use(favicon(path.join(__dirname, "../frontend/static", "favicon.ico")));
+app.use(express.static('app/frontend'));
+app.use(favicon(path.join(__dirname, '../frontend/static', 'favicon.ico')));
 
 const server = new http.Server(app);
-app.use(morgan("combined"));
+app.use(morgan('combined'));
 
-app.set("views", config.htmlFilePath);
-app.set("twig options", {
+app.set('views', config.htmlFilePath);
+app.set('twig options', {
   allowAsync: true,
   strict_variables: false,
 });
