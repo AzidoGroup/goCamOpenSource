@@ -27,9 +27,9 @@ export class AvsStoragePayload {
       return false;
     }
 
-    let payloadData = this.payloadList[payload];
-    let created = payloadData.created;
-    let now = this.getNow();
+    const payloadData = this.payloadList[payload];
+    const created = payloadData.created;
+    const now = this.getNow();
 
     return created + config.storage.payloadExpirationTime > now;
   }

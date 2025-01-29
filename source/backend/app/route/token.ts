@@ -31,7 +31,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
   app.get(
     ROUTE_ROOT + "/iframeCheck",
     (req: Express.Request, res: Express.Response) => {
-      let isAgeVerified = typeof req.cookies["isAgeVerified"] != "undefined";
+      const isAgeVerified = typeof req.cookies["isAgeVerified"] != "undefined";
       let verificationPayload = null;
 
       if (isAgeVerified) {
@@ -47,12 +47,12 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
     }
   );
 
-  let renderTokenPage = (
+  const renderTokenPage = (
     req: Express.Request,
     res: Express.Response,
     verificationVersion: number = 1
   ) => {
-    let payload = req.query["d"];
+    const payload = req.query["d"];
     if (typeof payload == "undefined") {
       res.render("token/error.twig", {
         code: 30005,
@@ -76,14 +76,14 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
       return;
     }
 
-    let payloadParsed = payload
+    const payloadParsed = payload
       ? AvsEncryption.decryptString(payload.toString())
       : null;
-    let successKey = AvsRandom.generateRandomString(32);
-    let failKey = AvsRandom.generateRandomString(32);
+    const successKey = AvsRandom.generateRandomString(32);
+    const failKey = AvsRandom.generateRandomString(32);
 
-    let sessionId = req.session.id;
-    let ipCountry = "FR";
+    const sessionId = req.session.id;
+    const ipCountry = "FR";
 
     req.session.successKey = successKey;
     req.session.failKey = failKey;
@@ -91,7 +91,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
     req.session.sessionStartId = avsSession.sessionId;
     req.session.payload = payload;
 
-    let userAgent =
+    const userAgent =
       typeof req.headers["user-agent"] != "undefined"
         ? uaParser(req.headers["user-agent"])
         : "";

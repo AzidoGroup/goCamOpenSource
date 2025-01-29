@@ -13,12 +13,12 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
   app.post(
     ROUTE_ROOT + "/success",
     (req: Express.Request, res: Express.Response) => {
-      let token = req.body.token;
-      let stepId = req.body.stepId;
-      let deviceLocationVerification = req.body.deviceLocationVerification;
-      let idCountry = req.body.idCountry;
-      let idState = req.body.idState;
-      let idType = req.body.idType;
+      const token = req.body.token;
+      const stepId = req.body.stepId;
+      const deviceLocationVerification = req.body.deviceLocationVerification;
+      const idCountry = req.body.idCountry;
+      const idState = req.body.idState;
+      const idType = req.body.idType;
 
       /*
 		let sessionId = req.body.sessionId;
@@ -27,7 +27,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
 		}
 		*/
 
-      let sessionResult = {
+      const sessionResult = {
         stepId: stepId,
         idCountry: idCountry,
         idState: idState,
@@ -61,7 +61,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
         }
       }
 
-      let avsSession = storage.end(
+      const avsSession = storage.end(
         req.session.sessionStartId,
         AvsStorageSession.SESSION_STATE_SUCCESS,
         stepId,
@@ -80,7 +80,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
         return;
       }
 
-      let successPayload = avsSession.payload;
+      const successPayload = avsSession.payload;
 
       res.cookie("isAgeVerified", successPayload, {
         httpOnly: config.cookie.httpOnly,
@@ -99,13 +99,13 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
   app.post(
     ROUTE_ROOT + "/fail",
     (req: Express.Request, res: Express.Response) => {
-      let token = req.body.token;
-      let stepId = req.body.stepId;
-      let deviceLocationVerification = req.body.deviceLocationVerification;
-      let errorCode = req.body.errorCode;
-      let idCountry = req.body.idCountry;
-      let idState = req.body.idState;
-      let idType = req.body.idType;
+      const token = req.body.token;
+      const stepId = req.body.stepId;
+      const deviceLocationVerification = req.body.deviceLocationVerification;
+      const errorCode = req.body.errorCode;
+      const idCountry = req.body.idCountry;
+      const idState = req.body.idState;
+      const idType = req.body.idType;
 
       /*
 		let sessionId                  = req.body.sessionId;
@@ -114,7 +114,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
 		}
 		*/
 
-      let sessionResult = {
+      const sessionResult = {
         stepId: stepId,
         idCountry: idCountry,
         idState: idState,
@@ -148,7 +148,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
         }
       }
 
-      let avsSession = storage.end(
+      const avsSession = storage.end(
         req.session.sessionStartId,
         AvsStorageSession.SESSION_STATE_FAILED,
         stepId,
@@ -174,7 +174,7 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
   app.post(
     ROUTE_ROOT + "/isSuccess",
     (req: Express.Request, res: Express.Response) => {
-      let payload = req.body["d"];
+      const payload = req.body["d"];
 
       res.send(
         AvsResponse.successResponse({
@@ -184,8 +184,8 @@ export function load(app: Express.Application, storage: AvsStorageSession) {
     }
   );
 
-  let isMaxAllowedTestTime = (req: Express.Request) => {
-    let delta = +new Date() - req.session.accessTime;
+  const isMaxAllowedTestTime = (req: Express.Request) => {
+    const delta = +new Date() - req.session.accessTime;
     return delta < MAX_TEST_DURATION;
   };
 }

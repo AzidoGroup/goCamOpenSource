@@ -3,9 +3,9 @@ import { config } from "../config";
 import crypto from "crypto";
 
 export class AvsEncryption {
-  static encryptObject(object: Object): string {
+  static encryptObject(object: object): string {
     const iv = crypto.randomBytes(16);
-    let cipher = crypto.createCipheriv(
+    const cipher = crypto.createCipheriv(
       config.encryption.algorithm,
       Buffer.from(config.encryption.key),
       iv
@@ -19,12 +19,12 @@ export class AvsEncryption {
   }
 
   static decryptString(encryptedString: string): any {
-    let encryptedStringParts = encryptedString.split(":");
+    const encryptedStringParts = encryptedString.split(":");
 
-    let iv = Buffer.from(encryptedStringParts[0], "hex");
-    let encryptedData = Buffer.from(encryptedStringParts[1], "hex");
+    const iv = Buffer.from(encryptedStringParts[0], "hex");
+    const encryptedData = Buffer.from(encryptedStringParts[1], "hex");
 
-    let decipher = crypto.createDecipheriv(
+    const decipher = crypto.createDecipheriv(
       config.encryption.algorithm,
       Buffer.from(config.encryption.key),
       iv
@@ -36,7 +36,7 @@ export class AvsEncryption {
     return JSON.parse(decrypted.toString());
   }
 
-  static base64EncodeObject(object: Object): string {
+  static base64EncodeObject(object: object): string {
     return Buffer.from(JSON.stringify(object)).toString("base64");
   }
 

@@ -9,5 +9,8 @@ export default tseslint.config(
   tseslint.configs.recommended,
   {
     files: ["source/**/*.ts"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "warn",
+    },
   }
 );

@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { UAParser } from "ua-parser-js";
 import { AvsEncryption } from "../lib/encryption";
 import { AvsStoragePayload } from "./payload";
@@ -158,7 +158,7 @@ export class AvsStorageSession {
         ip: sessionData.ip,
       },
     })
-      .then((response: AxiosResponse) => {
+      .then(() => {
         console.log("Callback data success!");
       })
       .catch((err: Error) => {
