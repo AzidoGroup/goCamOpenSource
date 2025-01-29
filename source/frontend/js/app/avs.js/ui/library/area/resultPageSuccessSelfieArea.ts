@@ -1,52 +1,38 @@
 namespace Avs {
+  export namespace Ui {
+    export namespace Library {
+      export class ResultPageSuccessSelfieArea extends Avs.Ui.Handler.Text {
+        public element: JQuery;
+        public states: any;
+        public event: Avs.Event.Listener;
 
-	export namespace Ui {
+        constructor(event: Avs.Event.Listener, selector?: string) {
+          super(event);
+          this.event = event;
 
-		export namespace Library {
+          this.getElement(selector);
+          this.initStates();
+        }
 
-			export class ResultPageSuccessSelfieArea extends Avs.Ui.Handler.Text {
+        public getElement(selector?: string) {
+          if (!selector) {
+            selector = "#resultPageSuccessSelfieArea";
+          }
 
-				public element: JQuery;
-				public states: any;
-				public event: Avs.Event.Listener;
+          this.element = $(selector);
+        }
 
-				constructor(event: Avs.Event.Listener, selector?: string) {
+        public initStates() {
+          let entity = Avs.Entity.Ui.getInstance();
 
-					super(event);
-					this.event = event;
+          entity.states.ResultPageSuccessSelfieArea = {
+            visible: this.element.is(":visible"),
+            value: this.element.html(),
+          };
 
-					this.getElement(selector);
-					this.initStates();
-
-				}
-
-				public getElement(selector?: string) {
-
-					if (!selector) {
-						selector = '#resultPageSuccessSelfieArea';
-					}
-
-					this.element = $(selector);
-
-				}
-
-				public initStates() {
-
-					let entity = Avs.Entity.Ui.getInstance();
-
-					entity.states.ResultPageSuccessSelfieArea = {
-						visible: this.element.is(':visible'),
-						value  : this.element.html()
-					};
-
-					this.states = entity.states.ResultPageSuccessSelfieArea;
-
-				}
-
-			}
-
-		}
-
-	}
-
+          this.states = entity.states.ResultPageSuccessSelfieArea;
+        }
+      }
+    }
+  }
 }

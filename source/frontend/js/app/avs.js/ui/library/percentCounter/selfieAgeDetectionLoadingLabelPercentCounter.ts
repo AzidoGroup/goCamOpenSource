@@ -1,52 +1,40 @@
 namespace Avs {
+  export namespace Ui {
+    export namespace Library {
+      export class SelfieAgeDetectionLoadingLabelPercentCounter extends Avs.Ui
+        .Handler.PercentCounter {
+        public element: JQuery;
+        public states: any;
+        public event: Avs.Event.Listener;
 
-	export namespace Ui {
+        constructor(event: Avs.Event.Listener, selector?: string) {
+          super(event);
+          this.event = event;
 
-		export namespace Library {
+          this.getElement(selector);
+          this.initStates();
+        }
 
-			export class SelfieAgeDetectionLoadingLabelPercentCounter extends Avs.Ui.Handler.PercentCounter {
+        public getElement(selector?: string) {
+          if (!selector) {
+            selector = "#selfieAgeDetectionLoadingLabelPercentCounter";
+          }
 
-				public element: JQuery;
-				public states: any;
-				public event: Avs.Event.Listener;
+          this.element = $(selector);
+        }
 
-				constructor(event: Avs.Event.Listener, selector?: string) {
+        public initStates() {
+          let entity = Avs.Entity.Ui.getInstance();
 
-					super(event);
-					this.event = event;
+          entity.states.SelfieAgeDetectionLoadingLabelPercentCounter = {
+            visible: this.element.is(":visible"),
+            value: this.element.html(),
+          };
 
-					this.getElement(selector);
-					this.initStates();
-
-				}
-
-				public getElement(selector?: string) {
-
-					if (!selector) {
-						selector = '#selfieAgeDetectionLoadingLabelPercentCounter';
-					}
-
-					this.element = $(selector);
-
-				}
-
-				public initStates() {
-
-					let entity = Avs.Entity.Ui.getInstance();
-
-					entity.states.SelfieAgeDetectionLoadingLabelPercentCounter = {
-						visible: this.element.is(':visible'),
-						value  : this.element.html()
-					};
-
-					this.states = entity.states.SelfieAgeDetectionLoadingLabelPercentCounter;
-
-				}
-
-			}
-
-		}
-
-	}
-
+          this.states =
+            entity.states.SelfieAgeDetectionLoadingLabelPercentCounter;
+        }
+      }
+    }
+  }
 }

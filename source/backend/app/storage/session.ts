@@ -1,8 +1,7 @@
 import axios, { AxiosResponse } from "axios";
+import { UAParser } from "ua-parser-js";
 import { AvsEncryption } from "../lib/encryption";
 import { AvsStoragePayload } from "./payload";
-
-const uaParser = require("ua-parser-js");
 
 export class AvsStorageSession {
   static VERIFICATION_STANDARD_V1 = 1;
@@ -59,7 +58,7 @@ export class AvsStorageSession {
       AvsStorageSession.STEP_CREDIT_CARD_AGE_VERIFICATION_PAGE,
     ];
 
-    for (let i in stepList) {
+    for (const i in stepList) {
       if (stepList[i] == step) {
         return true;
       }
@@ -71,9 +70,9 @@ export class AvsStorageSession {
   public start(payload: string) {
     this.payloadInstance.store(payload);
 
-    let payloadParsed = AvsEncryption.decryptString(payload);
-    let sessionId = this.getUniqueId();
-    let uaParsed = uaParser(payloadParsed.httpParamList.userAgent);
+    const payloadParsed = AvsEncryption.decryptString(payload);
+    const sessionId = this.getUniqueId();
+    const { device } = UAParser(payloadParsed.httpParamList.userAgent);
 
     let sessionState = AvsStorageSession.SESSION_STATE_IN_PROGRESS;
     if (this.payloadInstance.isStored(payload)) {
@@ -92,7 +91,7 @@ export class AvsStorageSession {
       ipState: payloadParsed.userIpState,
       websiteHostname: payloadParsed.websiteHostname,
       verificationVersion: payloadParsed.verificationVersion,
-      deviceType: uaParsed.device.type,
+      deviceType: device.type || "",
       userAgent: payloadParsed.httpParamList.userAgent,
       stateInt: sessionState,
       state: this.stateMap[sessionState],
@@ -121,7 +120,7 @@ export class AvsStorageSession {
     idState: string,
     idType: string
   ) {
-    let sessionData = this.getById(sessionId);
+    const sessionData = this.getById(sessionId);
     if (sessionData == null) {
       return;
     }
@@ -168,7 +167,7 @@ export class AvsStorageSession {
 
     this.update(sessionId, sessionData);
 
-    let payload = AvsEncryption.decryptString(sessionData.payload);
+    const payload = AvsEncryption.decryptString(sessionData.payload);
     payload.userIpStr = "127.0.0.1";
     payload.userIpCountry = "A1";
     payload.userData = sessionData.userData;
@@ -186,7 +185,7 @@ export class AvsStorageSession {
   }
 
   public updateState(sessionId: number, stateData: IStateData) {
-    let sessionData = this.getById(sessionId);
+    const sessionData = this.getById(sessionId);
     if (sessionData == null) {
       return false;
     }
@@ -203,7 +202,7 @@ export class AvsStorageSession {
   }
 
   public isPayloadValidated(payload: string) {
-    for (let i in this.sessionList) {
+    for (const i in this.sessionList) {
       if (
         this.sessionList[i].payload == payload &&
         this.sessionList[i].stateInt == AvsStorageSession.SESSION_STATE_SUCCESS
