@@ -17,6 +17,7 @@ export default tseslint.config(
       "@typescript-eslint/no-explicit-any": "warn",
       "@stylistic/indent": ["error", 2],
       "@stylistic/quotes": ["error", "single"],
+      "@stylistic/max-len": ["error", { code: 120 }],
     },
   }
 );
