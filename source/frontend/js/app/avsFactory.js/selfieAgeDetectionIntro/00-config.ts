@@ -1,21 +1,29 @@
 namespace AvsFactory {
-  export namespace SelfieAgeDetectionIntro {
-    export class Config {
-      public static create(config: ISelfieAgeDetectionIntroConfig) {
-        Config.DEFAULT_DEBUG_LEVEL =
-          config.defaultBugLevel || Config.DEFAULT_DEBUG_LEVEL;
-      }
 
-      public static DEFAULT_DEBUG_LEVEL = 4;
+	export namespace SelfieAgeDetectionIntro {
 
-      public static API_BASE_ENDPOINT = "";
+		export class Config {
 
-      public static FACING_MODE_REQUIRED = "user";
-    }
+			public static create(config: ISelfieAgeDetectionIntroConfig) {
 
-    interface ISelfieAgeDetectionIntroConfig {
-      apiBaseEndpoint: string;
-      defaultBugLevel?: number;
-    }
-  }
+				Config.DEFAULT_DEBUG_LEVEL = config.defaultBugLevel || Config.DEFAULT_DEBUG_LEVEL;
+
+
+			}
+
+			public static DEFAULT_DEBUG_LEVEL = 4;
+
+			public static API_BASE_ENDPOINT = '';
+
+			public static FACING_MODE_REQUIRED = 'user';
+
+		}
+
+		interface ISelfieAgeDetectionIntroConfig {
+			apiBaseEndpoint: string,
+			defaultBugLevel?: number,
+		}
+
+	}
+
 }

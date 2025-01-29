@@ -1,118 +1,101 @@
 namespace AvsFactory {
-  export namespace SelfieAgeDetectionPage {
-    export class Event {
-      public static init(): void {
-        instance.event.on(
-          Config.EVENT_NAME_PREFIX +
-            "." +
-            Avs.DataChannel.Webrtc.ON_WEBCAM_INIT_ERROR,
-          (event: Avs.Event.Listener) => {
-            StartPage.Method.renderError(25047, "Webcam initialization error!");
-            return;
-          }
-        );
 
-        instance.event.on(
-          Config.EVENT_NAME_PREFIX + "." + Avs.DataChannel.Webrtc.ON_VIDEO_PLAY,
-          (event: Avs.Event.Listener) => {
-            instance.ui.SelfieAgeDetectionStatusLabel.setValue(
-              "Initializing detection libraries"
-            );
+	export namespace SelfieAgeDetectionPage {
 
-            instance.debug.logToContainer("<p>Starting face detection.</p>");
+		export class Event {
 
-            instance.plugin.Library.Ml.FaceApi.loadDetector(
-              (result: boolean | null) => {
-                if (result === null) {
-                  StartPage.Method.renderError(
-                    25035,
-                    "Failed to initialize detection libraries"
-                  );
-                  return;
-                }
+			public static init(): void {
 
-                instance.ui.FaceGuideLoadingProgressBar.increment();
-                instance.debug.logToContainer("<p>Loaded detector.</p>");
+				instance.event.on(
+					Config.EVENT_NAME_PREFIX + '.' + Avs.DataChannel.Webrtc.ON_WEBCAM_INIT_ERROR,
+					(event: Avs.Event.Listener) => {
 
-                instance.plugin.Library.Ml.FaceApi.loadAgeGenderModel(
-                  (result: boolean | null) => {
-                    if (result === null) {
-                      StartPage.Method.renderError(
-                        25036,
-                        "Failed to initialize detection libraries"
-                      );
-                      return;
-                    }
+						StartPage.Method.renderError(25047, 'Webcam initialization error!');
+						return;
 
-                    instance.ui.FaceGuideLoadingProgressBar.increment();
-                    instance.debug.logToContainer("<p>Loaded age model.</p>");
+					}
+				);
 
-                    instance.plugin.Library.Ml.FaceApi.loadFaceRecognitionModel(
-                      (result: boolean | null) => {
-                        if (result === null) {
-                          StartPage.Method.renderError(
-                            25037,
-                            "Failed to initialize detection libraries"
-                          );
-                          return;
-                        }
+				instance.event.on(
+					Config.EVENT_NAME_PREFIX + '.' + Avs.DataChannel.Webrtc.ON_VIDEO_PLAY,
+					(event: Avs.Event.Listener) => {
 
-                        instance.ui.FaceGuideLoadingProgressBar.increment();
-                        instance.debug.logToContainer(
-                          "<p>Loaded face recognition model.</p>"
-                        );
+						instance.ui.SelfieAgeDetectionStatusLabel.setValue('Initializing detection libraries');
 
-                        instance.plugin.Library.Ml.FaceApi.loadLandmarksModel(
-                          (result: boolean | null) => {
-                            if (result === null) {
-                              StartPage.Method.renderError(
-                                25038,
-                                "Failed to initialize detection libraries"
-                              );
-                              return;
-                            }
+						instance.debug.logToContainer('<p>Starting face detection.</p>');
 
-                            instance.ui.FaceGuideLoadingProgressBar.increment();
-                            instance.debug.logToContainer(
-                              "<p>Loaded face landmarks model.</p>"
-                            );
+						instance.plugin.Library.Ml.FaceApi.loadDetector((result: boolean|null) => {
 
-                            instance.plugin.Library.Ml.FaceApi.loadFaceExpressionModel(
-                              (result: boolean | null) => {
-                                if (result === null) {
-                                  StartPage.Method.renderError(
-                                    25058,
-                                    "Failed to initialize detection libraries"
-                                  );
-                                  return;
-                                }
+							if (result === null) {
+								StartPage.Method.renderError(25035, 'Failed to initialize detection libraries');
+								return;
+							}
 
-                                instance.ui.FaceGuideLoadingProgressBar.increment();
-                                instance.debug.logToContainer(
-                                  "<p>Loaded face expression model.</p>"
-                                );
+							instance.ui.FaceGuideLoadingProgressBar.increment();
+							instance.debug.logToContainer('<p>Loaded detector.</p>');
 
-                                instance.ui.SelfieAgeDetectionStatusLabel.setValue(
-                                  "Please position your face close to the center of the screen"
-                                );
+							instance.plugin.Library.Ml.FaceApi.loadAgeGenderModel((result: boolean|null) => {
 
-                                instance.ui.SelfieAgeDetectionStatusLabel.show();
-                                instance.ui.SelfieAgeDetectionStatusLabel.startBlinking();
+								if (result === null) {
+									StartPage.Method.renderError(25036, 'Failed to initialize detection libraries');
+									return;
+								}
 
-                                Method.detectFace();
-                              }
-                            );
-                          }
-                        );
-                      }
-                    );
-                  }
-                );
-              }
-            );
-          }
-        );
-      }
-    }
-  }
+								instance.ui.FaceGuideLoadingProgressBar.increment();
+								instance.debug.logToContainer('<p>Loaded age model.</p>');
+
+								instance.plugin.Library.Ml.FaceApi.loadFaceRecognitionModel((result: boolean|null) => {
+
+									if (result === null) {
+										StartPage.Method.renderError(25037, 'Failed to initialize detection libraries');
+										return;
+									}
+
+									instance.ui.FaceGuideLoadingProgressBar.increment();
+									instance.debug.logToContainer('<p>Loaded face recognition model.</p>');
+
+									instance.plugin.Library.Ml.FaceApi.loadLandmarksModel((result: boolean|null) => {
+
+										if (result === null) {
+											StartPage.Method.renderError(25038, 'Failed to initialize detection libraries');
+											return;
+										}
+
+										instance.ui.FaceGuideLoadingProgressBar.increment();
+										instance.debug.logToContainer('<p>Loaded face landmarks model.</p>');
+
+										instance.plugin.Library.Ml.FaceApi.loadFaceExpressionModel((result: boolean|null) => {
+
+											if (result === null) {
+												StartPage.Method.renderError(25058, 'Failed to initialize detection libraries');
+												return;
+											}
+
+											instance.ui.FaceGuideLoadingProgressBar.increment();
+											instance.debug.logToContainer('<p>Loaded face expression model.</p>');
+
+											instance.ui.SelfieAgeDetectionStatusLabel.setValue('Please position your face close to the center of the screen');
+
+											instance.ui.SelfieAgeDetectionStatusLabel.show();
+											instance.ui.SelfieAgeDetectionStatusLabel.startBlinking();
+
+											Method.detectFace();
+
+										});
+
+									});
+								});
+							});
+						});
+
+					}
+				);
+
+
+			}
+
+		}
+
+	}
+
 }

@@ -1,91 +1,89 @@
 namespace Translation {
-  var database: { [index: string]: string } = {};
 
-  export function load(translationData: { [index: string]: string }) {
-    if (!translationData) {
-      return;
-    }
+	var database: { [index: string]: string; } = {};
 
-    for (let key in translationData) {
-      if (!translationData.hasOwnProperty(key)) {
-        continue;
-      }
-      database[key] = translationData[key];
-    }
-  }
+	export function load(translationData: { [index: string]: string; }) {
+		if (!translationData) {
+			return;
+		}
 
-  export interface ITranslationOption {
-    escape?: boolean;
-  }
+		for (let key in translationData) {
+			if (!translationData.hasOwnProperty(key)) {
+				continue;
+			}
+			database[key] = translationData[key];
+		}
+	}
 
-  export function tr(
-    key: string,
-    variableList?: { [name: string]: string },
-    options?: ITranslationOption
-  ): string {
-    if (!(key in database)) {
-      return key;
-    }
-    let text = database[key];
+	export interface ITranslationOption {
+		escape?: boolean
+	}
 
-    if (variableList && typeof variableList == "object") {
-      let escape = options && "escape" in options ? options.escape : true;
+	export function tr(key: string, variableList?: { [name: string]: string }, options?: ITranslationOption): string {
+		if (!(key in database)) {
+			return key;
+		}
+		let text = database[key];
 
-      for (let variableName in variableList) {
-        if (!variableList.hasOwnProperty(variableName)) {
-          continue;
-        }
-        let currentValue = variableList[variableName];
-        if (escape) {
-          currentValue = StringTool.escapeHtml(currentValue);
-        }
+		if (variableList && typeof variableList == "object") {
+			let escape = options && ('escape' in options) ? options.escape : true;
 
-        if (variableName.match(/^[a-zA-Z]/)) {
-          variableName = "#" + variableName + "#";
-        } else {
-          variableName = "" + variableName;
-        }
+			for (let variableName in variableList) {
+				if (!variableList.hasOwnProperty(variableName)) {
+					continue;
+				}
+				let currentValue = variableList[variableName];
+				if (escape) {
+					currentValue = StringTool.escapeHtml(currentValue);
+				}
 
-        text = text.replace("" + variableName, currentValue);
-      }
-    }
+				if (variableName.match(/^[a-zA-Z]/)) {
+					variableName = "#" + variableName + "#";
+				}
+				else {
+					variableName = "" + variableName;
+				}
 
-    return text;
-  }
+				text = text.replace("" + variableName, currentValue);
 
-  export function trNumber(
-    key: string,
-    value: number,
-    variableList: { [name: string]: any } = {},
-    options?: ITranslationOption
-  ): string {
-    var variableListFull = variableList;
-    variableListFull["#NUMBER#"] = value;
+			}
+		}
 
-    // multiple plurals forms are not yet supported
-    return tr(key, variableListFull, options);
-  }
+		return text;
+	}
+
+
+	export function trNumber(key: string, value: number, variableList: { [name: string]: any } = {}, options?: ITranslationOption): string {
+		var variableListFull = variableList;
+		variableListFull['#NUMBER#'] = value;
+
+		// multiple plurals forms are not yet supported
+		return tr(key, variableListFull, options);
+	}
 }
 
-(function () {
-  let translationData = document.getElementById("translation-data");
 
-  if (translationData) {
-    let content: string = "";
-    if ("textContent" in translationData) {
-      if (translationData.textContent !== null) {
-        content = translationData.textContent;
-      }
-    } else {
-      content = jQuery(translationData).text();
+(function() {
+	let translationData = document.getElementById('translation-data');
 
-      if (!content) {
-        content = jQuery(translationData).html();
-      }
-    }
+	if (translationData) {
+		let content: string = '';
+		if ('textContent' in translationData) {
+			if (translationData.textContent !== null) {
+				content = translationData.textContent;
+			}
+		}
+		else {
+			content = jQuery(translationData).text();
 
-    if (content) {
-      Translation.load(<any>jQuery.parseJSON(content));
-    }
-  }
+			if (!content) {
+				content = jQuery(translationData).html();
+			}
+		}
+
+		if (content) {
+			Translation.load(<any> jQuery.parseJSON(content));
+		}
+	}
 })();
+

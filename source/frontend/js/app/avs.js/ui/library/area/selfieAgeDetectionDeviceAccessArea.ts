@@ -1,39 +1,52 @@
 namespace Avs {
-  export namespace Ui {
-    export namespace Library {
-      export class SelfieAgeDetectionDeviceAccessArea extends Avs.Ui.Handler
-        .Text {
-        public element: JQuery;
-        public states: any;
-        public event: Avs.Event.Listener;
 
-        constructor(event: Avs.Event.Listener, selector?: string) {
-          super(event);
-          this.event = event;
+	export namespace Ui {
 
-          this.getElement(selector);
-          this.initStates();
-        }
+		export namespace Library {
 
-        public getElement(selector?: string) {
-          if (!selector) {
-            selector = "#selfieAgeDetectionDeviceAccessArea";
-          }
+			export class SelfieAgeDetectionDeviceAccessArea extends Avs.Ui.Handler.Text {
 
-          this.element = $(selector);
-        }
+				public element: JQuery;
+				public states: any;
+				public event: Avs.Event.Listener;
 
-        public initStates() {
-          let entity = Avs.Entity.Ui.getInstance();
+				constructor(event: Avs.Event.Listener, selector?: string) {
 
-          entity.states.SelfieAgeDetectionDeviceAccessArea = {
-            visible: this.element.is(":visible"),
-            value: this.element.html(),
-          };
+					super(event);
+					this.event = event;
 
-          this.states = entity.states.SelfieAgeDetectionDeviceAccessArea;
-        }
-      }
-    }
-  }
+					this.getElement(selector);
+					this.initStates();
+
+				}
+
+				public getElement(selector?: string) {
+
+					if (!selector) {
+						selector = '#selfieAgeDetectionDeviceAccessArea';
+					}
+
+					this.element = $(selector);
+
+				}
+
+				public initStates() {
+
+					let entity = Avs.Entity.Ui.getInstance();
+
+					entity.states.SelfieAgeDetectionDeviceAccessArea = {
+						visible: this.element.is(':visible'),
+						value  : this.element.html()
+					};
+
+					this.states = entity.states.SelfieAgeDetectionDeviceAccessArea;
+
+				}
+
+			}
+
+		}
+
+	}
+
 }

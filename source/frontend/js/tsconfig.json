@@ -1,23 +1,19 @@
 {
-  "compilerOptions": {
-    "ignoreDeprecations": "5.0",
-    "target": "ES6",
-    "removeComments": false,
-    "preserveConstEnums": false,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "rootDir": "./app",
-    "sourceMap": true,
-    "listFiles": false,
-    "listEmittedFiles": false,
-    "strict": true,
-    "pretty": true,
-    "declaration": false,
-    "strictNullChecks": false,
-    "allowSyntheticDefaultImports": true,
-    "paths": {
-      // This is solely to stop a bug with @types/node as of 12/15/2023
-      "undici-types": ["../node_modules/undici-types/index.d.ts"]
-    }
-  }
+	"compilerOptions": {
+		"ignoreDeprecations": "5.0",
+		"target": "ES6",
+		"removeComments": false,
+		"preserveConstEnums": false,
+		"noImplicitReturns": true,
+		"noUnusedLocals": true,
+		"rootDir": "./app",
+		"sourceMap": true,
+		"listFiles": false,
+		"listEmittedFiles": false,
+		"strict": true,
+		"pretty": true,
+		"declaration": false,
+		"strictNullChecks": false,
+		"allowSyntheticDefaultImports": true
+	}
 }

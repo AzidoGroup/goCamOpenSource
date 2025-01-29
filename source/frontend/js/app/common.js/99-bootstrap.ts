@@ -1,48 +1,56 @@
-(function () {
-  let appData = document.getElementById("app-data");
 
-  if (appData) {
-    let content: string = "";
-    if ("textContent" in appData) {
-      if (appData.textContent !== null) {
-        content = appData.textContent;
-      }
-    } else {
-      content = jQuery(appData).text();
+(function() {
+	let appData = document.getElementById('app-data');
 
-      if (!content) {
-        content = jQuery(appData).html();
-      }
-    }
+	if (appData) {
+		let content: string = '';
+		if ('textContent' in appData) {
+			if (appData.textContent !== null) {
+				content = appData.textContent;
+			}
+		}
+		else {
+			content = jQuery(appData).text();
 
-    if (content) {
-      window.Application = jQuery.parseJSON(content);
+			if (!content) {
+				content = jQuery(appData).html();
+			}
+		}
 
-      jQuery(document).ready(function () {
-        if ("onDocumentReady" in Application) {
-          let fonctionStr = Application["onDocumentReady"];
+		if (content) {
+			window.Application = jQuery.parseJSON(content);
 
-          let tokenList = fonctionStr.split(/\./);
+			jQuery(document).ready(function() {
 
-          let currentObj: any = window;
-          let currentToken;
+				if ('onDocumentReady' in Application) {
+					let fonctionStr = Application['onDocumentReady'];
 
-          while ((currentToken = tokenList.shift())) {
-            if (currentToken in currentObj) {
-              currentObj = currentObj[currentToken];
-            } else {
-              currentObj = null;
-              break;
-            }
-          }
+					let tokenList = fonctionStr.split(/\./);
 
-          if (typeof currentObj === "function") {
-            window.setTimeout(function () {
-              currentObj();
-            }, 1);
-          }
-        }
-      });
-    }
-  }
+					let currentObj: any = window;
+					let currentToken;
+
+					while (currentToken = tokenList.shift()) {
+						if (currentToken in currentObj) {
+							currentObj = currentObj[currentToken];
+						}
+						else {
+							currentObj = null;
+							break;
+						}
+					}
+
+					if (typeof currentObj === "function") {
+						window.setTimeout(function() {
+							currentObj();
+						}, 1);
+					}
+
+				}
+
+			});
+
+		}
+	}
 })();
+
