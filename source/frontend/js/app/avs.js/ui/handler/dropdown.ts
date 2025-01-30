@@ -1,73 +1,73 @@
 namespace Avs {
 
-	export namespace Ui {
+  export namespace Ui {
 
-		export namespace Handler {
+    export namespace Handler {
 
-			export class Dropdown extends Common {
+      export class Dropdown extends Common {
 
-				public element: JQuery;
-				public states: any;
-				public event: Avs.Event.Listener;
+        public element: JQuery;
+        public states: any;
+        public event: Avs.Event.Listener;
 
-				constructor(event: Avs.Event.Listener) {
+        constructor(event: Avs.Event.Listener) {
 
-					super(event);
+          super(event);
 
-					this.event = event;
+          this.event = event;
 
-				}
+        }
 
-				public initListeners() {
+        public initListeners() {
 
-					this.element.find('.dropdownHandle').on('click', (e: Event) => {
+          this.element.find('.dropdownHandle').on('click', (e: Event) => {
 
-						if (this.states.expanded) {
-							this.compact();
-						}
-						else {
-							this.expand();
-						}
+            if (this.states.expanded) {
+              this.compact();
+            }
+            else {
+              this.expand();
+            }
 
-						this.dropdownWasExpanded();
-						e.stopPropagation();
+            this.dropdownWasExpanded();
+            e.stopPropagation();
 
-					});
+          });
 
-					$(document).on('click', (e: Event) => {
-						this.compact();
-					});
+          $(document).on('click', (e: Event) => {
+            this.compact();
+          });
 
-				}
+        }
 
-				public toggleVisibility() {
+        public toggleVisibility() {
 
-					if (this.states.visible) {
-						return this.hide();
-					}
+          if (this.states.visible) {
+            return this.hide();
+          }
 
-					return this.show();
+          return this.show();
 
-				}
+        }
 
-				public expand() {
-					this.element.removeClass('isExpanded').addClass('isExpanded');
-					this.states.expanded = true;
-				}
+        public expand() {
+          this.element.removeClass('isExpanded').addClass('isExpanded');
+          this.states.expanded = true;
+        }
 
-				public compact() {
-					this.element.removeClass('isExpanded');
-					this.states.expanded = false;
-				}
+        public compact() {
+          this.element.removeClass('isExpanded');
+          this.states.expanded = false;
+        }
 
-				// dummy function to be overwritten by child class
-				public dropdownWasExpanded() {
-				}
+        // dummy function to be overwritten by child class
+        public dropdownWasExpanded() {
+        }
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

@@ -1,14 +1,14 @@
 namespace AvsFactoryIframeSdk {
 
-	export namespace V1 {
+  export namespace V1 {
 
-		export function init() {
+    export function init() {
 
-			let instance = new Core();
-			instance.init();
+      const instance = new Core();
+      instance.init();
 
-		}
+    }
 
-	}
+  }
 
 }

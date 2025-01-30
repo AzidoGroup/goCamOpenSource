@@ -1,26 +1,26 @@
 namespace Avs {
 
-	export namespace Helper {
+  export namespace Helper {
 
-		export namespace StringTool {
+    export namespace StringTool {
 
-			export function escapeHtml(string: any) {
-				var entityMap = {
-					"&": "&amp;",
-					"<": "&lt;",
-					">": "&gt;",
-					'"': '&quot;',
-					"'": '&#39;',
-					"/": '&#x2F;'
-				};
+      export function escapeHtml(string: any) {
+        const entityMap = {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          '\'': '&#39;',
+          '/': '&#x2F;'
+        };
 
-				return String(string).replace(/[&<>"'\/]/g, function(s: string) {
-					return (<any>entityMap)[s];
-				});
-			}
+        return String(string).replace(/[&<>"'\/]/g, function(s: string) {
+          return (<any>entityMap)[s];
+        });
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

@@ -1,92 +1,92 @@
 namespace AvsFactory {
 
-	export namespace ScanIdAgeVerificationPage {
+  export namespace ScanIdAgeVerificationPage {
 
-		export class Binding {
+    export class Binding {
 
-			public static init(): void {
+      public static init(): void {
 
-				$(window).on('resize', () => {
-					Method.repositionScanId();
-				});
+        $(window).on('resize', () => {
+          Method.repositionScanId();
+        });
 
-				instance.ui.RatioRecommendButton.onClick(() => {
+        instance.ui.RatioRecommendButton.onClick(() => {
 
-					instance.ui.RatioRecommendArea.hide();
+          instance.ui.RatioRecommendArea.hide();
 
-					Method.initVideo();
+          Method.initVideo();
 
-				});
+        });
 
-				instance.ui.ScanIdAgeVerificationUploadImageButton.onClick(() => {
-					instance.ui.ScanIdAgeVerificationUploadFileInput.triggerFileBrowse();
-				});
+        instance.ui.ScanIdAgeVerificationUploadImageButton.onClick(() => {
+          instance.ui.ScanIdAgeVerificationUploadFileInput.triggerFileBrowse();
+        });
 
-				instance.ui.ScanIdAgeVerificationTakePhotoButton.onClick(() => {
+        instance.ui.ScanIdAgeVerificationTakePhotoButton.onClick(() => {
 
-					Method.repositionScanId();
+          Method.repositionScanId();
 
-					let scanIdContainerMask = Method.getIdGuideContainer();
-					let videoElement        = instance.plugin.Library.Video.CameraSource.adapters.webrtc.rootElement;
+          const scanIdContainerMask = Method.getIdGuideContainer();
+          const videoElement        = instance.plugin.Library.Video.CameraSource.adapters.webrtc.rootElement;
 
-					let containerPosition        = Avs.Helper.VideoAreaExtractor.calculateMaskPosition(scanIdContainerMask, videoElement);
-					let documentProcessingCanvas = Method.getProcessingCanvas();
+          const containerPosition        = Avs.Helper.VideoAreaExtractor.calculateMaskPosition(scanIdContainerMask, videoElement);
+          const documentProcessingCanvas = Method.getProcessingCanvas();
 
-					Avs.Helper.VideoAreaExtractor.videoMaskToCanvas(
-						videoElement,
-						documentProcessingCanvas,
-						containerPosition
-					);
+          Avs.Helper.VideoAreaExtractor.videoMaskToCanvas(
+            videoElement,
+            documentProcessingCanvas,
+            containerPosition
+          );
 
-					instance.ui.ScanIdAgeVerificationDocumentProcessingArea.show();
-					instance.ui.ScanIdAgeVerificationDocumentProcessingConfirmationArea.show();
+          instance.ui.ScanIdAgeVerificationDocumentProcessingArea.show();
+          instance.ui.ScanIdAgeVerificationDocumentProcessingConfirmationArea.show();
 
-				});
+        });
 
-				instance.ui.ScanIdAgeVerificationUploadFileInput.onChange((value: string, event: any) => {
+        instance.ui.ScanIdAgeVerificationUploadFileInput.onChange((value: string, event: any) => {
 
-					if (value != '') {
-						instance.ui.ScanIdAgeVerificationDocumentProcessingArea.show();
-						instance.ui.ScanIdAgeVerificationDocumentProcessingConfirmationArea.show();
+          if (value != '') {
+            instance.ui.ScanIdAgeVerificationDocumentProcessingArea.show();
+            instance.ui.ScanIdAgeVerificationDocumentProcessingConfirmationArea.show();
 
-						if (event.target.files) {
-							Avs.Helper.Canvas.fileToCanvas(event.target.files[0], Method.getProcessingCanvas());
-						}
+            if (event.target.files) {
+              Avs.Helper.Canvas.fileToCanvas(event.target.files[0], Method.getProcessingCanvas());
+            }
 
-					}
+          }
 
-				});
+        });
 
-				instance.ui.ScanIdAgeVerificationConfirmationYesButton.onClick(() => {
+        instance.ui.ScanIdAgeVerificationConfirmationYesButton.onClick(() => {
 
-					instance.ui.ScanIdAgeVerificationDocumentProcessingConfirmationArea.hide();
-					instance.ui.ScanIdAgeVerificationDocumentProcessingProcessArea.show();
-					instance.ui.DocumentProcessingCanvasLoadingOverlayArea.show();
+          instance.ui.ScanIdAgeVerificationDocumentProcessingConfirmationArea.hide();
+          instance.ui.ScanIdAgeVerificationDocumentProcessingProcessArea.show();
+          instance.ui.DocumentProcessingCanvasLoadingOverlayArea.show();
 
-					Method.loadDetectionLibrary();
+          Method.loadDetectionLibrary();
 
-				});
+        });
 
-				instance.ui.ScanIdAgeVerificationConfirmationNoButton.onClick(() => {
+        instance.ui.ScanIdAgeVerificationConfirmationNoButton.onClick(() => {
 
-					if (instance.entity.VerificationStepGlobal.scanIdAgeVerificationInVideoBypassMode) {
-						StartPage.Method.showPageStep(StartPage.Config.SCAN_ID_AGE_VERIFICATION_INTRO_LAYER);
-						ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationUploadFileIntroInput.clearValue();
-						return;
-					}
+          if (instance.entity.VerificationStepGlobal.scanIdAgeVerificationInVideoBypassMode) {
+            StartPage.Method.showPageStep(StartPage.Config.SCAN_ID_AGE_VERIFICATION_INTRO_LAYER);
+            ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationUploadFileIntroInput.clearValue();
+            return;
+          }
 
-					instance.ui.ScanIdAgeVerificationUploadFileInput.clearValue();
+          instance.ui.ScanIdAgeVerificationUploadFileInput.clearValue();
 
-					instance.ui.ScanIdAgeVerificationDocumentProcessingArea.hide();
-					instance.ui.ScanIdAgeVerificationDocumentProcessingConfirmationArea.hide();
-					instance.ui.ScanIdAgeVerificationDocumentProcessingProcessArea.hide();
+          instance.ui.ScanIdAgeVerificationDocumentProcessingArea.hide();
+          instance.ui.ScanIdAgeVerificationDocumentProcessingConfirmationArea.hide();
+          instance.ui.ScanIdAgeVerificationDocumentProcessingProcessArea.hide();
 
-				});
+        });
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

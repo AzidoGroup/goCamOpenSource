@@ -1,111 +1,111 @@
 namespace Avs {
 
-	export namespace Ui {
+  export namespace Ui {
 
-		export namespace Handler {
+    export namespace Handler {
 
-			export class Button extends Common {
+      export class Button extends Common {
 
-				public static readonly SPINNER_ICON_CLASS = 'fa fa-spinner fa-spin';
+        public static readonly SPINNER_ICON_CLASS = 'fa fa-spinner fa-spin';
 
-				public element: JQuery;
-				public states: any;
-				public event: Avs.Event.Listener;
+        public element: JQuery;
+        public states: any;
+        public event: Avs.Event.Listener;
 
-				constructor(event: Avs.Event.Listener) {
+        constructor(event: Avs.Event.Listener) {
 
-					super(event);
+          super(event);
 
-					this.event = event;
-				}
+          this.event = event;
+        }
 
-				private loadingIconIsAttached(): boolean {
+        private loadingIconIsAttached(): boolean {
 
-					let loadingIcon = this.element.find('.loading');
-					return loadingIcon.length > 0;
+          const loadingIcon = this.element.find('.loading');
+          return loadingIcon.length > 0;
 
-				}
+        }
 
-				private attachLoadingIcon() {
+        private attachLoadingIcon() {
 
-					this.element.find('i:eq(0)').after('<i class="' + Button.SPINNER_ICON_CLASS + ' loading isHidden" aria-hidden="true"></i>');
+          this.element.find('i:eq(0)').after('<i class="' + Button.SPINNER_ICON_CLASS + ' loading isHidden" aria-hidden="true"></i>');
 
-				}
+        }
 
-				public showLoading() {
+        public showLoading() {
 
-					if (!this.loadingIconIsAttached()) {
-						this.attachLoadingIcon();
-					}
+          if (!this.loadingIconIsAttached()) {
+            this.attachLoadingIcon();
+          }
 
-					this.element.find('i:eq(0)').removeClass('isHidden').addClass('isHidden');
-					this.element.find('i.loading').removeClass('isHidden');
-					this.states.loading = true;
+          this.element.find('i:eq(0)').removeClass('isHidden').addClass('isHidden');
+          this.element.find('i.loading').removeClass('isHidden');
+          this.states.loading = true;
 
-				}
+        }
 
-				public hideLoading() {
+        public hideLoading() {
 
-					this.element.find('i:eq(0)').removeClass('isHidden');
-					this.element.find('i.loading').removeClass('isHidden').addClass('isHidden');
-					this.states.loading = false;
+          this.element.find('i:eq(0)').removeClass('isHidden');
+          this.element.find('i.loading').removeClass('isHidden').addClass('isHidden');
+          this.states.loading = false;
 
-				}
+        }
 
-				public disableAndLoad() {
+        public disableAndLoad() {
 
-					this.disable();
-					this.showLoading();
+          this.disable();
+          this.showLoading();
 
-				}
+        }
 
-				public enableAndStopLoad() {
+        public enableAndStopLoad() {
 
-					this.hideLoading();
-					this.enable();
+          this.hideLoading();
+          this.enable();
 
-				}
+        }
 
-				public onClick(callback: Function) {
+        public onClick(callback: Function) {
 
-					this.offClick();
-					this.element.click((e) => {
+          this.offClick();
+          this.element.click((e) => {
 
-						// prevent clicking on disabled buttons
-						if (!this.states.enabled) {
-							return;
-						}
+            // prevent clicking on disabled buttons
+            if (!this.states.enabled) {
+              return;
+            }
 
-						callback(e);
+            callback(e);
 
-					});
+          });
 
-				}
+        }
 
-				public offClick() {
+        public offClick() {
 
-					this.element.unbind();
+          this.element.unbind();
 
-				}
+        }
 
-				public triggerClick() {
+        public triggerClick() {
 
-					if (this.states.enabled) {
-						this.element.trigger('click');
-					}
+          if (this.states.enabled) {
+            this.element.trigger('click');
+          }
 
-				}
+        }
 
-				public highlight() {
+        public highlight() {
 
-					this.element.removeClass('isHighlighted').addClass('isHighlighted');
+          this.element.removeClass('isHighlighted').addClass('isHighlighted');
 
-				}
+        }
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

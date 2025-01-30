@@ -1,16 +1,16 @@
 namespace AvsFactory {
 
-	export namespace ResultPageSuccess {
+  export namespace ResultPageSuccess {
 
-		export class Event {
+    export class Event {
 
-			public static init(): void {
+      public static init(): void {
 
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

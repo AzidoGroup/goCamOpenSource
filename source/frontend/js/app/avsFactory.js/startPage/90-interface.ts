@@ -1,9 +1,9 @@
 namespace AvsFactory {
 
-	export namespace StartPage {
+  export namespace StartPage {
 
 
 
-	}
+  }
 
 }

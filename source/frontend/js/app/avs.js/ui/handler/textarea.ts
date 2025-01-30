@@ -1,29 +1,29 @@
 namespace Avs {
 
-	export namespace Ui {
+  export namespace Ui {
 
-		export namespace Handler {
+    export namespace Handler {
 
-			export class Textarea extends Common {
+      export class Textarea extends Common {
 
-				public element: JQuery;
-				public states: any;
-				public event: Avs.Event.Listener;
+        public element: JQuery;
+        public states: any;
+        public event: Avs.Event.Listener;
 
-				static readonly ENTER_KEY_CODE = 13;
+        static readonly ENTER_KEY_CODE = 13;
 
-				constructor(event: Avs.Event.Listener) {
+        constructor(event: Avs.Event.Listener) {
 
-					super(event);
+          super(event);
 
-					this.event = event;
+          this.event = event;
 
-				}
+        }
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

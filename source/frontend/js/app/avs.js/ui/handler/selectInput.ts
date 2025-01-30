@@ -1,124 +1,124 @@
 namespace Avs {
 
-	export namespace Ui {
+  export namespace Ui {
 
-		export namespace Handler {
+    export namespace Handler {
 
-			export class SelectInput extends Common {
+      export class SelectInput extends Common {
 
-				public element: JQuery;
-				public states: any;
-				public event: Avs.Event.Listener;
+        public element: JQuery;
+        public states: any;
+        public event: Avs.Event.Listener;
 
-				constructor(event: Avs.Event.Listener) {
+        constructor(event: Avs.Event.Listener) {
 
-					super(event);
+          super(event);
 
-					this.event = event;
+          this.event = event;
 
-				}
+        }
 
-				public initListeners() {
+        public initListeners() {
 
-					this.element.on('change', (e) => {
-						this.states.value = this.element.val();
-					});
+          this.element.on('change', (e) => {
+            this.states.value = this.element.val();
+          });
 
-				}
+        }
 
-				public addOptGroup(name: string) {
+        public addOptGroup(name: string) {
 
-					this.element.append($('<optgroup label="' + name + '"></optgroup>'));
+          this.element.append($('<optgroup label="' + name + '"></optgroup>'));
 
-				}
+        }
 
-				public addOption(name: string, value: string, selected: boolean, optGroup?: string) {
+        public addOption(name: string, value: string, selected: boolean, optGroup?: string) {
 
-					let elementToAppendTo = this.element;
-					if (optGroup) {
-						elementToAppendTo = this.element.find('optgroup[label="' + optGroup + '"]');
-					}
+          let elementToAppendTo = this.element;
+          if (optGroup) {
+            elementToAppendTo = this.element.find('optgroup[label="' + optGroup + '"]');
+          }
 
-					elementToAppendTo.append($('<option>', {
-						value   : value,
-						text    : name,
-						selected: selected
-					}));
+          elementToAppendTo.append($('<option>', {
+            value   : value,
+            text    : name,
+            selected: selected
+          }));
 
-					if (selected) {
-						this.states.value = value;
-					}
+          if (selected) {
+            this.states.value = value;
+          }
 
-				}
+        }
 
-				public clearAllOptions() {
+        public clearAllOptions() {
 
-					this.element.html('');
+          this.element.html('');
 
-				}
+        }
 
-				public removeOption(value: string) {
+        public removeOption(value: string) {
 
-					this.element.find('option[value="' + value + '"]').remove();
+          this.element.find('option[value="' + value + '"]').remove();
 
-				}
+        }
 
-				public hasOption(value: string) {
+        public hasOption(value: string) {
 
-					let valueFound = false;
+          let valueFound = false;
 
-					this.element.find('option').each((index, elem) => {
-						if ($(elem).val() == value) {
-							valueFound = true;
-						}
-					});
+          this.element.find('option').each((index, elem) => {
+            if ($(elem).val() == value) {
+              valueFound = true;
+            }
+          });
 
-					return valueFound;
+          return valueFound;
 
-				}
+        }
 
-				public selectOption(value: string) {
+        public selectOption(value: string) {
 
-					if (!this.hasOption(value)) {
-						return;
-					}
+          if (!this.hasOption(value)) {
+            return;
+          }
 
-					this.states.value = value;
-					this.element.val(value);
+          this.states.value = value;
+          this.element.val(value);
 
-				}
+        }
 
-				public getSelectedOption() {
+        public getSelectedOption() {
 
-					if (this.states.value === null) {
-						this.states.value = this.element.val();
-					}
+          if (this.states.value === null) {
+            this.states.value = this.element.val();
+          }
 
-					return this.states.value;
+          return this.states.value;
 
-				}
+        }
 
-				public onChange(callback: Function) {
+        public onChange(callback: Function) {
 
-					this.element.on('change', (e) => {
+          this.element.on('change', (e) => {
 
-						// prevent clicking on disabled buttons
-						if (!this.states.enabled) {
-							return;
-						}
+            // prevent clicking on disabled buttons
+            if (!this.states.enabled) {
+              return;
+            }
 
-						this.states.value = this.element.val();
+            this.states.value = this.element.val();
 
-						callback(this.states.value);
+            callback(this.states.value);
 
-					});
+          });
 
-				}
+        }
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

@@ -1,71 +1,71 @@
 namespace Avs {
 
-	export namespace Ui {
+  export namespace Ui {
 
-		export namespace Handler {
+    export namespace Handler {
 
-			export class FileInput extends Common {
+      export class FileInput extends Common {
 
-				public element: JQuery;
-				public states: any;
-				public event: Avs.Event.Listener;
+        public element: JQuery;
+        public states: any;
+        public event: Avs.Event.Listener;
 
-				constructor(event: Avs.Event.Listener) {
+        constructor(event: Avs.Event.Listener) {
 
-					super(event);
+          super(event);
 
-					this.event = event;
+          this.event = event;
 
-				}
+        }
 
-				public initListeners() {
+        public initListeners() {
 
-					this.element.on('change', (e) => {
-						this.states.value = this.element.val();
-					});
+          this.element.on('change', (e) => {
+            this.states.value = this.element.val();
+          });
 
-				}
+        }
 
-				public getValue() {
+        public getValue() {
 
-					return this.states.value;
+          return this.states.value;
 
-				}
+        }
 
-				public onChange(callback: Function) {
+        public onChange(callback: Function) {
 
-					this.element.on('change', (e: JQueryEventObject) => {
+          this.element.on('change', (e: JQueryEventObject) => {
 
-						// prevent clicking on disabled buttons
-						if (!this.states.enabled) {
-							return;
-						}
+            // prevent clicking on disabled buttons
+            if (!this.states.enabled) {
+              return;
+            }
 
-						this.states.value = this.element.val();
+            this.states.value = this.element.val();
 
-						callback(this.states.value, e);
+            callback(this.states.value, e);
 
-					});
+          });
 
-				}
+        }
 
-				public clearValue() {
+        public clearValue() {
 
-					this.element.val('');
-					this.states.value = '';
+          this.element.val('');
+          this.states.value = '';
 
-				}
+        }
 
-				public triggerFileBrowse() {
+        public triggerFileBrowse() {
 
-					this.element.trigger('click');
+          this.element.trigger('click');
 
-				}
+        }
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

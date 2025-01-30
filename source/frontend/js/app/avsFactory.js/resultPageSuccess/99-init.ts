@@ -1,28 +1,28 @@
 namespace AvsFactory {
 
-	export namespace ResultPageSuccess {
+  export namespace ResultPageSuccess {
 
-		export var instance: Avs.ResultPageSuccess;
+    export var instance: Avs.ResultPageSuccess;
 
-		export function init() {
+    export function init() {
 
-			instance = new Avs.ResultPageSuccess({
-				debugLevel           : Config.DEFAULT_DEBUG_LEVEL,
-				api: {
-					apiEndpoint: Config.API_BASE_ENDPOINT
-				},
-				event                : {
-					debugLevel: Config.DEFAULT_DEBUG_LEVEL,
-				}
-			});
+      instance = new Avs.ResultPageSuccess({
+        debugLevel           : Config.DEFAULT_DEBUG_LEVEL,
+        api: {
+          apiEndpoint: Config.API_BASE_ENDPOINT
+        },
+        event                : {
+          debugLevel: Config.DEFAULT_DEBUG_LEVEL,
+        }
+      });
 
-			Ui.init();
-			Event.init();
-			Binding.init();
-			Method.init();
+      Ui.init();
+      Event.init();
+      Binding.init();
+      Method.init();
 
-		}
+    }
 
-	}
+  }
 
 }

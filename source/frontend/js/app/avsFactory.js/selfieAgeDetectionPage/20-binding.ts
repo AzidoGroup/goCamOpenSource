@@ -1,19 +1,19 @@
 namespace AvsFactory {
 
-	export namespace SelfieAgeDetectionPage {
+  export namespace SelfieAgeDetectionPage {
 
-		export class Binding {
+    export class Binding {
 
-			public static init(): void {
+      public static init(): void {
 
-				$(window).on('resize', () => {
-					Method.repositionScanId();
-				});
+        $(window).on('resize', () => {
+          Method.repositionScanId();
+        });
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }
