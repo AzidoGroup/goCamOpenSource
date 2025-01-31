@@ -62,11 +62,12 @@ namespace Avs {
 
       public slice(...params: Array<number>) {
 
-        this.array = Array.prototype.slice.apply(this.array, <any>arguments);
+        this.array = Array.prototype.slice.apply(this.array, <any>params);
         return this;
 
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
       public each(fn: Function) {
 
         for (let i = 0, l = this.size(); i < l; i++) {

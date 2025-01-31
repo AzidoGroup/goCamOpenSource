@@ -77,7 +77,7 @@ namespace Avs {
 
       for (const pluginCategory in this.config.plugin.Library) {
 
-        if (this.config.plugin.Library.hasOwnProperty(pluginCategory)) {
+        if (Object.prototype.hasOwnProperty.call(this.config.plugin.Library, pluginCategory)) {
 
           // init a plugin category
           if (typeof this.plugin[pluginCategory] === 'undefined') {
@@ -87,7 +87,7 @@ namespace Avs {
           // init all config Plugins
           for (const pluginName in this.config.plugin.Library[pluginCategory]) {
 
-            if (this.config.plugin.Library[pluginCategory].hasOwnProperty(pluginName)) {
+            if (Object.prototype.hasOwnProperty.call(this.config.plugin.Library[pluginCategory], pluginName)) {
 
               this.plugin.Library[pluginCategory][pluginName] = new (<any>Avs.Plugin.Library)[pluginCategory][pluginName](
                 this.config.plugin.Library[pluginCategory][pluginName],
@@ -111,10 +111,10 @@ namespace Avs {
 
       for (const pluginCategory in this.plugin) {
 
-        if (this.plugin.hasOwnProperty(pluginCategory)) {
+        if (Object.prototype.hasOwnProperty.call(this.plugin, pluginCategory)) {
           for (const pluginName in this.plugin[pluginCategory]) {
 
-            if (this.plugin[pluginCategory].hasOwnProperty(pluginName)) {
+            if (Object.prototype.hasOwnProperty.call(this.plugin[pluginCategory], pluginName)) {
               // destroy Plugins using the provided "destroy()" method
               if (typeof this.plugin[pluginCategory][pluginName]['destroy'] === 'function') {
                 this.plugin[pluginCategory][pluginName]['destroy']();

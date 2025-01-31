@@ -14,7 +14,7 @@ namespace Avs {
           '/': '&#x2F;'
         };
 
-        return String(string).replace(/[&<>"'\/]/g, function(s: string) {
+        return String(string).replace(/[&<>"'/]/g, function(s: string) {
           return (<any>entityMap)[s];
         });
       }

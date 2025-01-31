@@ -2,7 +2,7 @@ namespace AvsFactory {
 
   export namespace StartPage {
 
-    export var instance: Avs.StartPage;
+    export let instance: Avs.StartPage;
 
     export function init() {
 

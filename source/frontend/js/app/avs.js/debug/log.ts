@@ -31,7 +31,7 @@ namespace Avs {
       public error(...params: Array<any>): void {
 
         if (this.debugLevel >= Log.LOG_LEVEL_ERROR) {
-          console.error.apply(console, <any>arguments);
+          console.error(<any>params);
         }
 
       }
@@ -39,7 +39,7 @@ namespace Avs {
       public warn(...params: Array<any>): void {
 
         if (this.debugLevel >= Log.LOG_LEVEL_WARN) {
-          console.warn.apply(console, <any>arguments);
+          console.warn(<any>params);
         }
 
       }
@@ -47,7 +47,7 @@ namespace Avs {
       public info(...params: Array<any>): void {
 
         if (this.debugLevel >= Log.LOG_LEVEL_INFO) {
-          console.log.apply(console, <any>arguments);
+          console.log(<any>params);
         }
 
       }

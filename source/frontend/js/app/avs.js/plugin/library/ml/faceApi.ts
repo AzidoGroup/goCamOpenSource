@@ -76,7 +76,7 @@ namespace Avs {
 
           }
 
-          public loadDetector(cb: Function) {
+          public loadDetector(cb: ((event: null|boolean) => void)) {
 
             switch (this.detectorType) {
 
@@ -139,7 +139,7 @@ namespace Avs {
 
           }
 
-          public loadAgeGenderModel(cb: Function) {
+          public loadAgeGenderModel(cb: ((event: null|boolean) => void)) {
 
             // detector must be loaded
             if (!this.detectorLoaded) {
@@ -167,7 +167,7 @@ namespace Avs {
 
           }
 
-          public loadLandmarksModel(cb: Function) {
+          public loadLandmarksModel(cb: ((event: null|boolean) => void)) {
 
             this.faceApiClass.loadFaceLandmarkModel(this.config.weightsPath).then(
               (result: any) => {
@@ -188,7 +188,7 @@ namespace Avs {
 
           }
 
-          public loadFaceRecognitionModel(cb: Function) {
+          public loadFaceRecognitionModel(cb: ((event: null|boolean) => void)) {
 
             this.faceApiClass.loadFaceRecognitionModel(this.config.weightsPath).then(
               (result: any) => {
@@ -209,7 +209,7 @@ namespace Avs {
 
           }
 
-          public loadFaceExpressionModel(cb: Function) {
+          public loadFaceExpressionModel(cb: ((event: null|boolean) => void)) {
 
             this.faceApiClass.loadFaceExpressionModel(this.config.weightsPath).then(
               (result: any) => {
@@ -230,7 +230,7 @@ namespace Avs {
 
           }
 
-          public detectFaceAge(cb: Function) {
+          public detectFaceAge(cb: ((event: null|boolean|Record<string,string|number>) => void)) {
 
             // detector must be loaded
             if (!this.detectorLoaded) {
@@ -281,7 +281,7 @@ namespace Avs {
 
           }
 
-          public detectFace(cb: Function) {
+          public detectFace(cb: ((event: null|any) => void)) {
 
             // detector must be loaded
             if (!this.detectorLoaded) {
@@ -317,7 +317,7 @@ namespace Avs {
 
           }
 
-          public detectFaceFromCustomElement(customElement: HTMLElement, cb: Function) {
+          public detectFaceFromCustomElement(customElement: HTMLElement, cb: ((event: null|any) => void)) {
 
             // detector must be loaded
             if (!this.detectorLoaded) {
@@ -363,7 +363,7 @@ namespace Avs {
 
           }
 
-          public extractFaceImage(detectedFace: any, cb: Function) {
+          public extractFaceImage(detectedFace: any, cb: ((event: null|any) => void)) {
 
             // detector must be loaded
             if (!this.detectorLoaded) {
@@ -387,7 +387,7 @@ namespace Avs {
 
           }
 
-          public extractFaceImageFromCustomElement(detectedFace: any, customElement: HTMLElement, cb: Function) {
+          public extractFaceImageFromCustomElement(detectedFace: any, customElement: HTMLElement, cb: ((event: null|any) => void)) {
 
             // detector must be loaded
             if (!this.detectorLoaded) {
@@ -411,7 +411,7 @@ namespace Avs {
 
           }
 
-          public compareFaceImagePair(image1: any, image2: any, cb: Function) {
+          public compareFaceImagePair(image1: any, image2: any, cb: ((event: null|any) => void)) {
 
             // recognition model must be loaded
             if (!this.recognitionModelLoaded) {
@@ -445,7 +445,7 @@ namespace Avs {
 
           }
 
-          public detectFaceExpression(cb: Function) {
+          public detectFaceExpression(cb: ((event: null|any) => void)) {
 
             // detector must be loaded
             if (!this.detectorLoaded) {
@@ -470,7 +470,7 @@ namespace Avs {
 
                   let expressionStrongest = null;
                   for (const i in result.expressions) {
-                    if (result.expressions.hasOwnProperty(i)) {
+                    if (Object.prototype.hasOwnProperty.call(result, i)) {
 
                       const expressionValue = result.expressions[i];
                       if (expressionValue >= FaceApi.EXPRESSION_MIN_CONFIDENCE) {

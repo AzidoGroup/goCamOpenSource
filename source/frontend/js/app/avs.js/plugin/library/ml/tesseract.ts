@@ -146,7 +146,7 @@ namespace Avs {
 
           }
 
-          public setIdConfig(idConfig: Avs.Entity.IIdTypeToConfigItem, cb: Function) {
+          public setIdConfig(idConfig: Avs.Entity.IIdTypeToConfigItem, cb: ((result: any) => void)) {
 
             this.config.idConfig = idConfig;
             this.configureWorker((result: boolean | null) => {
@@ -159,7 +159,7 @@ namespace Avs {
             return language == Tesseract.LANGUAGE_EN || language == Tesseract.LANGUAGE_FR;
           }
 
-          public loadWorker(cb: Function) {
+          public loadWorker(cb: ((result: any) => void)) {
 
             this.workerInstance.load().then(
               (result: any) => {
@@ -180,7 +180,7 @@ namespace Avs {
 
           }
 
-          public loadLanguage(language: string, cb: Function) {
+          public loadLanguage(language: string, cb: ((event: any) => void)) {
 
             // needs worker load
             if (!this.workerLoaded) {
@@ -214,7 +214,7 @@ namespace Avs {
 
           }
 
-          public initLanguage(language: string, cb: Function) {
+          public initLanguage(language: string, cb: ((event: any) => void)) {
 
             // needs worker load
             if (!this.workerLoaded) {
@@ -255,7 +255,7 @@ namespace Avs {
 
           }
 
-          public configureWorker(cb: Function) {
+          public configureWorker(cb: ((event: any) => void)) {
 
             // needs worker load
             if (!this.workerLoaded) {
@@ -297,7 +297,7 @@ namespace Avs {
 
           }
 
-          public ocrImage(image: any, cb: Function) {
+          public ocrImage(image: any, cb: ((event: any) => void)) {
 
             // needs worker load
             if (!this.workerLoaded) {
@@ -344,7 +344,7 @@ namespace Avs {
 
           }
 
-          public extractInformationFromId(image: any, cb: Function) {
+          public extractInformationFromId(image: any, cb: ((event: any) => void)) {
 
             this.ocrImage(image, (result: any) => {
 

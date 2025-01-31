@@ -55,7 +55,7 @@ namespace Avs {
 
         }
 
-        public startSecondCount(direction: number, from: number, to: number, callback?: Function) {
+        public startSecondCount(direction: number, from: number, to: number, callback?: (() => void)) {
 
           this.stopSecondCount();
           this.setValue(from);

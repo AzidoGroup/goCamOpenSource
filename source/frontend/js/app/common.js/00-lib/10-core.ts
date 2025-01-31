@@ -1,6 +1,6 @@
 namespace Core {
 
-  export var MSG_INTERNAL_ERROR = 'Internal error';
+  export const MSG_INTERNAL_ERROR = 'Internal error';
 
   export namespace Ajax {
 
@@ -146,7 +146,7 @@ namespace Core {
     if (obj instanceof Object) {
       const copyObj: any = {};
       for (const attr in obj) {
-        if (obj.hasOwnProperty(attr)) {
+        if (Object.prototype.hasOwnProperty.call(obj, attr)) {
           copyObj[attr] = clone(obj[attr]);
         }
       }
@@ -167,6 +167,7 @@ namespace Core {
       let currentObj: any = window;
       let currentToken;
 
+      // eslint-disable-next-line no-cond-assign
       while (currentToken = tokenList.shift()) {
         if (currentToken in currentObj) {
           currentObj = currentObj[currentToken];

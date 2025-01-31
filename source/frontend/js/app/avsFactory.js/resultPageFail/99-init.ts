@@ -2,7 +2,7 @@ namespace AvsFactory {
 
   export namespace ResultPageFail {
 
-    export var instance: Avs.ResultPageFail;
+    export let instance: Avs.ResultPageFail;
 
     export function init() {
 

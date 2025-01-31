@@ -2,7 +2,7 @@ namespace AvsFactory {
 
   export namespace SelfieAgeDetectionIntro {
 
-    export var instance: Avs.SelfieAgeDetectionIntro;
+    export let instance: Avs.SelfieAgeDetectionIntro;
 
     export function init() {
 

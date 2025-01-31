@@ -68,6 +68,7 @@ namespace Avs {
               parsedData = JSON.parse(data);
             }
             catch (e) {
+              // log this error at some point
             }
 
             if (typeof parsedData !== 'undefined' && typeof parsedData.error !== 'undefined') {

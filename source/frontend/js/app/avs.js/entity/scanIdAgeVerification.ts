@@ -82,7 +82,7 @@ namespace Avs {
 
       public setLowestScanValue() {
 
-        this.lowestScanValue = Math.min.apply(Math, this.validScanValueList);
+        this.lowestScanValue = Math.min(...this.validScanValueList);
 
       }
 

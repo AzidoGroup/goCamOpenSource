@@ -72,6 +72,7 @@ namespace Avs {
         NORWAY                    = 'no',
         POLAND                    = 'pl',
         PORTUGAL                  = 'pt',
+        // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
         REPUBLIC_OF_CYPRUS        = 'el',
         ROMANIA                   = 'ro',
         SLOVAKIA                  = 'sk',

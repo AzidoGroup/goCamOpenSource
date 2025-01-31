@@ -66,7 +66,7 @@ namespace Avs {
 
         }
 
-        public onClick(callback: Function) {
+        public onClick(callback: ((event: any) => void)) {
 
           this.offClick();
           this.element.click((e) => {

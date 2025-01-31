@@ -32,7 +32,7 @@ namespace Avs {
 
         }
 
-        public onChange(callback: Function) {
+        public onChange(callback: (value: string, event: JQueryEventObject) => void) {
 
           this.element.on('change', (e: JQueryEventObject) => {
 

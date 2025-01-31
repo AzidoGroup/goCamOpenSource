@@ -2,7 +2,7 @@ namespace AvsFactory {
 
   export namespace ScanIdAgeVerificationIntro {
 
-    export var instance: Avs.ScanIdAgeVerificationIntro;
+    export let instance: Avs.ScanIdAgeVerificationIntro;
 
     export function init() {
 

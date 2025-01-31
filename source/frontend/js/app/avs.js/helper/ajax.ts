@@ -2,7 +2,7 @@ namespace Avs {
 
   export namespace Helper {
 
-    export var MSG_INTERNAL_ERROR = 'Internal error';
+    export const MSG_INTERNAL_ERROR = 'Internal error';
 
     export namespace Ajax {
 

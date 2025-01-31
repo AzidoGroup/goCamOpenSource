@@ -34,7 +34,7 @@ namespace Avs {
 
       }
 
-      public static getStreamDevices(callback: Function) {
+      public static getStreamDevices(callback: ((devices: null|any) => void)) {
 
         const logger = new Debug.Log();
 
@@ -81,7 +81,7 @@ namespace Avs {
 
       }
 
-      public static hasCameraFacingMode(facingMode: string, callback: Function) {
+      public static hasCameraFacingMode(facingMode: string, callback: (boolean: boolean) => void) {
 
         navigator.mediaDevices.getUserMedia({
           audio: true,
@@ -107,7 +107,7 @@ namespace Avs {
         const copy = obj.constructor();
 
         for (const attr in obj) {
-          if (obj.hasOwnProperty(attr)) {
+          if (Object.prototype.hasOwnProperty.call(obj, attr)) {
             copy[attr] = obj[attr];
           }
         }
@@ -159,7 +159,7 @@ namespace Avs {
 
         const parser            = document.createElement('a');
         const searchObject: any = {};
-        let queries: any;
+        // const queries: any;
         let split: any;
         let i: number;
 
@@ -167,7 +167,7 @@ namespace Avs {
         parser.href = url;
 
         // Convert query string to object
-        queries = parser.search.replace(/^\?/, '').split('&');
+        const queries = parser.search.replace(/^\?/, '').split('&');
         for (i = 0; i < queries.length; i++) {
           split                  = queries[i].split('=');
           searchObject[split[0]] = split[1];
@@ -185,6 +185,7 @@ namespace Avs {
       }
 
       public static escapeRegExp(regexString: string) {
+        // eslint-disable-next-line no-useless-escape
         return regexString.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
       }
 

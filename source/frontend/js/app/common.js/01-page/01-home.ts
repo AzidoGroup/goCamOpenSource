@@ -4,14 +4,14 @@ declare interface Window {
 }
 
 declare namespace Application {
-  export var verificationVersion: number;
-  export var p: number;
-  export var d: string;
-  export var sessionId: string;
-  export var partnerColorConfig: any;
-  export var ipCountry: string;
-  export var forceIpCountry: string;
-  export var deviceInfo: {
+  export let verificationVersion: number;
+  export let p: number;
+  export let d: string;
+  export let sessionId: string;
+  export let partnerColorConfig: any;
+  export let ipCountry: string;
+  export let forceIpCountry: string;
+  export const deviceInfo: {
     'os.name': string,
     'os.version': string,
     'os.mobile': number,
@@ -27,7 +27,7 @@ declare namespace Application {
 
   let isUserAuth: number;
 
-  export var countryAgeMajority: {
+  export let countryAgeMajority: {
     [key: string]: number
   }
 

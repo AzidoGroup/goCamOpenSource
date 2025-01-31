@@ -30,6 +30,7 @@
           let currentObj: any = window;
           let currentToken;
 
+          // eslint-disable-next-line no-cond-assign
           while (currentToken = tokenList.shift()) {
             if (currentToken in currentObj) {
               currentObj = currentObj[currentToken];

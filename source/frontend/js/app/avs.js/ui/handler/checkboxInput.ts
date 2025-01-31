@@ -53,7 +53,7 @@ namespace Avs {
 
         }
 
-        public onChange(callback: Function) {
+        public onChange(callback: ((event: any) => void)) {
 
           this.element.on('change', (e) => {
 

@@ -67,7 +67,7 @@ namespace Avs {
 
       public observerClearAll() {
         if (this.fireListener) {
-          // au cas où il y a des références circulaires
+          // in case there are circular references
           this.fireListener.removeAllContext(this);
         }
         this.fireListener    = null;
@@ -84,7 +84,7 @@ namespace Avs {
         this.removeContextFromList(context, this.eventList);
         this.removeContextFromList(context, this.eventListAfter);
 
-        // todo: à voir si il faut mettre à jour this.eventListened aussi
+        // todo: to see if you need to update this.eventListened
       }
 
       private removeContextFromList(context: any, eventList: { [index: string]: Array<any>; }) {
@@ -109,7 +109,9 @@ namespace Avs {
         if (this.fireListener) {
           // redirection simple
           if (arguments.length > 1) {
+            // eslint-disable-next-line prefer-rest-params
             const argList = Array.prototype.slice.call(arguments, 0);
+            // eslint-disable-next-line prefer-spread
             return this.fireListener.fire.apply(this.fireListener, <any>argList);
 
           }
@@ -128,6 +130,7 @@ namespace Avs {
         }
         this.logEvent(eventName, 'fire');
 
+        // eslint-disable-next-line prefer-rest-params
         const argListCtx = Array.prototype.slice.call(arguments, 1);
         argListCtx.unshift(this);
 
@@ -164,7 +167,7 @@ namespace Avs {
           if (fnctInfo[1]) {
             if (delay) {
               window.setTimeout(function () {
-                // todo: closure correcte pour la boucle avec une fonction qui retourne une function
+                // todo: correct closure for loop with a function that returns a function
               }, delay);
 
             }

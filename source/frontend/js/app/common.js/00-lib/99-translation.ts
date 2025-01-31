@@ -8,7 +8,7 @@ namespace Translation {
     }
 
     for (const key in translationData) {
-      if (!translationData.hasOwnProperty(key)) {
+      if (!Object.prototype.hasOwnProperty.call(translationData, key)) {
         continue;
       }
       database[key] = translationData[key];
@@ -29,7 +29,7 @@ namespace Translation {
       const escape = options && ('escape' in options) ? options.escape : true;
 
       for (let variableName in variableList) {
-        if (!variableList.hasOwnProperty(variableName)) {
+        if (!Object.prototype.hasOwnProperty.call(variableList, variableName)) {
           continue;
         }
         let currentValue = variableList[variableName];
