@@ -1,29 +1,29 @@
 "use strict";
 var AvsFactoryIframeCheck;
 (function (AvsFactoryIframeCheck) {
-    var Core = /** @class */ (function () {
-        function Core() {
+    class Core {
+        constructor() {
         }
-        Core.prototype.init = function () {
-            window.addEventListener("message", function (event) {
+        init() {
+            window.addEventListener('message', (event) => {
                 switch (event.data.name) {
                     case Core.EVENT_STATUS_REQUEST:
                         try {
-                            var appData = document.getElementById('app-data');
-                            var Application_1 = JSON.parse(appData.textContent);
-                            if (Application_1.isAgeVerified) {
+                            const appData = document.getElementById('app-data');
+                            const Application = JSON.parse(appData.textContent);
+                            if (Application.isAgeVerified) {
                                 window.top.postMessage({
                                     name: Core.EVENT_ON_VERIFICATION_DONE,
                                     data: {
                                         status: true,
-                                        payload: Application_1.verificationPayload
+                                        payload: Application.verificationPayload
                                     }
                                 }, '*');
                                 window.top.postMessage({
                                     name: Core.EVENT_ON_INITIAL_VERIFICATION_SUCCESS,
                                     data: {
                                         status: true,
-                                        payload: Application_1.verificationPayload
+                                        payload: Application.verificationPayload
                                     }
                                 }, '*');
                                 return;
@@ -33,20 +33,20 @@ var AvsFactoryIframeCheck;
                                     name: Core.EVENT_ON_VERIFICATION_DONE,
                                     data: {
                                         status: false,
-                                        payload: Application_1.verificationPayload
+                                        payload: Application.verificationPayload
                                     }
                                 }, '*');
                                 window.top.postMessage({
                                     name: Core.EVENT_ON_INITIAL_VERIFICATION_NOT_FOUND,
                                     data: {
                                         status: false,
-                                        payload: Application_1.verificationPayload
+                                        payload: Application.verificationPayload
                                     }
                                 }, '*');
                             }
                         }
                         catch (e) {
-                            var errorMessage = '';
+                            let errorMessage = '';
                             if (e instanceof Error) {
                                 errorMessage = e.message;
                             }
@@ -65,18 +65,17 @@ var AvsFactoryIframeCheck;
                     //
                 }
             }, false);
-        };
-        Core.EVENT_STATUS_REQUEST = 'avs.statusRequest';
-        Core.EVENT_ON_VERIFICATION_DONE = 'avs.onVerificationDone';
-        Core.EVENT_RESOURCE_PRELOAD = 'avs.resourcePreload';
-        Core.EVENT_ON_INITIAL_VERIFICATION_SUCCESS = 'avs.onInitialVerificationSuccess';
-        Core.EVENT_ON_INITIAL_VERIFICATION_NOT_FOUND = 'avs.onInitialVerificationNotFound';
-        Core.EVENT_ON_INITIAL_VERIFICATION_FATAL_ERROR = 'avs.onInitialVerificationFatalError';
-        return Core;
-    }());
+        }
+    }
+    Core.EVENT_STATUS_REQUEST = 'avs.statusRequest';
+    Core.EVENT_ON_VERIFICATION_DONE = 'avs.onVerificationDone';
+    Core.EVENT_RESOURCE_PRELOAD = 'avs.resourcePreload';
+    Core.EVENT_ON_INITIAL_VERIFICATION_SUCCESS = 'avs.onInitialVerificationSuccess';
+    Core.EVENT_ON_INITIAL_VERIFICATION_NOT_FOUND = 'avs.onInitialVerificationNotFound';
+    Core.EVENT_ON_INITIAL_VERIFICATION_FATAL_ERROR = 'avs.onInitialVerificationFatalError';
     AvsFactoryIframeCheck.Core = Core;
 })(AvsFactoryIframeCheck || (AvsFactoryIframeCheck = {}));
-(function () {
-    var instance = new AvsFactoryIframeCheck.Core();
+(() => {
+    const instance = new AvsFactoryIframeCheck.Core();
     instance.init();
 })();

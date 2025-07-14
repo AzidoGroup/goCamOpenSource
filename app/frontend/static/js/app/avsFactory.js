@@ -1,21 +1,18 @@
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ResultPageFail;
+    let ResultPageFail;
     (function (ResultPageFail) {
-        var Config = /** @class */ (function () {
-            function Config() {
-            }
-            Config.create = function (config) {
+        class Config {
+            static create(config) {
                 Config.DEFAULT_DEBUG_LEVEL = config.defaultBugLevel || Config.DEFAULT_DEBUG_LEVEL;
                 Config.API_BASE_ENDPOINT = config.apiBaseEndpoint || Config.API_BASE_ENDPOINT;
                 Config.POLLING_BASE_ENDPOINT = config.pollingBaseEndpoint || Config.POLLING_BASE_ENDPOINT;
-            };
-            Config.DEFAULT_DEBUG_LEVEL = 4;
-            Config.API_BASE_ENDPOINT = '/result';
-            Config.POLLING_BASE_ENDPOINT = '/result';
-            return Config;
-        }());
+            }
+        }
+        Config.DEFAULT_DEBUG_LEVEL = 4;
+        Config.API_BASE_ENDPOINT = '/result';
+        Config.POLLING_BASE_ENDPOINT = '/result';
         ResultPageFail.Config = Config;
     })(ResultPageFail = AvsFactory.ResultPageFail || (AvsFactory.ResultPageFail = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -23,22 +20,19 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ResultPageFail;
+    let ResultPageFail;
     (function (ResultPageFail) {
-        var Ui = /** @class */ (function () {
-            function Ui() {
-            }
-            Ui.init = function () {
+        class Ui {
+            static init() {
                 ResultPageFail.instance.ui = {
                     ResultFailButton: new Avs.Ui.Library.ResultFailButton(ResultPageFail.instance.event),
                     ResultPageFailReasonArea: new Avs.Ui.Library.ResultPageFailReasonArea(ResultPageFail.instance.event),
                     ErrorMessageQrTextArea: new Avs.Ui.Library.ErrorMessageQrTextArea(ResultPageFail.instance.event),
                     ResultPageFailQrArea: new Avs.Ui.Library.ResultPageFailQrArea(ResultPageFail.instance.event),
-                    FailPageErrorQrCode: new Avs.Ui.Library.FailPageErrorQrCode(ResultPageFail.instance.event)
+                    FailPageErrorQrCode: new Avs.Ui.Library.FailPageErrorQrCode(ResultPageFail.instance.event),
                 };
-            };
-            return Ui;
-        }());
+            }
+        }
         ResultPageFail.Ui = Ui;
     })(ResultPageFail = AvsFactory.ResultPageFail || (AvsFactory.ResultPageFail = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -46,18 +40,15 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ResultPageFail;
+    let ResultPageFail;
     (function (ResultPageFail) {
-        var Binding = /** @class */ (function () {
-            function Binding() {
-            }
-            Binding.init = function () {
-                ResultPageFail.instance.ui.ResultFailButton.onClick(function () {
+        class Binding {
+            static init() {
+                ResultPageFail.instance.ui.ResultFailButton.onClick(() => {
                     window.location.reload();
                 });
-            };
-            return Binding;
-        }());
+            }
+        }
         ResultPageFail.Binding = Binding;
     })(ResultPageFail = AvsFactory.ResultPageFail || (AvsFactory.ResultPageFail = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -65,17 +56,15 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ResultPageFail;
+    let ResultPageFail;
     (function (ResultPageFail) {
-        var Method = /** @class */ (function () {
-            function Method() {
-            }
-            Method.init = function () {
+        class Method {
+            static init() {
                 ResultPageFail.instance.entity.VerificationStepGlobal.isVerified = false;
-            };
-            Method.saveError = function (errorCode) {
-                var token = Application.token;
-                var failKey = Avs.Helper.Common.decodeBase64(token).failKey;
+            }
+            static saveError(errorCode) {
+                const token = Application.token;
+                const failKey = Avs.Helper.Common.decodeBase64(token).failKey;
                 ResultPageFail.instance.apiDataChannel.request('/fail', {
                     token: failKey,
                     errorCode: errorCode,
@@ -84,13 +73,13 @@ var AvsFactory;
                     sessionId: ResultPageFail.instance.entity.VerificationStepGlobal.sessionId,
                     idCountry: ResultPageFail.instance.entity.ScanIdAgeVerification.idCountry,
                     idState: ResultPageFail.instance.entity.ScanIdAgeVerification.idState,
-                    idType: ResultPageFail.instance.entity.ScanIdAgeVerification.idTypeString
-                }).then(function () {
-                }, function (error) {
+                    idType: ResultPageFail.instance.entity.ScanIdAgeVerification.idTypeString,
+                }).then(() => {
+                }, (error) => {
                     ResultPageFail.instance.ui.ResultPageFailReasonArea.setContent(error.code + ': Could not save your result');
                 });
-            };
-            Method.renderFailReason = function (failReason) {
+            }
+            static renderFailReason(failReason) {
                 ResultPageFail.instance.ui.ResultPageFailReasonArea.setContent(failReason);
                 ResultPageFail.instance.ui.ResultPageFailQrArea.hide();
                 if (!Application.deviceInfo['os.mobile']) {
@@ -98,13 +87,12 @@ var AvsFactory;
                     ResultPageFail.instance.ui.FailPageErrorQrCode.renderTestToOtherDeviceQr();
                     ResultPageFail.instance.startApiPolling(ResultPageFail.instance.entity.VerificationStepGlobal.partnerId, ResultPageFail.instance.entity.VerificationStepGlobal.payload);
                 }
-            };
-            Method.goToSuccessStep = function () {
+            }
+            static goToSuccessStep() {
                 AvsFactory.StartPage.Method.showPageStep(AvsFactory.StartPage.Config.RESULT_PAGE_SUCCESS_LAYER);
                 AvsFactory.ResultPageSuccess.init();
-            };
-            return Method;
-        }());
+            }
+        }
         ResultPageFail.Method = Method;
     })(ResultPageFail = AvsFactory.ResultPageFail || (AvsFactory.ResultPageFail = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -112,25 +100,22 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ResultPageFail;
+    let ResultPageFail;
     (function (ResultPageFail) {
-        var Event = /** @class */ (function () {
-            function Event() {
-            }
-            Event.init = function () {
-                ResultPageFail.instance.event.on(Avs.ResultPageFail.ON_POLL_DATA, function (event, data) {
+        class Event {
+            static init() {
+                ResultPageFail.instance.event.on(Avs.ResultPageFail.ON_POLL_DATA, (event, data) => {
                     if (typeof data.isValidated !== 'undefined' && data.isValidated) {
                         ResultPageFail.instance.stopApiPolling();
                         ResultPageFail.instance.entity.VerificationStepGlobal.deviceLocationVerification = Avs.Entity.VerificationStepGlobal.DEVICE_LOCATION_VERIFICATION_EXTERNAL;
                         ResultPageFail.Method.goToSuccessStep();
                     }
                 });
-                ResultPageFail.instance.event.on(Avs.ResultPageFail.ON_POLL_ERROR, function (event, data) {
+                ResultPageFail.instance.event.on(Avs.ResultPageFail.ON_POLL_ERROR, (event, data) => {
                     ResultPageFail.instance.debug.logToContainer('Qr verification polling error: ' + data.msg);
                 });
-            };
-            return Event;
-        }());
+            }
+        }
         ResultPageFail.Event = Event;
     })(ResultPageFail = AvsFactory.ResultPageFail || (AvsFactory.ResultPageFail = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -140,7 +125,7 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ResultPageFail;
+    let ResultPageFail;
     (function (ResultPageFail) {
         function init() {
             ResultPageFail.instance = new Avs.ResultPageFail({
@@ -150,7 +135,7 @@ var AvsFactory;
                     pollingEndpoint: ResultPageFail.Config.POLLING_BASE_ENDPOINT
                 },
                 event: {
-                    debugLevel: ResultPageFail.Config.DEFAULT_DEBUG_LEVEL
+                    debugLevel: ResultPageFail.Config.DEFAULT_DEBUG_LEVEL,
                 }
             });
             ResultPageFail.Ui.init();
@@ -165,19 +150,16 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ResultPageSuccess;
+    let ResultPageSuccess;
     (function (ResultPageSuccess) {
-        var Config = /** @class */ (function () {
-            function Config() {
-            }
-            Config.create = function (config) {
+        class Config {
+            static create(config) {
                 Config.DEFAULT_DEBUG_LEVEL = config.defaultBugLevel || Config.DEFAULT_DEBUG_LEVEL;
                 Config.API_BASE_ENDPOINT = config.apiBaseEndpoint || Config.API_BASE_ENDPOINT;
-            };
-            Config.DEFAULT_DEBUG_LEVEL = 4;
-            Config.API_BASE_ENDPOINT = '/result';
-            return Config;
-        }());
+            }
+        }
+        Config.DEFAULT_DEBUG_LEVEL = 4;
+        Config.API_BASE_ENDPOINT = '/result';
         ResultPageSuccess.Config = Config;
     })(ResultPageSuccess = AvsFactory.ResultPageSuccess || (AvsFactory.ResultPageSuccess = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -185,20 +167,17 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ResultPageSuccess;
+    let ResultPageSuccess;
     (function (ResultPageSuccess) {
-        var Ui = /** @class */ (function () {
-            function Ui() {
-            }
-            Ui.init = function () {
+        class Ui {
+            static init() {
                 ResultPageSuccess.instance.ui = {
                     ResultPageSuccessScanIdArea: new Avs.Ui.Library.ResultPageSuccessScanIdArea(ResultPageSuccess.instance.event),
                     ResultPageSuccessSelfieArea: new Avs.Ui.Library.ResultPageSuccessSelfieArea(ResultPageSuccess.instance.event),
-                    ResultSuccessButton: new Avs.Ui.Library.ResultSuccessButton(ResultPageSuccess.instance.event)
+                    ResultSuccessButton: new Avs.Ui.Library.ResultSuccessButton(ResultPageSuccess.instance.event),
                 };
-            };
-            return Ui;
-        }());
+            }
+        }
         ResultPageSuccess.Ui = Ui;
     })(ResultPageSuccess = AvsFactory.ResultPageSuccess || (AvsFactory.ResultPageSuccess = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -206,13 +185,11 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ResultPageSuccess;
+    let ResultPageSuccess;
     (function (ResultPageSuccess) {
-        var Binding = /** @class */ (function () {
-            function Binding() {
-            }
-            Binding.init = function () {
-                ResultPageSuccess.instance.ui.ResultSuccessButton.onClick(function () {
+        class Binding {
+            static init() {
+                ResultPageSuccess.instance.ui.ResultSuccessButton.onClick(() => {
                     AvsFactory.StartPage.instance.postMessage.emit(AvsFactory.StartPage.Config.EVENT_ON_VERIFICATION_SUCCESS, {
                         status: ResultPageSuccess.instance.entity.VerificationStepGlobal.isVerified,
                         payload: ResultPageSuccess.instance.entity.VerificationStepGlobal.successPayload
@@ -222,13 +199,12 @@ var AvsFactory;
                         payload: ResultPageSuccess.instance.entity.VerificationStepGlobal.successPayload
                     });
                     if (AvsFactory.StartPage.Config.VERIFICATION_VERSION != AvsFactory.StartPage.Config.VERIFICATION_VERSION_IFRAME_V1) {
-                        var token = Application.token;
+                        const token = Application.token;
                         window.location.href = Avs.Helper.Common.decodeBase64(token).backLink;
                     }
                 });
-            };
-            return Binding;
-        }());
+            }
+        }
         ResultPageSuccess.Binding = Binding;
     })(ResultPageSuccess = AvsFactory.ResultPageSuccess || (AvsFactory.ResultPageSuccess = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -236,12 +212,10 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ResultPageSuccess;
+    let ResultPageSuccess;
     (function (ResultPageSuccess) {
-        var Method = /** @class */ (function () {
-            function Method() {
-            }
-            Method.init = function () {
+        class Method {
+            static init() {
                 if (ResultPageSuccess.instance.entity.SelfieAgeDetection.averageAge > 0) {
                     ResultPageSuccess.instance.ui.ResultPageSuccessSelfieArea.setContent('<strong>' +
                         AvsFactory.SelfieAgeDetectionPage.Method.getAgeAreaString('Final face average age', ResultPageSuccess.instance.entity.SelfieAgeDetection.averageAge) +
@@ -250,8 +224,8 @@ var AvsFactory;
                 if (ResultPageSuccess.instance.entity.ScanIdAgeVerification.lowestScanValue > 0) {
                     ResultPageSuccess.instance.ui.ResultPageSuccessScanIdArea.setContent('<strong>Final document extracted age: ' + ResultPageSuccess.instance.entity.ScanIdAgeVerification.lowestScanValue + '</strong>');
                 }
-                var token = Application.token;
-                var successKey = Avs.Helper.Common.decodeBase64(token).successKey;
+                const token = Application.token;
+                const successKey = Avs.Helper.Common.decodeBase64(token).successKey;
                 ResultPageSuccess.instance.apiDataChannel.request('/success', {
                     token: successKey,
                     stepId: ResultPageSuccess.instance.entity.VerificationStepGlobal.stepId,
@@ -259,18 +233,17 @@ var AvsFactory;
                     sessionId: ResultPageSuccess.instance.entity.VerificationStepGlobal.sessionId,
                     idCountry: ResultPageSuccess.instance.entity.ScanIdAgeVerification.idCountry,
                     idState: ResultPageSuccess.instance.entity.ScanIdAgeVerification.idState,
-                    idType: ResultPageSuccess.instance.entity.ScanIdAgeVerification.idTypeString
-                }).then(function (successData) {
+                    idType: ResultPageSuccess.instance.entity.ScanIdAgeVerification.idTypeString,
+                }).then((successData) => {
                     ResultPageSuccess.instance.entity.VerificationStepGlobal.isVerified = true;
                     ResultPageSuccess.instance.entity.VerificationStepGlobal.successPayload = successData.successPayload;
-                }, function (error) {
+                }, (error) => {
                     AvsFactory.StartPage.Method.showPageStep(AvsFactory.StartPage.Config.RESULT_PAGE_FAIL_LAYER);
                     AvsFactory.ResultPageFail.init();
                     AvsFactory.ResultPageFail.Method.renderFailReason(error.code + ': Could not save your result');
                 });
-            };
-            return Method;
-        }());
+            }
+        }
         ResultPageSuccess.Method = Method;
     })(ResultPageSuccess = AvsFactory.ResultPageSuccess || (AvsFactory.ResultPageSuccess = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -278,15 +251,12 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ResultPageSuccess;
+    let ResultPageSuccess;
     (function (ResultPageSuccess) {
-        var Event = /** @class */ (function () {
-            function Event() {
+        class Event {
+            static init() {
             }
-            Event.init = function () {
-            };
-            return Event;
-        }());
+        }
         ResultPageSuccess.Event = Event;
     })(ResultPageSuccess = AvsFactory.ResultPageSuccess || (AvsFactory.ResultPageSuccess = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -296,7 +266,7 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ResultPageSuccess;
+    let ResultPageSuccess;
     (function (ResultPageSuccess) {
         function init() {
             ResultPageSuccess.instance = new Avs.ResultPageSuccess({
@@ -305,7 +275,7 @@ var AvsFactory;
                     apiEndpoint: ResultPageSuccess.Config.API_BASE_ENDPOINT
                 },
                 event: {
-                    debugLevel: ResultPageSuccess.Config.DEFAULT_DEBUG_LEVEL
+                    debugLevel: ResultPageSuccess.Config.DEFAULT_DEBUG_LEVEL,
                 }
             });
             ResultPageSuccess.Ui.init();
@@ -320,20 +290,17 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ScanIdAgeVerificationIntro;
+    let ScanIdAgeVerificationIntro;
     (function (ScanIdAgeVerificationIntro) {
-        var Config = /** @class */ (function () {
-            function Config() {
-            }
-            Config.create = function (config) {
+        class Config {
+            static create(config) {
                 Config.DEFAULT_DEBUG_LEVEL = config.defaultBugLevel || Config.DEFAULT_DEBUG_LEVEL;
                 Config.API_BASE_ENDPOINT = config.apiBaseEndpoint || Config.API_BASE_ENDPOINT;
-            };
-            Config.DEFAULT_DEBUG_LEVEL = 4;
-            Config.API_BASE_ENDPOINT = '';
-            Config.FACING_MODE_REQUIRED = 'environment';
-            return Config;
-        }());
+            }
+        }
+        Config.DEFAULT_DEBUG_LEVEL = 4;
+        Config.API_BASE_ENDPOINT = '';
+        Config.FACING_MODE_REQUIRED = 'environment';
         ScanIdAgeVerificationIntro.Config = Config;
     })(ScanIdAgeVerificationIntro = AvsFactory.ScanIdAgeVerificationIntro || (AvsFactory.ScanIdAgeVerificationIntro = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -341,12 +308,10 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ScanIdAgeVerificationIntro;
+    let ScanIdAgeVerificationIntro;
     (function (ScanIdAgeVerificationIntro) {
-        var Ui = /** @class */ (function () {
-            function Ui() {
-            }
-            Ui.init = function () {
+        class Ui {
+            static init() {
                 ScanIdAgeVerificationIntro.instance.ui = {
                     ScanIdAgeDetectionStartButton: new Avs.Ui.Library.ScanIdAgeDetectionStartButton(ScanIdAgeVerificationIntro.instance.event),
                     ScanIdAgeVerificationDeviceSelect: new Avs.Ui.Library.ScanIdAgeVerificationDeviceSelect(ScanIdAgeVerificationIntro.instance.event),
@@ -361,7 +326,7 @@ var AvsFactory;
                     ScanIdAgeVerificationDocumentHelperArea: new Avs.Ui.Library.ScanIdAgeVerificationDocumentHelperArea(ScanIdAgeVerificationIntro.instance.event),
                     ScanIdAgeDetectionCancelButton: new Avs.Ui.Library.ScanIdAgeDetectionCancelButton(ScanIdAgeVerificationIntro.instance.event),
                     ScanIdAgeVerificationUploadImageIntroButton: new Avs.Ui.Library.ScanIdAgeVerificationUploadImageIntroButton(ScanIdAgeVerificationIntro.instance.event),
-                    ScanIdAgeVerificationUploadFileIntroInput: new Avs.Ui.Library.ScanIdAgeVerificationUploadFileIntroInput(ScanIdAgeVerificationIntro.instance.event)
+                    ScanIdAgeVerificationUploadFileIntroInput: new Avs.Ui.Library.ScanIdAgeVerificationUploadFileIntroInput(ScanIdAgeVerificationIntro.instance.event),
                 };
                 ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationTypeArea.hide();
                 ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationDocumentHelperArea.hide();
@@ -369,9 +334,8 @@ var AvsFactory;
                 if (!ScanIdAgeVerificationIntro.instance.entity.ScanIdAgeVerification.resourcesPreloaded) {
                     ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeDetectionStartButton.disable();
                 }
-            };
-            return Ui;
-        }());
+            }
+        }
         ScanIdAgeVerificationIntro.Ui = Ui;
     })(ScanIdAgeVerificationIntro = AvsFactory.ScanIdAgeVerificationIntro || (AvsFactory.ScanIdAgeVerificationIntro = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -379,13 +343,11 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ScanIdAgeVerificationIntro;
+    let ScanIdAgeVerificationIntro;
     (function (ScanIdAgeVerificationIntro) {
-        var Binding = /** @class */ (function () {
-            function Binding() {
-            }
-            Binding.init = function () {
-                ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeDetectionStartButton.onClick(function () {
+        class Binding {
+            static init() {
+                ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeDetectionStartButton.onClick(() => {
                     if (ScanIdAgeVerificationIntro.instance.entity.VerificationStepGlobal.scanIdAgeVerificationInVideoBypassMode) {
                         ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationUploadFileIntroInput.triggerFileBrowse();
                         return;
@@ -401,16 +363,16 @@ var AvsFactory;
                     AvsFactory.StartPage.Method.showPageStep(AvsFactory.StartPage.Config.SCAN_ID_AGE_VERIFICATION_PAGE_LAYER);
                     AvsFactory.ScanIdAgeVerificationPage.init();
                 });
-                ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationCountrySelect.onChange(function () {
+                ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationCountrySelect.onChange(() => {
                     ScanIdAgeVerificationIntro.Method.renderStateList(ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationCountrySelect.getSelectedOption());
                 });
-                ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationStateSelect.onChange(function () {
+                ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationStateSelect.onChange(() => {
                     ScanIdAgeVerificationIntro.Method.renderDocumentList(ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationCountrySelect.getSelectedOption(), ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationStateSelect.getSelectedOption());
                 });
-                ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeDetectionCancelButton.onClick(function () {
+                ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeDetectionCancelButton.onClick(() => {
                     AvsFactory.StartPage.Method.showPageStep(AvsFactory.StartPage.Config.START_PAGE_LAYER);
                 });
-                ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationUploadFileIntroInput.onChange(function (value, event) {
+                ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationUploadFileIntroInput.onChange((value, event) => {
                     if (value != '') {
                         ScanIdAgeVerificationIntro.instance.entity.ScanIdAgeVerification.idCountry = ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationCountrySelect.getSelectedOption();
                         ScanIdAgeVerificationIntro.instance.entity.ScanIdAgeVerification.idState = ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationStateSelect.getSelectedOption();
@@ -425,9 +387,8 @@ var AvsFactory;
                         }
                     }
                 });
-            };
-            return Binding;
-        }());
+            }
+        }
         ScanIdAgeVerificationIntro.Binding = Binding;
     })(ScanIdAgeVerificationIntro = AvsFactory.ScanIdAgeVerificationIntro || (AvsFactory.ScanIdAgeVerificationIntro = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -435,30 +396,28 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ScanIdAgeVerificationIntro;
+    let ScanIdAgeVerificationIntro;
     (function (ScanIdAgeVerificationIntro) {
-        var Method = /** @class */ (function () {
-            function Method() {
-            }
-            Method.init = function () {
+        class Method {
+            static init() {
                 AvsFactory.StartPage.Method.preloadTesseractResources();
                 AvsFactory.StartPage.instance.ui.TesseractPreloaderArea.show();
                 Method.renderCountryList();
                 Method.renderStateList(ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationCountrySelect.getSelectedOption());
                 ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationDeviceSelect.clearAllOptions();
                 ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationDeviceSelect.initStates();
-                Avs.Helper.Common.hasCameraFacingMode(ScanIdAgeVerificationIntro.Config.FACING_MODE_REQUIRED, function (facingModeExist) {
+                Avs.Helper.Common.hasCameraFacingMode(ScanIdAgeVerificationIntro.Config.FACING_MODE_REQUIRED, (facingModeExist) => {
                     if (!facingModeExist) {
-                        Avs.Helper.Common.getStreamDevices(function (devices) {
+                        Avs.Helper.Common.getStreamDevices((devices) => {
                             if (devices !== null) {
-                                var videoInputDeviceIdList = {};
-                                var foundDevicesNumber = 0;
+                                const videoInputDeviceIdList = {};
+                                let foundDevicesNumber = 0;
                                 ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationDeviceSelect.clearAllOptions();
                                 ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationDeviceSelect.initStates();
-                                for (var i = 0, j = devices.videoinput.length; i < j; i++) {
-                                    var device = devices.videoinput[i];
+                                for (let i = 0, j = devices.videoinput.length; i < j; i++) {
+                                    const device = devices.videoinput[i];
                                     videoInputDeviceIdList[device.id] = true;
-                                    ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationDeviceSelect.addOption(device.label, device.id, device["default"]);
+                                    ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationDeviceSelect.addOption(device.label, device.id, device.default);
                                     foundDevicesNumber++;
                                 }
                                 if (foundDevicesNumber > 1) {
@@ -478,10 +437,10 @@ var AvsFactory;
                         ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationSubmitArea.show();
                     }
                 });
-            };
-            Method.renderCountryList = function () {
-                var ipCountry = Application.ipCountry.toUpperCase();
-                var browserCountry = Avs.Helper.Country.getBrowserCountryFromLanguage().toUpperCase();
+            }
+            static renderCountryList() {
+                let ipCountry = Application.ipCountry.toUpperCase();
+                const browserCountry = Avs.Helper.Country.getBrowserCountryFromLanguage().toUpperCase();
                 if (Application.forceIpCountry) {
                     ipCountry = Application.forceIpCountry.toUpperCase();
                 }
@@ -493,17 +452,17 @@ var AvsFactory;
                 if (Avs.Config.scanIdList[browserCountry] && ipCountry != browserCountry) {
                     ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationCountrySelect.addOption(Avs.Config.scanIdList[browserCountry]['countryName'], browserCountry, false);
                 }
-                for (var i in Avs.Config.scanIdList) {
+                for (const i in Avs.Config.scanIdList) {
                     if ([ipCountry, browserCountry].indexOf(i) > -1) {
                         continue;
                     }
                     ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationCountrySelect.addOption(Avs.Config.scanIdList[i]['countryName'], i, false);
                 }
-            };
-            Method.renderStateList = function (countryCode) {
+            }
+            static renderStateList(countryCode) {
                 if (Avs.Config.scanIdList[countryCode]['hasMultipleState']) {
                     ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationStateArea.show();
-                    for (var i in Avs.Config.scanIdList[countryCode]['stateList']) {
+                    for (const i in Avs.Config.scanIdList[countryCode]['stateList']) {
                         ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationStateSelect.addOption(Avs.Config.scanIdList[countryCode]['stateList'][i]['stateName'], i, false);
                     }
                     Method.renderDocumentList(ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationCountrySelect.getSelectedOption(), ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationStateSelect.getSelectedOption());
@@ -513,8 +472,8 @@ var AvsFactory;
                 ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationStateSelect.clearAllOptions();
                 ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationStateSelect.initStates();
                 Method.renderDocumentList(ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationCountrySelect.getSelectedOption(), ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationStateSelect.getSelectedOption());
-            };
-            Method.renderDocumentList = function (countryCode, stateCode) {
+            }
+            static renderDocumentList(countryCode, stateCode) {
                 ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationTypeSelect.clearAllOptions();
                 ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationTypeSelect.initStates();
                 ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationTypeArea.show();
@@ -539,9 +498,8 @@ var AvsFactory;
                 if (Avs.Config.scanIdList[countryCode]['idConfig']['driverLicence'].length > 0) {
                     ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationTypeSelect.addOption('Driver license', 'driverLicence', false);
                 }
-            };
-            return Method;
-        }());
+            }
+        }
         ScanIdAgeVerificationIntro.Method = Method;
     })(ScanIdAgeVerificationIntro = AvsFactory.ScanIdAgeVerificationIntro || (AvsFactory.ScanIdAgeVerificationIntro = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -549,20 +507,17 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ScanIdAgeVerificationIntro;
+    let ScanIdAgeVerificationIntro;
     (function (ScanIdAgeVerificationIntro) {
-        var Event = /** @class */ (function () {
-            function Event() {
-            }
-            Event.init = function () {
-                AvsFactory.StartPage.instance.event.on(Avs.Helper.FilePreloader.ON_PRELOAD_EVENT + '.' + AvsFactory.StartPage.Config.TESSERACT_PRELOADER_NAME, function (event, data) {
+        class Event {
+            static init() {
+                AvsFactory.StartPage.instance.event.on(Avs.Helper.FilePreloader.ON_PRELOAD_EVENT + '.' + AvsFactory.StartPage.Config.TESSERACT_PRELOADER_NAME, (event, data) => {
                     if (data.total.progress == 100 && data.total.status === Avs.Helper.FilePreloader.FILE_STATUS_SUCCESS) {
                         ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeDetectionStartButton.enable();
                     }
                 });
-            };
-            return Event;
-        }());
+            }
+        }
         ScanIdAgeVerificationIntro.Event = Event;
     })(ScanIdAgeVerificationIntro = AvsFactory.ScanIdAgeVerificationIntro || (AvsFactory.ScanIdAgeVerificationIntro = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -572,13 +527,13 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ScanIdAgeVerificationIntro;
+    let ScanIdAgeVerificationIntro;
     (function (ScanIdAgeVerificationIntro) {
         function init() {
             ScanIdAgeVerificationIntro.instance = new Avs.ScanIdAgeVerificationIntro({
                 debugLevel: ScanIdAgeVerificationIntro.Config.DEFAULT_DEBUG_LEVEL,
                 event: {
-                    debugLevel: ScanIdAgeVerificationIntro.Config.DEFAULT_DEBUG_LEVEL
+                    debugLevel: ScanIdAgeVerificationIntro.Config.DEFAULT_DEBUG_LEVEL,
                 }
             });
             ScanIdAgeVerificationIntro.instance.entity.VerificationStepGlobal.stepId = Avs.Entity.VerificationStepGlobal.STEP_SCAN_ID_AGE_VERIFICATION_INTRO;
@@ -594,15 +549,13 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ScanIdAgeVerificationPage;
+    let ScanIdAgeVerificationPage;
     (function (ScanIdAgeVerificationPage) {
-        var Config = /** @class */ (function () {
-            function Config() {
-            }
-            Config.create = function (config) {
+        class Config {
+            static create(config) {
                 Config.DEFAULT_DEBUG_LEVEL = config.defaultBugLevel || Config.DEFAULT_DEBUG_LEVEL;
                 Config.API_BASE_ENDPOINT = config.apiBaseEndpoint || Config.API_BASE_ENDPOINT;
-                var verificationStepGlobalEntity = Avs.Entity.VerificationStepGlobal.getInstance();
+                const verificationStepGlobalEntity = Avs.Entity.VerificationStepGlobal.getInstance();
                 if (verificationStepGlobalEntity.tesseractType == Avs.Entity.VerificationStepGlobal.TESSERACT_TYPE_PRECISE_EN ||
                     verificationStepGlobalEntity.tesseractType == Avs.Entity.VerificationStepGlobal.TESSERACT_TYPE_PRECISE_FR) {
                     Config.TESSERACT_LANGUAGE_PATH = '/static/js/vendor/tesseract-js-core-2.0.0/tessdata/best';
@@ -617,46 +570,45 @@ var AvsFactory;
                 else {
                     Config.TESSERACT_LANGUAGE = Avs.Plugin.Library.Ml.Tesseract.LANGUAGE_EN;
                 }
-            };
-            Config.DEFAULT_DEBUG_LEVEL = 4;
-            Config.API_BASE_ENDPOINT = '';
-            Config.CAMERA_SOURCE_ROOT_ELEMENT_CONTAINER = '#scanIdVideoContainer';
-            Config.CAMERA_SOURCE_ROOT_ELEMENT = '#scanIdVideo';
-            Config.CAMERA_SOURCE_CANVAS_OVERLAY_ELEMENT = '#scanIdVideoOverlayCanvas';
-            Config.CAMERA_SOURCE_CANVAS_RESULT_ELEMENT = '#scanIdVideoResultCanvas';
-            Config.ID_CARD_GUIDE_CONTAINER = '#idCardGuide';
-            Config.ID_CARD_GUIDE_BIRTH_DATE_CONTAINER = '#idCardGuideBirthDate';
-            Config.DOCUMENT_PROCESSING_CANVAS_CONTAINER = '#documentProcessingCanvasContainer';
-            Config.DOCUMENT_PROCESSING_CANVAS = '#documentProcessingCanvas';
-            Config.FACE_API_WEIGHTS_PATH = '/static/js/appFiles/faw/';
-            Config.TESSERACT_WORKER_PATH = '/static/js/appFiles/tjs/w.min.js';
-            Config.TESSERACT_CORE_PATH = '/static/js/appFiles/tjs/tscasm.js';
-            Config.TESSERACT_LANGUAGE_PATH = '/static/js/appFiles/tjs/data';
-            Config.TESSERACT_LANGUAGE = Avs.Plugin.Library.Ml.Tesseract.LANGUAGE_FR;
-            Config.MAX_VALID_DATA_EXTRACTION_NUMBER = 1;
-            Config.MAX_TOTAL_DATA_EXTRACTION_NUMBER = 50;
-            Config.MAX_VALID_FACE_SCAN_NUMBER = 3;
-            Config.MAX_TOTAL_FACE_SCAN_NUMBER = 30;
-            Config.DATA_EXTRACTION_INTERVAL_MS = 500;
-            Config.FACE_SCAN_INTERVAL_MS = 500;
-            Config.PHOTO_TAKE_INTERVAL_MS = 500;
-            Config.MAX_FACE_DISTANCE_TO_MATCH = 0.55;
-            Config.MIN_VALID_FACE_MATCH = 5;
-            Config.MIN_SCAN_VALUE = 18;
-            Config.MAX_SCAN_VALUE = 150;
-            Config.BRIGHTNESS_ADJUSTMENT_MAX_VALUE = 20;
-            Config.CONTRAST_ADJUSTMENT_MAX_VALUE = 20;
-            Config.ZOOM_ADJUSTMENT_MAX_VALUE = 3;
-            Config.EVENT_NAME_PREFIX = 'scanIdAgeVerificationPage';
-            Config.BOUNDARY_TOP = 20;
-            Config.BOUNDARY_BOTTOM = 20;
-            Config.BOUNDARY_LEFT = 20;
-            Config.BOUNDARY_RIGHT = 20;
-            Config.BOUNDARY_MAX_WIDTH = 4800;
-            Config.BOUNDARY_MAX_HEIGHT = 4800;
-            Config.FACING_MODE_REQUIRED = 'environment';
-            return Config;
-        }());
+            }
+        }
+        Config.DEFAULT_DEBUG_LEVEL = 4;
+        Config.API_BASE_ENDPOINT = '';
+        Config.CAMERA_SOURCE_ROOT_ELEMENT_CONTAINER = '#scanIdVideoContainer';
+        Config.CAMERA_SOURCE_ROOT_ELEMENT = '#scanIdVideo';
+        Config.CAMERA_SOURCE_CANVAS_OVERLAY_ELEMENT = '#scanIdVideoOverlayCanvas';
+        Config.CAMERA_SOURCE_CANVAS_RESULT_ELEMENT = '#scanIdVideoResultCanvas';
+        Config.ID_CARD_GUIDE_CONTAINER = '#idCardGuide';
+        Config.ID_CARD_GUIDE_BIRTH_DATE_CONTAINER = '#idCardGuideBirthDate';
+        Config.DOCUMENT_PROCESSING_CANVAS_CONTAINER = '#documentProcessingCanvasContainer';
+        Config.DOCUMENT_PROCESSING_CANVAS = '#documentProcessingCanvas';
+        Config.FACE_API_WEIGHTS_PATH = '/static/js/appFiles/faw/';
+        Config.TESSERACT_WORKER_PATH = '/static/js/appFiles/tjs/w.min.js';
+        Config.TESSERACT_CORE_PATH = '/static/js/appFiles/tjs/tscasm.js';
+        Config.TESSERACT_LANGUAGE_PATH = '/static/js/appFiles/tjs/data';
+        Config.TESSERACT_LANGUAGE = Avs.Plugin.Library.Ml.Tesseract.LANGUAGE_FR;
+        Config.MAX_VALID_DATA_EXTRACTION_NUMBER = 1;
+        Config.MAX_TOTAL_DATA_EXTRACTION_NUMBER = 50;
+        Config.MAX_VALID_FACE_SCAN_NUMBER = 3;
+        Config.MAX_TOTAL_FACE_SCAN_NUMBER = 30;
+        Config.DATA_EXTRACTION_INTERVAL_MS = 500;
+        Config.FACE_SCAN_INTERVAL_MS = 500;
+        Config.PHOTO_TAKE_INTERVAL_MS = 500;
+        Config.MAX_FACE_DISTANCE_TO_MATCH = 0.55;
+        Config.MIN_VALID_FACE_MATCH = 5;
+        Config.MIN_SCAN_VALUE = 18;
+        Config.MAX_SCAN_VALUE = 150;
+        Config.BRIGHTNESS_ADJUSTMENT_MAX_VALUE = 20;
+        Config.CONTRAST_ADJUSTMENT_MAX_VALUE = 20;
+        Config.ZOOM_ADJUSTMENT_MAX_VALUE = 3;
+        Config.EVENT_NAME_PREFIX = 'scanIdAgeVerificationPage';
+        Config.BOUNDARY_TOP = 20;
+        Config.BOUNDARY_BOTTOM = 20;
+        Config.BOUNDARY_LEFT = 20;
+        Config.BOUNDARY_RIGHT = 20;
+        Config.BOUNDARY_MAX_WIDTH = 4800;
+        Config.BOUNDARY_MAX_HEIGHT = 4800;
+        Config.FACING_MODE_REQUIRED = 'environment';
         ScanIdAgeVerificationPage.Config = Config;
     })(ScanIdAgeVerificationPage = AvsFactory.ScanIdAgeVerificationPage || (AvsFactory.ScanIdAgeVerificationPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -664,12 +616,10 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ScanIdAgeVerificationPage;
+    let ScanIdAgeVerificationPage;
     (function (ScanIdAgeVerificationPage) {
-        var Ui = /** @class */ (function () {
-            function Ui() {
-            }
-            Ui.init = function () {
+        class Ui {
+            static init() {
                 ScanIdAgeVerificationPage.instance.ui = {
                     ScanIdAgeVerificationLoadingLabelArea: new Avs.Ui.Library.ScanIdAgeVerificationLoadingLabelArea(ScanIdAgeVerificationPage.instance.event),
                     ScanIdAgeVerificationLoadingLabelPercentCounter: new Avs.Ui.Library.ScanIdAgeVerificationLoadingLabelPercentCounter(ScanIdAgeVerificationPage.instance.event),
@@ -690,7 +640,7 @@ var AvsFactory;
                     ScanIdAgeVerificationConfirmationYesButton: new Avs.Ui.Library.ScanIdAgeVerificationConfirmationYesButton(ScanIdAgeVerificationPage.instance.event),
                     ScanIdAgeVerificationConfirmationNoButton: new Avs.Ui.Library.ScanIdAgeVerificationConfirmationNoButton(ScanIdAgeVerificationPage.instance.event),
                     DocumentProcessingCanvasLoadingOverlayArea: new Avs.Ui.Library.DocumentProcessingCanvasLoadingOverlayArea(ScanIdAgeVerificationPage.instance.event),
-                    ScanIdAgeVerificationFaceSimilarityArea: new Avs.Ui.Library.ScanIdAgeVerificationFaceSimilarityArea(ScanIdAgeVerificationPage.instance.event)
+                    ScanIdAgeVerificationFaceSimilarityArea: new Avs.Ui.Library.ScanIdAgeVerificationFaceSimilarityArea(ScanIdAgeVerificationPage.instance.event),
                 };
                 ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationLoadingLabelPercentCounter.setStepNumber(7);
                 ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationBirthDateButton.showLoading();
@@ -700,9 +650,8 @@ var AvsFactory;
                 if (ScanIdAgeVerificationPage.Method.isScanIdVerificationStandalone()) {
                     ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationFaceSimilarityArea.hide();
                 }
-            };
-            return Ui;
-        }());
+            }
+        }
         ScanIdAgeVerificationPage.Ui = Ui;
     })(ScanIdAgeVerificationPage = AvsFactory.ScanIdAgeVerificationPage || (AvsFactory.ScanIdAgeVerificationPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -710,33 +659,31 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ScanIdAgeVerificationPage;
+    let ScanIdAgeVerificationPage;
     (function (ScanIdAgeVerificationPage) {
-        var Binding = /** @class */ (function () {
-            function Binding() {
-            }
-            Binding.init = function () {
-                $(window).on('resize', function () {
+        class Binding {
+            static init() {
+                $(window).on('resize', () => {
                     ScanIdAgeVerificationPage.Method.repositionScanId();
                 });
-                ScanIdAgeVerificationPage.instance.ui.RatioRecommendButton.onClick(function () {
+                ScanIdAgeVerificationPage.instance.ui.RatioRecommendButton.onClick(() => {
                     ScanIdAgeVerificationPage.instance.ui.RatioRecommendArea.hide();
                     ScanIdAgeVerificationPage.Method.initVideo();
                 });
-                ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationUploadImageButton.onClick(function () {
+                ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationUploadImageButton.onClick(() => {
                     ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationUploadFileInput.triggerFileBrowse();
                 });
-                ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationTakePhotoButton.onClick(function () {
+                ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationTakePhotoButton.onClick(() => {
                     ScanIdAgeVerificationPage.Method.repositionScanId();
-                    var scanIdContainerMask = ScanIdAgeVerificationPage.Method.getIdGuideContainer();
-                    var videoElement = ScanIdAgeVerificationPage.instance.plugin.Library.Video.CameraSource.adapters.webrtc.rootElement;
-                    var containerPosition = Avs.Helper.VideoAreaExtractor.calculateMaskPosition(scanIdContainerMask, videoElement);
-                    var documentProcessingCanvas = ScanIdAgeVerificationPage.Method.getProcessingCanvas();
+                    const scanIdContainerMask = ScanIdAgeVerificationPage.Method.getIdGuideContainer();
+                    const videoElement = ScanIdAgeVerificationPage.instance.plugin.Library.Video.CameraSource.adapters.webrtc.rootElement;
+                    const containerPosition = Avs.Helper.VideoAreaExtractor.calculateMaskPosition(scanIdContainerMask, videoElement);
+                    const documentProcessingCanvas = ScanIdAgeVerificationPage.Method.getProcessingCanvas();
                     Avs.Helper.VideoAreaExtractor.videoMaskToCanvas(videoElement, documentProcessingCanvas, containerPosition);
                     ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationDocumentProcessingArea.show();
                     ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationDocumentProcessingConfirmationArea.show();
                 });
-                ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationUploadFileInput.onChange(function (value, event) {
+                ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationUploadFileInput.onChange((value, event) => {
                     if (value != '') {
                         ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationDocumentProcessingArea.show();
                         ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationDocumentProcessingConfirmationArea.show();
@@ -745,13 +692,13 @@ var AvsFactory;
                         }
                     }
                 });
-                ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationConfirmationYesButton.onClick(function () {
+                ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationConfirmationYesButton.onClick(() => {
                     ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationDocumentProcessingConfirmationArea.hide();
                     ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationDocumentProcessingProcessArea.show();
                     ScanIdAgeVerificationPage.instance.ui.DocumentProcessingCanvasLoadingOverlayArea.show();
                     ScanIdAgeVerificationPage.Method.loadDetectionLibrary();
                 });
-                ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationConfirmationNoButton.onClick(function () {
+                ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationConfirmationNoButton.onClick(() => {
                     if (ScanIdAgeVerificationPage.instance.entity.VerificationStepGlobal.scanIdAgeVerificationInVideoBypassMode) {
                         AvsFactory.StartPage.Method.showPageStep(AvsFactory.StartPage.Config.SCAN_ID_AGE_VERIFICATION_INTRO_LAYER);
                         AvsFactory.ScanIdAgeVerificationIntro.instance.ui.ScanIdAgeVerificationUploadFileIntroInput.clearValue();
@@ -762,9 +709,8 @@ var AvsFactory;
                     ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationDocumentProcessingConfirmationArea.hide();
                     ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationDocumentProcessingProcessArea.hide();
                 });
-            };
-            return Binding;
-        }());
+            }
+        }
         ScanIdAgeVerificationPage.Binding = Binding;
     })(ScanIdAgeVerificationPage = AvsFactory.ScanIdAgeVerificationPage || (AvsFactory.ScanIdAgeVerificationPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -772,71 +718,69 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ScanIdAgeVerificationPage;
+    let ScanIdAgeVerificationPage;
     (function (ScanIdAgeVerificationPage) {
-        var Method = /** @class */ (function () {
-            function Method() {
-            }
-            Method.init = function () {
+        class Method {
+            static init() {
                 if (ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.facingMode !== ScanIdAgeVerificationPage.Config.FACING_MODE_REQUIRED) {
                     ScanIdAgeVerificationPage.instance.plugin.Library.Video.CameraSource.getVideoElement().addClass('mirrored');
                 }
                 if (!ScanIdAgeVerificationPage.instance.entity.VerificationStepGlobal.scanIdAgeVerificationInVideoBypassMode) {
                     Method.initVideo();
                 }
-            };
-            Method.getProcessingCanvas = function () {
+            }
+            static getProcessingCanvas() {
                 return $(ScanIdAgeVerificationPage.Config.DOCUMENT_PROCESSING_CANVAS).get(0);
-            };
-            Method.getIdGuideContainer = function () {
+            }
+            static getIdGuideContainer() {
                 return $(ScanIdAgeVerificationPage.Config.ID_CARD_GUIDE_CONTAINER).get(0);
-            };
-            Method.initVideo = function () {
+            }
+            static initVideo() {
                 ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationLoadingLabelArea.setContent('Trying to access your camera');
                 ScanIdAgeVerificationPage.instance.plugin.Library.Video.CameraSource.init();
                 ScanIdAgeVerificationPage.instance.plugin.Library.Video.CameraSource.showVideo();
                 Method.repositionScanId();
-            };
-            Method.loadDetectionLibrary = function () {
+            }
+            static loadDetectionLibrary() {
                 ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationLoadingLabelPercentCounter.setValue(0);
                 ScanIdAgeVerificationPage.instance.debug.logToContainer('<p>Starting scan id data extraction.</p>');
-                ScanIdAgeVerificationPage.instance.plugin.Library.Ml.Tesseract.loadWorker(function (result) {
+                ScanIdAgeVerificationPage.instance.plugin.Library.Ml.Tesseract.loadWorker((result) => {
                     if (result === null) {
                         AvsFactory.StartPage.Method.renderError(25040, 'Failed to initialize detection libraries');
                         return;
                     }
                     ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationLoadingLabelPercentCounter.increment();
-                    ScanIdAgeVerificationPage.instance.plugin.Library.Ml.Tesseract.loadLanguage(ScanIdAgeVerificationPage.Config.TESSERACT_LANGUAGE, function (result) {
+                    ScanIdAgeVerificationPage.instance.plugin.Library.Ml.Tesseract.loadLanguage(ScanIdAgeVerificationPage.Config.TESSERACT_LANGUAGE, (result) => {
                         if (result === null) {
                             AvsFactory.StartPage.Method.renderError(25041, 'Failed to initialize detection libraries');
                             return;
                         }
                         ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationLoadingLabelPercentCounter.increment();
-                        ScanIdAgeVerificationPage.instance.plugin.Library.Ml.Tesseract.initLanguage(ScanIdAgeVerificationPage.Config.TESSERACT_LANGUAGE, function (result) {
+                        ScanIdAgeVerificationPage.instance.plugin.Library.Ml.Tesseract.initLanguage(ScanIdAgeVerificationPage.Config.TESSERACT_LANGUAGE, (result) => {
                             if (result === null) {
                                 AvsFactory.StartPage.Method.renderError(25042, 'Failed to initialize detection libraries');
                                 return;
                             }
                             ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationLoadingLabelPercentCounter.increment();
-                            ScanIdAgeVerificationPage.instance.plugin.Library.Ml.Tesseract.configureWorker(function (result) {
+                            ScanIdAgeVerificationPage.instance.plugin.Library.Ml.Tesseract.configureWorker((result) => {
                                 if (result === null) {
                                     AvsFactory.StartPage.Method.renderError(25043, 'Failed to initialize detection libraries');
                                     return;
                                 }
                                 ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationLoadingLabelPercentCounter.increment();
-                                ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.loadDetector(function (result) {
+                                ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.loadDetector((result) => {
                                     if (result === null) {
                                         AvsFactory.StartPage.Method.renderError(25044, 'Failed to initialize detection libraries');
                                         return;
                                     }
                                     ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationLoadingLabelPercentCounter.increment();
-                                    ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.loadFaceRecognitionModel(function (result) {
+                                    ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.loadFaceRecognitionModel((result) => {
                                         if (result === null) {
                                             AvsFactory.StartPage.Method.renderError(25045, 'Failed to initialize detection libraries');
                                             return;
                                         }
                                         ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationLoadingLabelPercentCounter.increment();
-                                        ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.loadLandmarksModel(function (result) {
+                                        ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.loadLandmarksModel((result) => {
                                             if (result === null) {
                                                 AvsFactory.StartPage.Method.renderError(25063, 'Failed to initialize detection libraries');
                                                 return;
@@ -851,18 +795,18 @@ var AvsFactory;
                         });
                     });
                 });
-            };
-            Method.faceExtractionStart = function () {
+            }
+            static faceExtractionStart() {
                 Method.extractFace();
-            };
-            Method.extractFace = function () {
-                var processingCanvas = Method.getProcessingCanvas();
-                ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.detectFaceFromCustomElement(processingCanvas, function (faceResult) {
+            }
+            static extractFace() {
+                const processingCanvas = Method.getProcessingCanvas();
+                ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.detectFaceFromCustomElement(processingCanvas, (faceResult) => {
                     ScanIdAgeVerificationPage.instance.debug.logToContainer('<p>Extract image face.</p>');
                     ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.totalFaceNumber++;
                     if (faceResult !== null) {
                         ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.validFaceNumber++;
-                        ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.extractFaceImageFromCustomElement(faceResult.detection, processingCanvas, function (canvasFace) {
+                        ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.extractFaceImageFromCustomElement(faceResult.detection, processingCanvas, (canvasFace) => {
                             ScanIdAgeVerificationPage.instance.debug.logToContainer(Avs.Helper.Canvas.canvasToImage(canvasFace[0]));
                             ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.validFaceList.push(faceResult);
                             ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.validCanvasFaceList.push(canvasFace[0]);
@@ -871,26 +815,26 @@ var AvsFactory;
                     }
                     else {
                         ScanIdAgeVerificationPage.instance.debug.logToContainer('<p>No face found.</p>');
-                        var adjustment = Method.getBrightnessAndContrastRandomAdjustment();
+                        const adjustment = Method.getBrightnessAndContrastRandomAdjustment();
                         Avs.Helper.Canvas.contrastCanvas(Method.getProcessingCanvas(), adjustment.contrast);
                         Avs.Helper.Canvas.brightnessCanvas(Method.getProcessingCanvas(), adjustment.brightness);
                         Method.checkExtractFaceStep();
                     }
                 });
-            };
-            Method.getBrightnessAndContrastRandomAdjustment = function () {
-                var negativeBrightnessOperation = Math.random() >= 0.5;
-                var negativeContrastOperation = Math.random() >= 0.5;
-                var brightnessAdjustment = (Math.floor(Math.random() * ScanIdAgeVerificationPage.Config.BRIGHTNESS_ADJUSTMENT_MAX_VALUE) + 1);
-                var contrastAdjustment = (Math.floor(Math.random() * ScanIdAgeVerificationPage.Config.CONTRAST_ADJUSTMENT_MAX_VALUE) + 1);
-                var brightness = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig().brightness;
+            }
+            static getBrightnessAndContrastRandomAdjustment() {
+                const negativeBrightnessOperation = Math.random() >= 0.5;
+                const negativeContrastOperation = Math.random() >= 0.5;
+                const brightnessAdjustment = (Math.floor(Math.random() * ScanIdAgeVerificationPage.Config.BRIGHTNESS_ADJUSTMENT_MAX_VALUE) + 1);
+                const contrastAdjustment = (Math.floor(Math.random() * ScanIdAgeVerificationPage.Config.CONTRAST_ADJUSTMENT_MAX_VALUE) + 1);
+                let brightness = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig().brightness;
                 if (negativeBrightnessOperation) {
                     brightness -= brightnessAdjustment;
                 }
                 else {
                     brightness += brightnessAdjustment;
                 }
-                var contrast = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig().contrast;
+                let contrast = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig().contrast;
                 if (negativeContrastOperation) {
                     contrast -= contrastAdjustment;
                 }
@@ -901,11 +845,11 @@ var AvsFactory;
                     brightness: brightness,
                     contrast: contrast
                 };
-            };
-            Method.isScanIdVerificationStandalone = function () {
+            }
+            static isScanIdVerificationStandalone() {
                 return ScanIdAgeVerificationPage.instance.entity.VerificationStepGlobal.verificationType === Avs.Entity.VerificationStepGlobal.VERIFICATION_TYPE_SCAN_ID;
-            };
-            Method.checkExtractFaceStep = function () {
+            }
+            static checkExtractFaceStep() {
                 if (ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.validFaceNumber == ScanIdAgeVerificationPage.Config.MAX_VALID_FACE_SCAN_NUMBER) {
                     if (Method.isScanIdVerificationStandalone()) {
                         Method.ocrImage();
@@ -919,20 +863,20 @@ var AvsFactory;
                     Method.goToFailStep(25051, 'Failed to extract a face from your identity card');
                     return;
                 }
-                setTimeout(function () {
+                setTimeout(() => {
                     Method.extractFace();
                 }, ScanIdAgeVerificationPage.Config.FACE_SCAN_INTERVAL_MS);
-            };
-            Method.compareFaceDescriptors = function () {
+            }
+            static compareFaceDescriptors() {
                 ScanIdAgeVerificationPage.instance.debug.logToContainer('<p>Compare image faces with selfie images.</p>');
-                for (var i = 0, j = ScanIdAgeVerificationPage.instance.entity.SelfieAgeDetection.validCanvasFaceList.length; i < j; i++) {
-                    for (var ii = 0, jj = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.validFaceList.length; ii < jj; ii++) {
+                for (let i = 0, j = ScanIdAgeVerificationPage.instance.entity.SelfieAgeDetection.validCanvasFaceList.length; i < j; i++) {
+                    for (let ii = 0, jj = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.validFaceList.length; ii < jj; ii++) {
                         ScanIdAgeVerificationPage.instance.debug.logToContainer('<p>Image pair:</p>');
                         ScanIdAgeVerificationPage.instance.debug.logToContainer(Avs.Helper.Canvas.canvasToImage(ScanIdAgeVerificationPage.instance.entity.SelfieAgeDetection.validCanvasFaceList[i]));
                         ScanIdAgeVerificationPage.instance.debug.logToContainer(Avs.Helper.Canvas.canvasToImage(ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.validCanvasFaceList[ii]));
-                        var distance = ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.compareFaceDescriptors(ScanIdAgeVerificationPage.instance.entity.SelfieAgeDetection.validFaceList[i].descriptor, ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.validFaceList[ii].descriptor);
+                        const distance = ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.compareFaceDescriptors(ScanIdAgeVerificationPage.instance.entity.SelfieAgeDetection.validFaceList[i].descriptor, ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.validFaceList[ii].descriptor);
                         ScanIdAgeVerificationPage.instance.debug.logToContainer('<p>Face comparison distance: <span class="' + (distance <= ScanIdAgeVerificationPage.Config.MAX_FACE_DISTANCE_TO_MATCH ? 'green' : 'red') + '">' + distance + '</span></p>');
-                        var faceItsMatching = distance <= ScanIdAgeVerificationPage.Config.MAX_FACE_DISTANCE_TO_MATCH;
+                        const faceItsMatching = distance <= ScanIdAgeVerificationPage.Config.MAX_FACE_DISTANCE_TO_MATCH;
                         if (faceItsMatching) {
                             ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.totalValidFaceMatch++;
                         }
@@ -945,26 +889,26 @@ var AvsFactory;
                     }
                 }
                 Method.goToFailStep(25052, 'Selfie face does not match the one found on the identity card');
-            };
-            Method.ocrImage = function () {
+            }
+            static ocrImage() {
                 // go through all id type variants
                 ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.incrementIdVariantCurrent();
-                ScanIdAgeVerificationPage.instance.plugin.Library.Ml.Tesseract.setIdConfig(ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig(), function (workerWasConfigured) {
-                    var idSizeConfig = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig().idSizeList;
-                    var faceCoordinates = ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.extractFaceCoordinates(ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.validFaceList[0]);
-                    var birthDateMaskPosition = Avs.Helper.ElementPositionCalculator.calculateBirthDateMaskPosition(faceCoordinates, idSizeConfig);
-                    var canvasResultElement = $(ScanIdAgeVerificationPage.Config.CAMERA_SOURCE_CANVAS_RESULT_ELEMENT).get(0);
+                ScanIdAgeVerificationPage.instance.plugin.Library.Ml.Tesseract.setIdConfig(ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig(), (workerWasConfigured) => {
+                    const idSizeConfig = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig().idSizeList;
+                    const faceCoordinates = ScanIdAgeVerificationPage.instance.plugin.Library.Ml.FaceApi.extractFaceCoordinates(ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.validFaceList[0]);
+                    const birthDateMaskPosition = Avs.Helper.ElementPositionCalculator.calculateBirthDateMaskPosition(faceCoordinates, idSizeConfig);
+                    const canvasResultElement = $(ScanIdAgeVerificationPage.Config.CAMERA_SOURCE_CANVAS_RESULT_ELEMENT).get(0);
                     // TODO: tweak these more?
-                    var zoomAdjustment = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig().idRegionZoom + Math.floor(Math.random() * ScanIdAgeVerificationPage.Config.ZOOM_ADJUSTMENT_MAX_VALUE);
+                    const zoomAdjustment = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig().idRegionZoom + Math.floor(Math.random() * ScanIdAgeVerificationPage.Config.ZOOM_ADJUSTMENT_MAX_VALUE);
                     ScanIdAgeVerificationPage.instance.debug.logToContainer('<p>Zoom: ' + zoomAdjustment + '</p>');
-                    var maskCanvas = Avs.Helper.VideoAreaExtractor.videoMaskToCanvas(Method.getProcessingCanvas(), canvasResultElement, birthDateMaskPosition, zoomAdjustment);
+                    const maskCanvas = Avs.Helper.VideoAreaExtractor.videoMaskToCanvas(Method.getProcessingCanvas(), canvasResultElement, birthDateMaskPosition, zoomAdjustment);
                     Avs.Helper.Canvas.grayscaleCanvas(maskCanvas);
-                    var adjustment = Method.getBrightnessAndContrastRandomAdjustment();
+                    const adjustment = Method.getBrightnessAndContrastRandomAdjustment();
                     Avs.Helper.Canvas.brightnessCanvas(maskCanvas, adjustment.brightness);
                     Avs.Helper.Canvas.contrastCanvas(maskCanvas, adjustment.contrast);
                     //Avs.Helper.Canvas.thresholdCanvas(maskCanvas, instance.entity.ScanIdAgeVerification.getIdTypeConfig().threshold);
                     ScanIdAgeVerificationPage.instance.debug.logToContainer(Avs.Helper.Canvas.canvasToImage(maskCanvas));
-                    ScanIdAgeVerificationPage.instance.plugin.Library.Ml.Tesseract.extractInformationFromId(maskCanvas, function (result) {
+                    ScanIdAgeVerificationPage.instance.plugin.Library.Ml.Tesseract.extractInformationFromId(maskCanvas, (result) => {
                         if (result !== null) {
                             ScanIdAgeVerificationPage.instance.debug.logToContainer('Detected age: ' + result.age);
                         }
@@ -988,11 +932,11 @@ var AvsFactory;
                         Method.checkOcrStep();
                     });
                 });
-            };
-            Method.getAgeMinimumValue = function () {
-                var minimumValue = ScanIdAgeVerificationPage.Config.MIN_SCAN_VALUE;
-                var idCountry = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.idCountry;
-                var idState = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.idState;
+            }
+            static getAgeMinimumValue() {
+                let minimumValue = ScanIdAgeVerificationPage.Config.MIN_SCAN_VALUE;
+                const idCountry = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.idCountry;
+                const idState = ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.idState;
                 if (typeof Application.countryAgeMajority[idCountry] != 'undefined') {
                     minimumValue = Application.countryAgeMajority[idCountry];
                     if (idState != null &&
@@ -1002,8 +946,8 @@ var AvsFactory;
                     }
                 }
                 return minimumValue;
-            };
-            Method.checkOcrStep = function () {
+            }
+            static checkOcrStep() {
                 if (ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.validScanNumber == ScanIdAgeVerificationPage.Config.MAX_VALID_DATA_EXTRACTION_NUMBER) {
                     ScanIdAgeVerificationPage.instance.debug.logToContainer('<p>Birth date final result:' + ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.lowestScanValue + '</p>');
                     if (ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.lowestScanValue < Method.getAgeMinimumValue()) {
@@ -1017,18 +961,18 @@ var AvsFactory;
                     Method.goToFailStep(25054, 'Failed to extract your age from the current identity card');
                     return;
                 }
-                setTimeout(function () {
+                setTimeout(() => {
                     Method.ocrImage();
                 }, ScanIdAgeVerificationPage.Config.DATA_EXTRACTION_INTERVAL_MS);
-            };
-            Method.goToSuccessStep = function () {
+            }
+            static goToSuccessStep() {
                 AvsFactory.StartPage.Method.showPageStep(AvsFactory.StartPage.Config.RESULT_PAGE_SUCCESS_LAYER);
                 AvsFactory.ResultPageSuccess.init();
                 if (!ScanIdAgeVerificationPage.instance.entity.VerificationStepGlobal.scanIdAgeVerificationInVideoBypassMode) {
                     ScanIdAgeVerificationPage.instance.plugin.Library.Video.CameraSource.datachannels.webrtc.stopStreaming();
                 }
-            };
-            Method.goToFailStep = function (failCode, failReason) {
+            }
+            static goToFailStep(failCode, failReason) {
                 AvsFactory.StartPage.Method.showPageStep(AvsFactory.StartPage.Config.RESULT_PAGE_FAIL_LAYER);
                 AvsFactory.ResultPageFail.init();
                 AvsFactory.ResultPageFail.Method.saveError(failCode);
@@ -1036,12 +980,12 @@ var AvsFactory;
                 if (!ScanIdAgeVerificationPage.instance.entity.VerificationStepGlobal.scanIdAgeVerificationInVideoBypassMode) {
                     ScanIdAgeVerificationPage.instance.plugin.Library.Video.CameraSource.datachannels.webrtc.stopStreaming();
                 }
-            };
-            Method.repositionScanId = function () {
+            }
+            static repositionScanId() {
                 if (ScanIdAgeVerificationPage.instance.entity.VerificationStepGlobal.scanIdAgeVerificationInVideoBypassMode) {
                     return;
                 }
-                var elementPosition = Avs.Helper.ElementPositionCalculator.getScreenPositionFromConfig({
+                const elementPosition = Avs.Helper.ElementPositionCalculator.getScreenPositionFromConfig({
                     width: ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig().idSizeList.container.width,
                     height: ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig().idSizeList.container.height,
                     maxWidth: ScanIdAgeVerificationPage.Config.BOUNDARY_MAX_WIDTH,
@@ -1053,7 +997,7 @@ var AvsFactory;
                         right: ScanIdAgeVerificationPage.Config.BOUNDARY_RIGHT
                     }
                 });
-                var innerElementPosition = Avs.Helper.ElementPositionCalculator.getScreenPositionRelativeToContainer({
+                const innerElementPosition = Avs.Helper.ElementPositionCalculator.getScreenPositionRelativeToContainer({
                     width: ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig().idSizeList.container.width,
                     height: ScanIdAgeVerificationPage.instance.entity.ScanIdAgeVerification.getIdTypeConfig().idSizeList.container.height,
                     maxWidth: ScanIdAgeVerificationPage.Config.BOUNDARY_MAX_WIDTH,
@@ -1072,9 +1016,8 @@ var AvsFactory;
                 });
                 Avs.Helper.ElementPositionCalculator.applyPositioning(ScanIdAgeVerificationPage.Config.ID_CARD_GUIDE_CONTAINER, elementPosition);
                 Avs.Helper.ElementPositionCalculator.applyPositioning(ScanIdAgeVerificationPage.Config.ID_CARD_GUIDE_BIRTH_DATE_CONTAINER, innerElementPosition);
-            };
-            return Method;
-        }());
+            }
+        }
         ScanIdAgeVerificationPage.Method = Method;
     })(ScanIdAgeVerificationPage = AvsFactory.ScanIdAgeVerificationPage || (AvsFactory.ScanIdAgeVerificationPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1082,24 +1025,21 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ScanIdAgeVerificationPage;
+    let ScanIdAgeVerificationPage;
     (function (ScanIdAgeVerificationPage) {
-        var Event = /** @class */ (function () {
-            function Event() {
-            }
-            Event.init = function () {
-                ScanIdAgeVerificationPage.instance.event.on(ScanIdAgeVerificationPage.Config.EVENT_NAME_PREFIX + '.' + Avs.DataChannel.Webrtc.ON_WEBCAM_INIT_ERROR, function (event) {
+        class Event {
+            static init() {
+                ScanIdAgeVerificationPage.instance.event.on(ScanIdAgeVerificationPage.Config.EVENT_NAME_PREFIX + '.' + Avs.DataChannel.Webrtc.ON_WEBCAM_INIT_ERROR, (event) => {
                     // allow error
                 });
-                ScanIdAgeVerificationPage.instance.event.on(ScanIdAgeVerificationPage.Config.EVENT_NAME_PREFIX + '.' + Avs.DataChannel.Webrtc.ON_VIDEO_PLAY, function (event) {
+                ScanIdAgeVerificationPage.instance.event.on(ScanIdAgeVerificationPage.Config.EVENT_NAME_PREFIX + '.' + Avs.DataChannel.Webrtc.ON_VIDEO_PLAY, (event) => {
                     ScanIdAgeVerificationPage.Method.repositionScanId();
                     ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationLoadingLabelArea.setContent('');
                     ScanIdAgeVerificationPage.instance.ui.ScanIdAgeVerificationLoadingLabelArea.hide();
                     //Method.loadDetectionLibrary();
                 });
-            };
-            return Event;
-        }());
+            }
+        }
         ScanIdAgeVerificationPage.Event = Event;
     })(ScanIdAgeVerificationPage = AvsFactory.ScanIdAgeVerificationPage || (AvsFactory.ScanIdAgeVerificationPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1109,19 +1049,19 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var ScanIdAgeVerificationPage;
+    let ScanIdAgeVerificationPage;
     (function (ScanIdAgeVerificationPage) {
         function init() {
-            var scanIdAgeVerificationEntity = Avs.Entity.ScanIdAgeVerification.getInstance();
-            var verificationStepGlobalEntity = Avs.Entity.VerificationStepGlobal.getInstance();
-            var faceApiDetectorType = Avs.Plugin.Library.Ml.FaceApi.DETECTOR_TYPE_TINY_FACE_DETECTOR;
+            const scanIdAgeVerificationEntity = Avs.Entity.ScanIdAgeVerification.getInstance();
+            const verificationStepGlobalEntity = Avs.Entity.VerificationStepGlobal.getInstance();
+            let faceApiDetectorType = Avs.Plugin.Library.Ml.FaceApi.DETECTOR_TYPE_TINY_FACE_DETECTOR;
             if (verificationStepGlobalEntity.faceApiType == Avs.Entity.VerificationStepGlobal.FACE_API_TYPE_PRECISE) {
                 faceApiDetectorType = Avs.Plugin.Library.Ml.FaceApi.DETECTOR_TYPE_SSD_MOBILE_NET_V1;
             }
             ScanIdAgeVerificationPage.instance = new Avs.SelfieAgeDetectionPage({
                 debugLevel: ScanIdAgeVerificationPage.Config.DEFAULT_DEBUG_LEVEL,
                 event: {
-                    debugLevel: ScanIdAgeVerificationPage.Config.DEFAULT_DEBUG_LEVEL
+                    debugLevel: ScanIdAgeVerificationPage.Config.DEFAULT_DEBUG_LEVEL,
                 },
                 plugin: {
                     Library: {
@@ -1131,7 +1071,7 @@ var AvsFactory;
                                 canvasOverlayElementSelector: ScanIdAgeVerificationPage.Config.CAMERA_SOURCE_CANVAS_OVERLAY_ELEMENT,
                                 videoElementSelector: ScanIdAgeVerificationPage.Config.CAMERA_SOURCE_ROOT_ELEMENT,
                                 detectorType: faceApiDetectorType,
-                                debugLevel: ScanIdAgeVerificationPage.Config.DEFAULT_DEBUG_LEVEL
+                                debugLevel: ScanIdAgeVerificationPage.Config.DEFAULT_DEBUG_LEVEL,
                             },
                             Tesseract: {
                                 idConfig: scanIdAgeVerificationEntity.getIdTypeConfig(),
@@ -1139,7 +1079,7 @@ var AvsFactory;
                                 languagePath: ScanIdAgeVerificationPage.Config.TESSERACT_LANGUAGE_PATH,
                                 corePath: ScanIdAgeVerificationPage.Config.TESSERACT_CORE_PATH,
                                 videoElementSelector: ScanIdAgeVerificationPage.Config.CAMERA_SOURCE_ROOT_ELEMENT,
-                                debugLevel: ScanIdAgeVerificationPage.Config.DEFAULT_DEBUG_LEVEL
+                                debugLevel: ScanIdAgeVerificationPage.Config.DEFAULT_DEBUG_LEVEL,
                             }
                         },
                         Video: {
@@ -1174,19 +1114,16 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var SelfieAgeDetectionIntro;
+    let SelfieAgeDetectionIntro;
     (function (SelfieAgeDetectionIntro) {
-        var Config = /** @class */ (function () {
-            function Config() {
-            }
-            Config.create = function (config) {
+        class Config {
+            static create(config) {
                 Config.DEFAULT_DEBUG_LEVEL = config.defaultBugLevel || Config.DEFAULT_DEBUG_LEVEL;
-            };
-            Config.DEFAULT_DEBUG_LEVEL = 4;
-            Config.API_BASE_ENDPOINT = '';
-            Config.FACING_MODE_REQUIRED = 'user';
-            return Config;
-        }());
+            }
+        }
+        Config.DEFAULT_DEBUG_LEVEL = 4;
+        Config.API_BASE_ENDPOINT = '';
+        Config.FACING_MODE_REQUIRED = 'user';
         SelfieAgeDetectionIntro.Config = Config;
     })(SelfieAgeDetectionIntro = AvsFactory.SelfieAgeDetectionIntro || (AvsFactory.SelfieAgeDetectionIntro = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1194,26 +1131,23 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var SelfieAgeDetectionIntro;
+    let SelfieAgeDetectionIntro;
     (function (SelfieAgeDetectionIntro) {
-        var Ui = /** @class */ (function () {
-            function Ui() {
-            }
-            Ui.init = function () {
+        class Ui {
+            static init() {
                 SelfieAgeDetectionIntro.instance.ui = {
                     SelfieAgeDetectionStartButton: new Avs.Ui.Library.SelfieAgeDetectionStartButton(SelfieAgeDetectionIntro.instance.event),
                     SelfieAgeDetectionDeviceSelect: new Avs.Ui.Library.SelfieAgeDetectionDeviceSelect(SelfieAgeDetectionIntro.instance.event),
                     SelfieAgeDetectionDeviceAccessArea: new Avs.Ui.Library.SelfieAgeDetectionDeviceAccessArea(SelfieAgeDetectionIntro.instance.event),
                     SelfieAgeDetectionSubmitArea: new Avs.Ui.Library.SelfieAgeDetectionSubmitArea(SelfieAgeDetectionIntro.instance.event),
                     SelfieAgeDetectionDeviceSelectionArea: new Avs.Ui.Library.SelfieAgeDetectionDeviceSelectionArea(SelfieAgeDetectionIntro.instance.event),
-                    SelfieAgeDetectionCancelButton: new Avs.Ui.Library.SelfieAgeDetectionCancelButton(SelfieAgeDetectionIntro.instance.event)
+                    SelfieAgeDetectionCancelButton: new Avs.Ui.Library.SelfieAgeDetectionCancelButton(SelfieAgeDetectionIntro.instance.event),
                 };
                 if (!SelfieAgeDetectionIntro.instance.entity.SelfieAgeDetection.resourcesPreloaded) {
                     SelfieAgeDetectionIntro.instance.ui.SelfieAgeDetectionStartButton.disable();
                 }
-            };
-            return Ui;
-        }());
+            }
+        }
         SelfieAgeDetectionIntro.Ui = Ui;
     })(SelfieAgeDetectionIntro = AvsFactory.SelfieAgeDetectionIntro || (AvsFactory.SelfieAgeDetectionIntro = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1221,25 +1155,22 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var SelfieAgeDetectionIntro;
+    let SelfieAgeDetectionIntro;
     (function (SelfieAgeDetectionIntro) {
-        var Binding = /** @class */ (function () {
-            function Binding() {
-            }
-            Binding.init = function () {
-                SelfieAgeDetectionIntro.instance.ui.SelfieAgeDetectionStartButton.onClick(function () {
+        class Binding {
+            static init() {
+                SelfieAgeDetectionIntro.instance.ui.SelfieAgeDetectionStartButton.onClick(() => {
                     if (SelfieAgeDetectionIntro.instance.entity.SelfieAgeDetection.facingMode === null) {
                         SelfieAgeDetectionIntro.instance.entity.SelfieAgeDetection.videoDeviceId = SelfieAgeDetectionIntro.instance.ui.SelfieAgeDetectionDeviceSelect.getSelectedOption();
                     }
                     AvsFactory.StartPage.Method.showPageStep(AvsFactory.StartPage.Config.SELFIE_AGE_DETECTION_PAGE_LAYER);
                     AvsFactory.SelfieAgeDetectionPage.init();
                 });
-                SelfieAgeDetectionIntro.instance.ui.SelfieAgeDetectionCancelButton.onClick(function () {
+                SelfieAgeDetectionIntro.instance.ui.SelfieAgeDetectionCancelButton.onClick(() => {
                     AvsFactory.StartPage.Method.showPageStep(AvsFactory.StartPage.Config.START_PAGE_LAYER);
                 });
-            };
-            return Binding;
-        }());
+            }
+        }
         SelfieAgeDetectionIntro.Binding = Binding;
     })(SelfieAgeDetectionIntro = AvsFactory.SelfieAgeDetectionIntro || (AvsFactory.SelfieAgeDetectionIntro = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1247,27 +1178,25 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var SelfieAgeDetectionIntro;
+    let SelfieAgeDetectionIntro;
     (function (SelfieAgeDetectionIntro) {
-        var Method = /** @class */ (function () {
-            function Method() {
-            }
-            Method.init = function () {
-                Avs.Helper.Common.hasCameraFacingMode(SelfieAgeDetectionIntro.Config.FACING_MODE_REQUIRED, function (facingModeExist) {
+        class Method {
+            static init() {
+                Avs.Helper.Common.hasCameraFacingMode(SelfieAgeDetectionIntro.Config.FACING_MODE_REQUIRED, (facingModeExist) => {
                     if (!facingModeExist) {
                         SelfieAgeDetectionIntro.instance.ui.SelfieAgeDetectionDeviceSelect.clearAllOptions();
-                        Avs.Helper.Common.getStreamDevices(function (devices) {
+                        Avs.Helper.Common.getStreamDevices((devices) => {
                             if (devices === null) {
                                 AvsFactory.StartPage.Method.renderError(25034, 'Could not retrieve your device camera list');
                                 return;
                             }
-                            var videoInputDeviceIdList = {};
-                            var foundDevicesNumber = 0;
+                            const videoInputDeviceIdList = {};
+                            let foundDevicesNumber = 0;
                             SelfieAgeDetectionIntro.instance.ui.SelfieAgeDetectionDeviceSelect.clearAllOptions();
-                            for (var i = 0, j = devices.videoinput.length; i < j; i++) {
-                                var device = devices.videoinput[i];
+                            for (let i = 0, j = devices.videoinput.length; i < j; i++) {
+                                const device = devices.videoinput[i];
                                 videoInputDeviceIdList[device.id] = true;
-                                SelfieAgeDetectionIntro.instance.ui.SelfieAgeDetectionDeviceSelect.addOption(device.label, device.id, device["default"]);
+                                SelfieAgeDetectionIntro.instance.ui.SelfieAgeDetectionDeviceSelect.addOption(device.label, device.id, device.default);
                                 foundDevicesNumber++;
                             }
                             if (foundDevicesNumber > 1) {
@@ -1283,9 +1212,8 @@ var AvsFactory;
                         SelfieAgeDetectionIntro.instance.ui.SelfieAgeDetectionSubmitArea.show();
                     }
                 });
-            };
-            return Method;
-        }());
+            }
+        }
         SelfieAgeDetectionIntro.Method = Method;
     })(SelfieAgeDetectionIntro = AvsFactory.SelfieAgeDetectionIntro || (AvsFactory.SelfieAgeDetectionIntro = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1293,20 +1221,17 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var SelfieAgeDetectionIntro;
+    let SelfieAgeDetectionIntro;
     (function (SelfieAgeDetectionIntro) {
-        var Event = /** @class */ (function () {
-            function Event() {
-            }
-            Event.init = function () {
-                AvsFactory.StartPage.instance.event.on(Avs.Helper.FilePreloader.ON_PRELOAD_EVENT + '.' + AvsFactory.StartPage.Config.FACE_API_PRELOADER_NAME, function (event, data) {
+        class Event {
+            static init() {
+                AvsFactory.StartPage.instance.event.on(Avs.Helper.FilePreloader.ON_PRELOAD_EVENT + '.' + AvsFactory.StartPage.Config.FACE_API_PRELOADER_NAME, (event, data) => {
                     if (data.total.progress == 100 && data.total.status === Avs.Helper.FilePreloader.FILE_STATUS_SUCCESS) {
                         SelfieAgeDetectionIntro.instance.ui.SelfieAgeDetectionStartButton.enable();
                     }
                 });
-            };
-            return Event;
-        }());
+            }
+        }
         SelfieAgeDetectionIntro.Event = Event;
     })(SelfieAgeDetectionIntro = AvsFactory.SelfieAgeDetectionIntro || (AvsFactory.SelfieAgeDetectionIntro = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1316,13 +1241,13 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var SelfieAgeDetectionIntro;
+    let SelfieAgeDetectionIntro;
     (function (SelfieAgeDetectionIntro) {
         function init() {
             SelfieAgeDetectionIntro.instance = new Avs.SelfieAgeDetectionIntro({
                 debugLevel: SelfieAgeDetectionIntro.Config.DEFAULT_DEBUG_LEVEL,
                 event: {
-                    debugLevel: SelfieAgeDetectionIntro.Config.DEFAULT_DEBUG_LEVEL
+                    debugLevel: SelfieAgeDetectionIntro.Config.DEFAULT_DEBUG_LEVEL,
                 }
             });
             SelfieAgeDetectionIntro.instance.entity.VerificationStepGlobal.stepId = Avs.Entity.VerificationStepGlobal.STEP_SELFIE_AGE_DETECTION_INTRO;
@@ -1338,40 +1263,37 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var SelfieAgeDetectionPage;
+    let SelfieAgeDetectionPage;
     (function (SelfieAgeDetectionPage) {
-        var Config = /** @class */ (function () {
-            function Config() {
-            }
-            Config.create = function (config) {
+        class Config {
+            static create(config) {
                 Config.DEFAULT_DEBUG_LEVEL = config.defaultBugLevel || Config.DEFAULT_DEBUG_LEVEL;
                 Config.API_BASE_ENDPOINT = config.apiBaseEndpoint || Config.API_BASE_ENDPOINT;
-            };
-            Config.DEFAULT_DEBUG_LEVEL = 4;
-            Config.API_BASE_ENDPOINT = '';
-            Config.CAMERA_SOURCE_ROOT_ELEMENT_CONTAINER = '#selfieVideoContainer';
-            Config.CAMERA_SOURCE_ROOT_ELEMENT = '#selfieVideo';
-            Config.CAMERA_SOURCE_CANVAS_OVERLAY_ELEMENT = '#selfieVideoOverlayCanvas';
-            Config.FACE_GUIDE_ELEMENT = '#faceGuide';
-            Config.FACE_API_WEIGHTS_PATH = '/static/js/appFiles/faw/';
-            Config.MAX_VALID_FACE_SCAN_NUMBER = 5;
-            Config.MAX_TOTAL_FACE_SCAN_NUMBER = 40;
-            Config.MAX_TOTAL_FACE_EXPRESSION_SCAN_NUMBER = 40;
-            Config.MIN_ALLOWED_AVERAGE_AGE = 25;
-            Config.FACE_SCAN_INTERVAL_MS = 500;
-            Config.EVENT_NAME_PREFIX = 'selfieAgeDetectionPage';
-            Config.MAX_FACE_DISTANCE_TO_MATCH = 0.5;
-            Config.MIN_VALID_FACE_MATCH = 5;
-            Config.BOUNDARY_TOP = 40;
-            Config.BOUNDARY_BOTTOM = 40;
-            Config.BOUNDARY_LEFT = 40;
-            Config.BOUNDARY_RIGHT = 40;
-            Config.BOUNDARY_MAX_WIDTH = 4800;
-            Config.BOUNDARY_MAX_HEIGHT = 4800;
-            Config.BOUNDARY_WIDTH = 420;
-            Config.BOUNDARY_HEIGHT = 600;
-            return Config;
-        }());
+            }
+        }
+        Config.DEFAULT_DEBUG_LEVEL = 4;
+        Config.API_BASE_ENDPOINT = '';
+        Config.CAMERA_SOURCE_ROOT_ELEMENT_CONTAINER = '#selfieVideoContainer';
+        Config.CAMERA_SOURCE_ROOT_ELEMENT = '#selfieVideo';
+        Config.CAMERA_SOURCE_CANVAS_OVERLAY_ELEMENT = '#selfieVideoOverlayCanvas';
+        Config.FACE_GUIDE_ELEMENT = '#faceGuide';
+        Config.FACE_API_WEIGHTS_PATH = '/static/js/appFiles/faw/';
+        Config.MAX_VALID_FACE_SCAN_NUMBER = 5;
+        Config.MAX_TOTAL_FACE_SCAN_NUMBER = 40;
+        Config.MAX_TOTAL_FACE_EXPRESSION_SCAN_NUMBER = 40;
+        Config.MIN_ALLOWED_AVERAGE_AGE = 25;
+        Config.FACE_SCAN_INTERVAL_MS = 500;
+        Config.EVENT_NAME_PREFIX = 'selfieAgeDetectionPage';
+        Config.MAX_FACE_DISTANCE_TO_MATCH = 0.5;
+        Config.MIN_VALID_FACE_MATCH = 5;
+        Config.BOUNDARY_TOP = 40;
+        Config.BOUNDARY_BOTTOM = 40;
+        Config.BOUNDARY_LEFT = 40;
+        Config.BOUNDARY_RIGHT = 40;
+        Config.BOUNDARY_MAX_WIDTH = 4800;
+        Config.BOUNDARY_MAX_HEIGHT = 4800;
+        Config.BOUNDARY_WIDTH = 420;
+        Config.BOUNDARY_HEIGHT = 600;
         SelfieAgeDetectionPage.Config = Config;
     })(SelfieAgeDetectionPage = AvsFactory.SelfieAgeDetectionPage || (AvsFactory.SelfieAgeDetectionPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1379,12 +1301,10 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var SelfieAgeDetectionPage;
+    let SelfieAgeDetectionPage;
     (function (SelfieAgeDetectionPage) {
-        var Ui = /** @class */ (function () {
-            function Ui() {
-            }
-            Ui.init = function () {
+        class Ui {
+            static init() {
                 SelfieAgeDetectionPage.instance.ui = {
                     SelfieAgeDetectionLoadingLabelPercentCounter: new Avs.Ui.Library.SelfieAgeDetectionLoadingLabelPercentCounter(SelfieAgeDetectionPage.instance.event),
                     SelfieAgeDetectionLoadingLabelArea: new Avs.Ui.Library.SelfieAgeDetectionLoadingLabelArea(SelfieAgeDetectionPage.instance.event),
@@ -1396,7 +1316,7 @@ var AvsFactory;
                     FaceGuideAgeArea: new Avs.Ui.Library.FaceGuideAgeArea(SelfieAgeDetectionPage.instance.event),
                     FaceGuideSmileStartHintLabel: new Avs.Ui.Library.FaceGuideSmileStartHintLabel(SelfieAgeDetectionPage.instance.event),
                     FaceGuideSmileStopHintLabel: new Avs.Ui.Library.FaceGuideSmileStopHintLabel(SelfieAgeDetectionPage.instance.event),
-                    FaceGuideLoadingProgressBar: new Avs.Ui.Library.FaceGuideLoadingProgressBar(SelfieAgeDetectionPage.instance.event)
+                    FaceGuideLoadingProgressBar: new Avs.Ui.Library.FaceGuideLoadingProgressBar(SelfieAgeDetectionPage.instance.event),
                 };
                 SelfieAgeDetectionPage.instance.ui.SelfieAgeDetectionLoadingLabelPercentCounter.setStepNumber(5);
                 SelfieAgeDetectionPage.instance.ui.FaceGuideLoadingProgressBar.hide();
@@ -1406,9 +1326,8 @@ var AvsFactory;
                 SelfieAgeDetectionPage.instance.ui.SelfieAgeDetectionLoadingLabelArea.hide();
                 SelfieAgeDetectionPage.instance.ui.SelfieAgeDetectionLoadingLabelPercentCounter.hide();
                 SelfieAgeDetectionPage.instance.ui.FaceGuideAgeArea.hide();
-            };
-            return Ui;
-        }());
+            }
+        }
         SelfieAgeDetectionPage.Ui = Ui;
     })(SelfieAgeDetectionPage = AvsFactory.SelfieAgeDetectionPage || (AvsFactory.SelfieAgeDetectionPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1416,18 +1335,15 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var SelfieAgeDetectionPage;
+    let SelfieAgeDetectionPage;
     (function (SelfieAgeDetectionPage) {
-        var Binding = /** @class */ (function () {
-            function Binding() {
-            }
-            Binding.init = function () {
-                $(window).on('resize', function () {
+        class Binding {
+            static init() {
+                $(window).on('resize', () => {
                     SelfieAgeDetectionPage.Method.repositionScanId();
                 });
-            };
-            return Binding;
-        }());
+            }
+        }
         SelfieAgeDetectionPage.Binding = Binding;
     })(SelfieAgeDetectionPage = AvsFactory.SelfieAgeDetectionPage || (AvsFactory.SelfieAgeDetectionPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1435,15 +1351,13 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var SelfieAgeDetectionPage;
+    let SelfieAgeDetectionPage;
     (function (SelfieAgeDetectionPage) {
-        var Method = /** @class */ (function () {
-            function Method() {
-            }
-            Method.init = function () {
+        class Method {
+            static init() {
                 Method.initVideo();
-            };
-            Method.initVideo = function () {
+            }
+            static initVideo() {
                 Method.repositionScanId();
                 SelfieAgeDetectionPage.instance.plugin.Library.Video.CameraSource.getVideoElement().addClass('mirrored');
                 SelfieAgeDetectionPage.instance.ui.SelfieAgeDetectionStatusLabel.setValue('Trying to access your camera');
@@ -1451,9 +1365,9 @@ var AvsFactory;
                 SelfieAgeDetectionPage.instance.plugin.Library.Video.CameraSource.showVideo();
                 SelfieAgeDetectionPage.instance.ui.FaceGuideLoadingProgressBar.show();
                 SelfieAgeDetectionPage.instance.ui.FaceGuideLoadingProgressBar.increment();
-            };
-            Method.getAgeAreaString = function (label, age) {
-                var detectedAgeString = label + ': ';
+            }
+            static getAgeAreaString(label, age) {
+                let detectedAgeString = label + ': ';
                 if (age >= SelfieAgeDetectionPage.Config.MIN_ALLOWED_AVERAGE_AGE) {
                     detectedAgeString += 'Adult';
                 }
@@ -1464,12 +1378,12 @@ var AvsFactory;
                     detectedAgeString += ' (' + age + ')';
                 }
                 return detectedAgeString;
-            };
-            Method.detectFace = function () {
+            }
+            static detectFace() {
                 SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.totalScanNumber++;
-                SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.detectFace(function (faceResult) {
+                SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.detectFace((faceResult) => {
                     SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Detect face.</p>');
-                    SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.detectFaceAge(function (ageResult) {
+                    SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.detectFaceAge((ageResult) => {
                         SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Detect face age.</p>');
                         if (ageResult !== null && faceResult !== null) {
                             SelfieAgeDetectionPage.instance.ui.SelfieAgeDetectionStatusLabel.hide();
@@ -1481,7 +1395,7 @@ var AvsFactory;
                             SelfieAgeDetectionPage.instance.ui.SelfieAgeDetectionCurrentAgeArea.show();
                             SelfieAgeDetectionPage.instance.ui.SelfieAgeDetectionCurrentAgeArea.setContent(Method.getAgeAreaString('Current detected age', ageResult.age.toFixed()));
                             SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Current: ' + ageResult.age.toFixed() + ' Average: ' + ageResult.averageAge + '</p>');
-                            SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.extractFaceImage(faceResult.detection, function (canvasFace) {
+                            SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.extractFaceImage(faceResult.detection, (canvasFace) => {
                                 SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validCanvasFaceList.push(canvasFace[0]);
                                 SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validFaceList.push(faceResult);
                                 SelfieAgeDetectionPage.instance.debug.logToContainer(Avs.Helper.Canvas.canvasToImage(canvasFace[0]));
@@ -1499,16 +1413,16 @@ var AvsFactory;
                         }
                     });
                 });
-            };
-            Method.checkStep = function () {
+            }
+            static checkStep() {
                 if (SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validScanNumber == SelfieAgeDetectionPage.Config.MAX_VALID_FACE_SCAN_NUMBER) {
                     // detecting outliers
-                    var outlierInstance = new Avs.Helper.Outlier(SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.ageResultList);
-                    var outlierList = outlierInstance.findOutliers();
+                    const outlierInstance = new Avs.Helper.Outlier(SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.ageResultList);
+                    const outlierList = outlierInstance.findOutliers();
                     if (outlierList.length > 0) {
                         SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Age outliers found, recalculating average.</p>');
-                        var noOutlierList = [];
-                        for (var i = 0, j = SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.ageResultList.length; i < j; i++) {
+                        const noOutlierList = [];
+                        for (let i = 0, j = SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.ageResultList.length; i < j; i++) {
                             if (!outlierInstance.testOutlier(SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.ageResultList[i])) {
                                 noOutlierList.push(SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.ageResultList[i]);
                             }
@@ -1523,17 +1437,17 @@ var AvsFactory;
                     }
                     // detection face similarity
                     SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Compare image faces for similarity.</p>');
-                    for (var i = 0, j = SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validCanvasFaceList.length; i < j; i++) {
-                        for (var ii = 0, jj = SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validCanvasFaceList.length; ii < jj; ii++) {
+                    for (let i = 0, j = SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validCanvasFaceList.length; i < j; i++) {
+                        for (let ii = 0, jj = SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validCanvasFaceList.length; ii < jj; ii++) {
                             if (i >= ii) {
                                 continue;
                             }
                             SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Image pair (' + i + ' - ' + ii + '):</p>');
                             SelfieAgeDetectionPage.instance.debug.logToContainer(Avs.Helper.Canvas.canvasToImage(SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validCanvasFaceList[i]));
                             SelfieAgeDetectionPage.instance.debug.logToContainer(Avs.Helper.Canvas.canvasToImage(SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validCanvasFaceList[ii]));
-                            var distance = SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.compareFaceDescriptors(SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validFaceList[i].descriptor, SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validFaceList[ii].descriptor);
+                            const distance = SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.compareFaceDescriptors(SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validFaceList[i].descriptor, SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validFaceList[ii].descriptor);
                             SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Face comparison distance: <span class="' + (distance <= SelfieAgeDetectionPage.Config.MAX_FACE_DISTANCE_TO_MATCH ? 'green' : 'red') + '">' + distance + '</span></p>');
-                            var faceItsNotMatching = distance > SelfieAgeDetectionPage.Config.MAX_FACE_DISTANCE_TO_MATCH;
+                            const faceItsNotMatching = distance > SelfieAgeDetectionPage.Config.MAX_FACE_DISTANCE_TO_MATCH;
                             if (faceItsNotMatching) {
                                 SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.totalInvalidFaceMatch++;
                             }
@@ -1561,29 +1475,29 @@ var AvsFactory;
                     Method.goToFailStep(25057, 'Could not detect enough faces from your device video');
                     return;
                 }
-                setTimeout(function () {
+                setTimeout(() => {
                     Method.detectFace();
                 }, SelfieAgeDetectionPage.Config.FACE_SCAN_INTERVAL_MS);
-            };
-            Method.checkExpressionStep = function () {
+            }
+            static checkExpressionStep() {
                 if (SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.totalExpressionScanNumber == SelfieAgeDetectionPage.Config.MAX_TOTAL_FACE_EXPRESSION_SCAN_NUMBER) {
                     Method.goToFailStep(25061, 'Could not detect enough faces from your device video');
                     return;
                 }
-                setTimeout(function () {
+                setTimeout(() => {
                     Method.detectFaceExpression();
                 }, SelfieAgeDetectionPage.Config.FACE_SCAN_INTERVAL_MS);
-            };
-            Method.detectFaceExpression = function () {
+            }
+            static detectFaceExpression() {
                 SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.totalExpressionScanNumber++;
-                SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.detectFace(function (faceResult) {
+                SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.detectFace((faceResult) => {
                     SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Detect face.</p>');
-                    SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.detectFaceExpression(function (faceExpressionResult) {
+                    SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.detectFaceExpression((faceExpressionResult) => {
                         SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Detect face expression.</p>');
                         if (faceResult !== null && faceExpressionResult !== null && faceExpressionResult.expressionStrongest !== null) {
                             SelfieAgeDetectionPage.instance.ui.SelfieAgeDetectionStatusLabel.stopBlinking();
                             SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Detection face expression: ' + faceExpressionResult.expressionStrongest + '</p>');
-                            SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.extractFaceImage(faceExpressionResult.detection, function (canvasFace) {
+                            SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.extractFaceImage(faceExpressionResult.detection, (canvasFace) => {
                                 SelfieAgeDetectionPage.instance.debug.logToContainer(Avs.Helper.Canvas.canvasToImage(canvasFace[0]));
                                 if (SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validateSmileExpression === null) {
                                     SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validCanvasFaceList.push(canvasFace[0]);
@@ -1604,12 +1518,12 @@ var AvsFactory;
                                     if ((SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validateSmileExpression && faceExpressionResult.expressionStrongest === Avs.Plugin.Library.Ml.FaceApi.EXPRESSION_HAPPY) ||
                                         (!SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validateSmileExpression && faceExpressionResult.expressionStrongest !== Avs.Plugin.Library.Ml.FaceApi.EXPRESSION_HAPPY)) {
                                         SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Face expression found.</p>');
-                                        var previousImageIndex = SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validFaceList.length - 1;
+                                        const previousImageIndex = SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validFaceList.length - 1;
                                         SelfieAgeDetectionPage.instance.debug.logToContainer(Avs.Helper.Canvas.canvasToImage(SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validCanvasFaceList[previousImageIndex]));
                                         SelfieAgeDetectionPage.instance.debug.logToContainer(Avs.Helper.Canvas.canvasToImage(canvasFace[0]));
-                                        var distance = SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.compareFaceDescriptors(SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validFaceList[previousImageIndex].descriptor, faceResult.descriptor);
+                                        const distance = SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.compareFaceDescriptors(SelfieAgeDetectionPage.instance.entity.SelfieAgeDetection.validFaceList[previousImageIndex].descriptor, faceResult.descriptor);
                                         SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Face comparison distance: <span class="' + (distance <= SelfieAgeDetectionPage.Config.MAX_FACE_DISTANCE_TO_MATCH ? 'green' : 'red') + '">' + distance + '</span></p>');
-                                        var faceItsNotMatching = distance > SelfieAgeDetectionPage.Config.MAX_FACE_DISTANCE_TO_MATCH;
+                                        const faceItsNotMatching = distance > SelfieAgeDetectionPage.Config.MAX_FACE_DISTANCE_TO_MATCH;
                                         if (faceItsNotMatching) {
                                             Method.goToFailStep(25062, 'Face similarity check fail');
                                             return;
@@ -1629,26 +1543,26 @@ var AvsFactory;
                         }
                     });
                 });
-            };
-            Method.goToNextStep = function () {
+            }
+            static goToNextStep() {
                 AvsFactory.StartPage.Method.showPageStep(AvsFactory.StartPage.Config.SCAN_ID_AGE_VERIFICATION_INTRO_LAYER);
                 AvsFactory.ScanIdAgeVerificationIntro.init();
                 SelfieAgeDetectionPage.instance.plugin.Library.Video.CameraSource.datachannels.webrtc.stopStreaming();
-            };
-            Method.goToSuccessStep = function () {
+            }
+            static goToSuccessStep() {
                 AvsFactory.StartPage.Method.showPageStep(AvsFactory.StartPage.Config.RESULT_PAGE_SUCCESS_LAYER);
                 AvsFactory.ResultPageSuccess.init();
                 SelfieAgeDetectionPage.instance.plugin.Library.Video.CameraSource.datachannels.webrtc.stopStreaming();
-            };
-            Method.goToFailStep = function (failCode, failReason) {
+            }
+            static goToFailStep(failCode, failReason) {
                 AvsFactory.StartPage.Method.showPageStep(AvsFactory.StartPage.Config.RESULT_PAGE_FAIL_LAYER);
                 AvsFactory.ResultPageFail.init();
                 AvsFactory.ResultPageFail.Method.saveError(failCode);
                 AvsFactory.ResultPageFail.Method.renderFailReason(failCode + ': ' + failReason);
                 SelfieAgeDetectionPage.instance.plugin.Library.Video.CameraSource.datachannels.webrtc.stopStreaming();
-            };
-            Method.repositionScanId = function () {
-                var elementPosition = Avs.Helper.ElementPositionCalculator.getScreenPositionFromConfig({
+            }
+            static repositionScanId() {
+                const elementPosition = Avs.Helper.ElementPositionCalculator.getScreenPositionFromConfig({
                     width: SelfieAgeDetectionPage.Config.BOUNDARY_WIDTH,
                     height: SelfieAgeDetectionPage.Config.BOUNDARY_HEIGHT,
                     maxWidth: SelfieAgeDetectionPage.Config.BOUNDARY_MAX_WIDTH,
@@ -1661,9 +1575,8 @@ var AvsFactory;
                     }
                 });
                 Avs.Helper.ElementPositionCalculator.applyPositioning(SelfieAgeDetectionPage.Config.FACE_GUIDE_ELEMENT, elementPosition);
-            };
-            return Method;
-        }());
+            }
+        }
         SelfieAgeDetectionPage.Method = Method;
     })(SelfieAgeDetectionPage = AvsFactory.SelfieAgeDetectionPage || (AvsFactory.SelfieAgeDetectionPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1671,48 +1584,46 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var SelfieAgeDetectionPage;
+    let SelfieAgeDetectionPage;
     (function (SelfieAgeDetectionPage) {
-        var Event = /** @class */ (function () {
-            function Event() {
-            }
-            Event.init = function () {
-                SelfieAgeDetectionPage.instance.event.on(SelfieAgeDetectionPage.Config.EVENT_NAME_PREFIX + '.' + Avs.DataChannel.Webrtc.ON_WEBCAM_INIT_ERROR, function (event) {
+        class Event {
+            static init() {
+                SelfieAgeDetectionPage.instance.event.on(SelfieAgeDetectionPage.Config.EVENT_NAME_PREFIX + '.' + Avs.DataChannel.Webrtc.ON_WEBCAM_INIT_ERROR, (event) => {
                     AvsFactory.StartPage.Method.renderError(25047, 'Webcam initialization error!');
                     return;
                 });
-                SelfieAgeDetectionPage.instance.event.on(SelfieAgeDetectionPage.Config.EVENT_NAME_PREFIX + '.' + Avs.DataChannel.Webrtc.ON_VIDEO_PLAY, function (event) {
+                SelfieAgeDetectionPage.instance.event.on(SelfieAgeDetectionPage.Config.EVENT_NAME_PREFIX + '.' + Avs.DataChannel.Webrtc.ON_VIDEO_PLAY, (event) => {
                     SelfieAgeDetectionPage.instance.ui.SelfieAgeDetectionStatusLabel.setValue('Initializing detection libraries');
                     SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Starting face detection.</p>');
-                    SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.loadDetector(function (result) {
+                    SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.loadDetector((result) => {
                         if (result === null) {
                             AvsFactory.StartPage.Method.renderError(25035, 'Failed to initialize detection libraries');
                             return;
                         }
                         SelfieAgeDetectionPage.instance.ui.FaceGuideLoadingProgressBar.increment();
                         SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Loaded detector.</p>');
-                        SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.loadAgeGenderModel(function (result) {
+                        SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.loadAgeGenderModel((result) => {
                             if (result === null) {
                                 AvsFactory.StartPage.Method.renderError(25036, 'Failed to initialize detection libraries');
                                 return;
                             }
                             SelfieAgeDetectionPage.instance.ui.FaceGuideLoadingProgressBar.increment();
                             SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Loaded age model.</p>');
-                            SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.loadFaceRecognitionModel(function (result) {
+                            SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.loadFaceRecognitionModel((result) => {
                                 if (result === null) {
                                     AvsFactory.StartPage.Method.renderError(25037, 'Failed to initialize detection libraries');
                                     return;
                                 }
                                 SelfieAgeDetectionPage.instance.ui.FaceGuideLoadingProgressBar.increment();
                                 SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Loaded face recognition model.</p>');
-                                SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.loadLandmarksModel(function (result) {
+                                SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.loadLandmarksModel((result) => {
                                     if (result === null) {
                                         AvsFactory.StartPage.Method.renderError(25038, 'Failed to initialize detection libraries');
                                         return;
                                     }
                                     SelfieAgeDetectionPage.instance.ui.FaceGuideLoadingProgressBar.increment();
                                     SelfieAgeDetectionPage.instance.debug.logToContainer('<p>Loaded face landmarks model.</p>');
-                                    SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.loadFaceExpressionModel(function (result) {
+                                    SelfieAgeDetectionPage.instance.plugin.Library.Ml.FaceApi.loadFaceExpressionModel((result) => {
                                         if (result === null) {
                                             AvsFactory.StartPage.Method.renderError(25058, 'Failed to initialize detection libraries');
                                             return;
@@ -1729,9 +1640,8 @@ var AvsFactory;
                         });
                     });
                 });
-            };
-            return Event;
-        }());
+            }
+        }
         SelfieAgeDetectionPage.Event = Event;
     })(SelfieAgeDetectionPage = AvsFactory.SelfieAgeDetectionPage || (AvsFactory.SelfieAgeDetectionPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1741,19 +1651,19 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var SelfieAgeDetectionPage;
+    let SelfieAgeDetectionPage;
     (function (SelfieAgeDetectionPage) {
         function init() {
-            var selfieAgeDetectionEntity = Avs.Entity.SelfieAgeDetection.getInstance();
-            var verificationStepGlobalEntity = Avs.Entity.VerificationStepGlobal.getInstance();
-            var faceApiDetectorType = Avs.Plugin.Library.Ml.FaceApi.DETECTOR_TYPE_TINY_FACE_DETECTOR;
+            const selfieAgeDetectionEntity = Avs.Entity.SelfieAgeDetection.getInstance();
+            const verificationStepGlobalEntity = Avs.Entity.VerificationStepGlobal.getInstance();
+            let faceApiDetectorType = Avs.Plugin.Library.Ml.FaceApi.DETECTOR_TYPE_TINY_FACE_DETECTOR;
             if (verificationStepGlobalEntity.faceApiType == Avs.Entity.VerificationStepGlobal.FACE_API_TYPE_PRECISE) {
                 faceApiDetectorType = Avs.Plugin.Library.Ml.FaceApi.DETECTOR_TYPE_SSD_MOBILE_NET_V1;
             }
             SelfieAgeDetectionPage.instance = new Avs.SelfieAgeDetectionPage({
                 debugLevel: SelfieAgeDetectionPage.Config.DEFAULT_DEBUG_LEVEL,
                 event: {
-                    debugLevel: SelfieAgeDetectionPage.Config.DEFAULT_DEBUG_LEVEL
+                    debugLevel: SelfieAgeDetectionPage.Config.DEFAULT_DEBUG_LEVEL,
                 },
                 plugin: {
                     Library: {
@@ -1763,7 +1673,7 @@ var AvsFactory;
                                 canvasOverlayElementSelector: SelfieAgeDetectionPage.Config.CAMERA_SOURCE_CANVAS_OVERLAY_ELEMENT,
                                 videoElementSelector: SelfieAgeDetectionPage.Config.CAMERA_SOURCE_ROOT_ELEMENT,
                                 detectorType: faceApiDetectorType,
-                                debugLevel: SelfieAgeDetectionPage.Config.DEFAULT_DEBUG_LEVEL
+                                debugLevel: SelfieAgeDetectionPage.Config.DEFAULT_DEBUG_LEVEL,
                             }
                         },
                         Video: {
@@ -1798,12 +1708,10 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var StartPage;
+    let StartPage;
     (function (StartPage) {
-        var Config = /** @class */ (function () {
-            function Config() {
-            }
-            Config.create = function (config) {
+        class Config {
+            static create(config) {
                 Config.DEFAULT_DEBUG_LEVEL = config.defaultBugLevel || Config.DEFAULT_DEBUG_LEVEL;
                 Config.API_BASE_ENDPOINT = config.apiBaseEndpoint || Config.API_BASE_ENDPOINT;
                 Config.POLLING_BASE_ENDPOINT = config.pollingBaseEndpoint || Config.POLLING_BASE_ENDPOINT;
@@ -1812,53 +1720,52 @@ var AvsFactory;
                 Config.PAYLOAD = config.payload || Config.PAYLOAD;
                 Config.SESSION_ID = config.sessionId || Config.SESSION_ID;
                 Config.PARTNER_COLOR_CONFIG = config.partnerColorConfig || Config.PARTNER_COLOR_CONFIG;
-            };
-            Config.MAIN_CONTAINER_SELECTOR = '#avsMainContainer';
-            Config.START_PAGE_LAYER_SELECTOR = '#startPage';
-            Config.SELFIE_AGE_DETECTION_INTRO_LAYER_SELECTOR = '#selfieAgeDetectionIntro';
-            Config.SELFIE_AGE_DETECTION_PAGE_LAYER_SELECTOR = '#selfieAgeDetectionPage';
-            Config.SCAN_ID_AGE_VERIFICATION_INTRO_LAYER_SELECTOR = '#scanIdAgeVerificationIntro';
-            Config.SCAN_ID_AGE_VERIFICATION_PAGE_LAYER_SELECTOR = '#scanIdAgeVerificationPage';
-            Config.RESULT_PAGE_SUCCESS_LAYER_SELECTOR = '#resultPageSuccess';
-            Config.RESULT_PAGE_FAIL_LAYER_SELECTOR = '#resultPageFail';
-            Config.MAIN_CONTAINER_LAYER = $(Config.MAIN_CONTAINER_SELECTOR);
-            Config.START_PAGE_LAYER = $(Config.START_PAGE_LAYER_SELECTOR);
-            Config.SELFIE_AGE_DETECTION_INTRO_LAYER = $(Config.SELFIE_AGE_DETECTION_INTRO_LAYER_SELECTOR);
-            Config.SELFIE_AGE_DETECTION_PAGE_LAYER = $(Config.SELFIE_AGE_DETECTION_PAGE_LAYER_SELECTOR);
-            Config.SCAN_ID_AGE_VERIFICATION_INTRO_LAYER = $(Config.SCAN_ID_AGE_VERIFICATION_INTRO_LAYER_SELECTOR);
-            Config.SCAN_ID_AGE_VERIFICATION_PAGE_LAYER = $(Config.SCAN_ID_AGE_VERIFICATION_PAGE_LAYER_SELECTOR);
-            Config.RESULT_PAGE_SUCCESS_LAYER = $(Config.RESULT_PAGE_SUCCESS_LAYER_SELECTOR);
-            Config.RESULT_PAGE_FAIL_LAYER = $(Config.RESULT_PAGE_FAIL_LAYER_SELECTOR);
-            Config.FACE_API_PRELOADER_NAME = 'faceApiIncludes';
-            Config.TESSERACT_PRELOADER_NAME = 'tesseractIncludes';
-            Config.VERIFICATION_TYPE_DEFAULT = Avs.Entity.VerificationStepGlobal.VERIFICATION_TYPE_SELFIE_AND_SCAN_ID_OPTIONAL;
-            Config.EVENT_STATUS_REQUEST = 'avs.statusRequest';
-            Config.EVENT_ON_VERIFICATION_DONE = 'avs.onVerificationDone';
-            Config.EVENT_VERIFICATION_START = 'avs.verificationStart';
-            Config.EVENT_RESOURCE_PRELOAD = 'avs.resourcePreload';
-            Config.EVENT_ON_START_PAGE_LOADED = 'avs.onStartPageLoaded';
-            Config.EVENT_ON_RESOURCES_LOADED = 'avs.onResourcesLoaded';
-            Config.EVENT_SET_VERIFICATION_TYPE = 'avs.setVerificationType';
-            Config.EVENT_ON_CLOSE_IFRAME = 'avs.onCloseIframe';
-            Config.EVENT_ON_INITIAL_VERIFICATION_SUCCESS = 'avs.onInitialVerificationSuccess';
-            Config.EVENT_ON_INITIAL_VERIFICATION_ERROR = 'avs.onInitialVerificationError';
-            Config.EVENT_ON_INITIAL_VERIFICATION_FATAL_ERROR = 'avs.onInitialVerificationFatalError';
-            Config.EVENT_ON_VERIFICATION_SUCCESS = 'avs.onVerificationSuccess';
-            Config.EVENT_ON_VERIFICATION_ERROR = 'avs.onVerificationError';
-            Config.VERIFICATION_VERSION_STANDARD_V1 = 1;
-            Config.VERIFICATION_VERSION_IFRAME_V1 = 2;
-            Config.VERIFICATION_VERSION = Config.VERIFICATION_VERSION_STANDARD_V1;
-            Config.SESSION_ID = null;
-            Config.PARTNER_COLOR_CONFIG = null;
-            Config.DEFAULT_DEBUG_LEVEL = 4;
-            Config.API_BASE_ENDPOINT = '';
-            Config.KEY_LOCAL_STORAGE_TERMS_AGREED = 'GoCamLocalStorageTermsWereAgreed';
-            Config.PARTNER_ID = 0;
-            Config.PAYLOAD = '';
-            Config.CREDIT_CARD_VERIFICATION_ENDPOINT = '';
-            Config.POLLING_BASE_ENDPOINT = '/result';
-            return Config;
-        }());
+            }
+        }
+        Config.MAIN_CONTAINER_SELECTOR = '#avsMainContainer';
+        Config.START_PAGE_LAYER_SELECTOR = '#startPage';
+        Config.SELFIE_AGE_DETECTION_INTRO_LAYER_SELECTOR = '#selfieAgeDetectionIntro';
+        Config.SELFIE_AGE_DETECTION_PAGE_LAYER_SELECTOR = '#selfieAgeDetectionPage';
+        Config.SCAN_ID_AGE_VERIFICATION_INTRO_LAYER_SELECTOR = '#scanIdAgeVerificationIntro';
+        Config.SCAN_ID_AGE_VERIFICATION_PAGE_LAYER_SELECTOR = '#scanIdAgeVerificationPage';
+        Config.RESULT_PAGE_SUCCESS_LAYER_SELECTOR = '#resultPageSuccess';
+        Config.RESULT_PAGE_FAIL_LAYER_SELECTOR = '#resultPageFail';
+        Config.MAIN_CONTAINER_LAYER = $(Config.MAIN_CONTAINER_SELECTOR);
+        Config.START_PAGE_LAYER = $(Config.START_PAGE_LAYER_SELECTOR);
+        Config.SELFIE_AGE_DETECTION_INTRO_LAYER = $(Config.SELFIE_AGE_DETECTION_INTRO_LAYER_SELECTOR);
+        Config.SELFIE_AGE_DETECTION_PAGE_LAYER = $(Config.SELFIE_AGE_DETECTION_PAGE_LAYER_SELECTOR);
+        Config.SCAN_ID_AGE_VERIFICATION_INTRO_LAYER = $(Config.SCAN_ID_AGE_VERIFICATION_INTRO_LAYER_SELECTOR);
+        Config.SCAN_ID_AGE_VERIFICATION_PAGE_LAYER = $(Config.SCAN_ID_AGE_VERIFICATION_PAGE_LAYER_SELECTOR);
+        Config.RESULT_PAGE_SUCCESS_LAYER = $(Config.RESULT_PAGE_SUCCESS_LAYER_SELECTOR);
+        Config.RESULT_PAGE_FAIL_LAYER = $(Config.RESULT_PAGE_FAIL_LAYER_SELECTOR);
+        Config.FACE_API_PRELOADER_NAME = 'faceApiIncludes';
+        Config.TESSERACT_PRELOADER_NAME = 'tesseractIncludes';
+        Config.VERIFICATION_TYPE_DEFAULT = Avs.Entity.VerificationStepGlobal.VERIFICATION_TYPE_SELFIE_AND_SCAN_ID_OPTIONAL;
+        Config.EVENT_STATUS_REQUEST = 'avs.statusRequest';
+        Config.EVENT_ON_VERIFICATION_DONE = 'avs.onVerificationDone';
+        Config.EVENT_VERIFICATION_START = 'avs.verificationStart';
+        Config.EVENT_RESOURCE_PRELOAD = 'avs.resourcePreload';
+        Config.EVENT_ON_START_PAGE_LOADED = 'avs.onStartPageLoaded';
+        Config.EVENT_ON_RESOURCES_LOADED = 'avs.onResourcesLoaded';
+        Config.EVENT_SET_VERIFICATION_TYPE = 'avs.setVerificationType';
+        Config.EVENT_ON_CLOSE_IFRAME = 'avs.onCloseIframe';
+        Config.EVENT_ON_INITIAL_VERIFICATION_SUCCESS = 'avs.onInitialVerificationSuccess';
+        Config.EVENT_ON_INITIAL_VERIFICATION_ERROR = 'avs.onInitialVerificationError';
+        Config.EVENT_ON_INITIAL_VERIFICATION_FATAL_ERROR = 'avs.onInitialVerificationFatalError';
+        Config.EVENT_ON_VERIFICATION_SUCCESS = 'avs.onVerificationSuccess';
+        Config.EVENT_ON_VERIFICATION_ERROR = 'avs.onVerificationError';
+        Config.VERIFICATION_VERSION_STANDARD_V1 = 1;
+        Config.VERIFICATION_VERSION_IFRAME_V1 = 2;
+        Config.VERIFICATION_VERSION = Config.VERIFICATION_VERSION_STANDARD_V1;
+        Config.SESSION_ID = null;
+        Config.PARTNER_COLOR_CONFIG = null;
+        Config.DEFAULT_DEBUG_LEVEL = 4;
+        Config.API_BASE_ENDPOINT = '';
+        Config.KEY_LOCAL_STORAGE_TERMS_AGREED = 'GoCamLocalStorageTermsWereAgreed';
+        Config.PARTNER_ID = 0;
+        Config.PAYLOAD = '';
+        Config.CREDIT_CARD_VERIFICATION_ENDPOINT = '';
+        Config.POLLING_BASE_ENDPOINT = '/result';
         StartPage.Config = Config;
     })(StartPage = AvsFactory.StartPage || (AvsFactory.StartPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1866,13 +1773,10 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var StartPage;
+    let StartPage;
     (function (StartPage) {
-        var Ui = /** @class */ (function () {
-            function Ui() {
-            }
-            Ui.init = function () {
-                var _a;
+        class Ui {
+            static init() {
                 StartPage.instance.ui = {
                     StartButton: new Avs.Ui.Library.StartButton(StartPage.instance.event),
                     TermsAndConditionsCheckbox: new Avs.Ui.Library.TermsAndConditionsCheckbox(StartPage.instance.event),
@@ -1899,20 +1803,20 @@ var AvsFactory;
                     WebCamAccessHelpBackButton: new Avs.Ui.Library.WebCamAccessHelpBackButton(StartPage.instance.event),
                     TermsAndConditionsArea: new Avs.Ui.Library.TermsAndConditionsArea(StartPage.instance.event),
                     WebCamAccessHelpArea: new Avs.Ui.Library.WebCamAccessHelpArea(StartPage.instance.event),
-                    StartPageTermsArea: new Avs.Ui.Library.StartPageTermsArea(StartPage.instance.event)
+                    StartPageTermsArea: new Avs.Ui.Library.StartPageTermsArea(StartPage.instance.event),
                 };
-                var ipCountry = Application.ipCountry.toUpperCase();
+                let ipCountry = Application.ipCountry.toUpperCase();
                 if (Application.forceIpCountry) {
                     ipCountry = Application.forceIpCountry.toUpperCase();
                 }
                 // get this dynamically later
-                var countryToTabVisibilityConfig = {
-                    "DE": (_a = {},
-                        _a[Avs.Ui.Library.VerificationTypeTabs.TAB_SELFIE_NUMBER] = true,
-                        _a[Avs.Ui.Library.VerificationTypeTabs.TAB_SCAN_ID_NUMBER] = false,
-                        _a)
+                const countryToTabVisibilityConfig = {
+                    'DE': {
+                        [Avs.Ui.Library.VerificationTypeTabs.TAB_SELFIE_NUMBER]: true,
+                        [Avs.Ui.Library.VerificationTypeTabs.TAB_SCAN_ID_NUMBER]: false,
+                    }
                 };
-                if (typeof countryToTabVisibilityConfig[ipCountry] != "undefined") {
+                if (typeof countryToTabVisibilityConfig[ipCountry] != 'undefined') {
                     if (!countryToTabVisibilityConfig[ipCountry][Avs.Ui.Library.VerificationTypeTabs.TAB_SELFIE_NUMBER]) {
                         StartPage.instance.ui.VerificationTypeTabs.hideTab(Avs.Ui.Library.VerificationTypeTabs.TAB_SELFIE_NUMBER);
                     }
@@ -1921,9 +1825,9 @@ var AvsFactory;
                     }
                 }
                 // handle also the selected tab together with the visible tabs dynamically
-                var defaultTab = StartPage.instance.ui.VerificationTypeTabs.verificationTypeToTabNumber(StartPage.Config.VERIFICATION_TYPE_DEFAULT);
+                const defaultTab = StartPage.instance.ui.VerificationTypeTabs.verificationTypeToTabNumber(StartPage.Config.VERIFICATION_TYPE_DEFAULT);
                 StartPage.instance.ui.VerificationTypeTabs.selectTab(defaultTab);
-                var termsWereAgreed = Avs.Helper.Common.getLocalStorageBooleanValue(StartPage.Config.KEY_LOCAL_STORAGE_TERMS_AGREED);
+                const termsWereAgreed = Avs.Helper.Common.getLocalStorageBooleanValue(StartPage.Config.KEY_LOCAL_STORAGE_TERMS_AGREED);
                 if (termsWereAgreed === true) {
                     StartPage.instance.ui.TermsAndConditionsCheckbox.check();
                     StartPage.instance.entity.VerificationStepGlobal.termsAndConditionAgreement = true;
@@ -1932,9 +1836,8 @@ var AvsFactory;
                 if (StartPage.Config.VERIFICATION_VERSION == StartPage.Config.VERIFICATION_VERSION_IFRAME_V1) {
                     StartPage.instance.ui.GlobalIframeCloseButton.show();
                 }
-            };
-            return Ui;
-        }());
+            }
+        }
         StartPage.Ui = Ui;
     })(StartPage = AvsFactory.StartPage || (AvsFactory.StartPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -1942,16 +1845,14 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var StartPage;
+    let StartPage;
     (function (StartPage) {
-        var Binding = /** @class */ (function () {
-            function Binding() {
-            }
-            Binding.init = function () {
-                $(window).on('resize', function () {
+        class Binding {
+            static init() {
+                $(window).on('resize', () => {
                     StartPage.Method.setScreenOrientation();
                 });
-                StartPage.instance.ui.StartButton.onClick(function () {
+                StartPage.instance.ui.StartButton.onClick(() => {
                     if (!StartPage.instance.entity.VerificationStepGlobal.termsAndConditionAgreement) {
                         alert('Please agree with the terms and conditions first');
                         return;
@@ -1971,17 +1872,17 @@ var AvsFactory;
                         //
                     }
                 });
-                StartPage.instance.ui.TermsAndConditionsCheckbox.onChange(function () {
+                StartPage.instance.ui.TermsAndConditionsCheckbox.onChange(() => {
                     StartPage.instance.entity.VerificationStepGlobal.termsAndConditionAgreement = StartPage.instance.ui.TermsAndConditionsCheckbox.states.value;
                     Avs.Helper.Common.setLocalStorageValue(StartPage.Config.KEY_LOCAL_STORAGE_TERMS_AGREED, StartPage.instance.ui.TermsAndConditionsCheckbox.states.value);
                 });
-                StartPage.instance.ui.DebugCloseButton.onClick(function () {
+                StartPage.instance.ui.DebugCloseButton.onClick(() => {
                     StartPage.instance.ui.DebugArea.hide();
                 });
-                StartPage.instance.ui.ErrorMessageStartOverButton.onClick(function () {
+                StartPage.instance.ui.ErrorMessageStartOverButton.onClick(() => {
                     window.location.reload();
                 });
-                StartPage.instance.ui.GlobalIframeCloseButton.onClick(function () {
+                StartPage.instance.ui.GlobalIframeCloseButton.onClick(() => {
                     StartPage.instance.postMessage.emit(StartPage.Config.EVENT_ON_CLOSE_IFRAME);
                     StartPage.instance.postMessage.emit(StartPage.Config.EVENT_ON_VERIFICATION_DONE, {
                         status: StartPage.instance.entity.VerificationStepGlobal.isVerified,
@@ -1999,25 +1900,24 @@ var AvsFactory;
                         window.location.reload();
                     }
                 });
-                StartPage.instance.ui.StartPageTermsArea.element.on('click', 'a', function () {
+                StartPage.instance.ui.StartPageTermsArea.element.on('click', 'a', () => {
                     StartPage.instance.ui.TermsAndConditionsArea.show();
                     return false;
                 });
-                StartPage.instance.ui.TermsAndConditionsBackButton.onClick(function () {
+                StartPage.instance.ui.TermsAndConditionsBackButton.onClick(() => {
                     StartPage.instance.ui.TermsAndConditionsArea.hide();
                 });
-                StartPage.instance.ui.ErrorMessageAdditionalTextArea.element.on('click', 'a', function () {
+                StartPage.instance.ui.ErrorMessageAdditionalTextArea.element.on('click', 'a', () => {
                     StartPage.instance.ui.WebCamAccessHelpArea.show();
                     StartPage.instance.ui.ErrorMessageArea.hide();
                     return false;
                 });
-                StartPage.instance.ui.WebCamAccessHelpBackButton.onClick(function () {
+                StartPage.instance.ui.WebCamAccessHelpBackButton.onClick(() => {
                     StartPage.instance.ui.WebCamAccessHelpArea.hide();
                     StartPage.instance.ui.ErrorMessageArea.show();
                 });
-            };
-            return Binding;
-        }());
+            }
+        }
         StartPage.Binding = Binding;
     })(StartPage = AvsFactory.StartPage || (AvsFactory.StartPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -2025,12 +1925,10 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var StartPage;
+    let StartPage;
     (function (StartPage) {
-        var Method = /** @class */ (function () {
-            function Method() {
-            }
-            Method.init = function () {
+        class Method {
+            static init() {
                 // https://github.com/mexitek/phpColors/blob/master/src/Mexitek/PHPColors/Color.php#L474
                 Method.applyPartnerColor();
                 $('body').attr('style', '');
@@ -2050,18 +1948,93 @@ var AvsFactory;
                 if (StartPage.Config.VERIFICATION_VERSION == StartPage.Config.VERIFICATION_VERSION_IFRAME_V1) {
                     Method.preloadTesseractResources();
                 }
-            };
-            Method.applyPartnerColor = function () {
+            }
+            static applyPartnerColor() {
                 if (StartPage.Config.PARTNER_COLOR_CONFIG !== null) {
                     if (typeof StartPage.Config.PARTNER_COLOR_CONFIG.body.foregroundCallToAction === 'undefined') {
                         StartPage.Config.PARTNER_COLOR_CONFIG.body.foregroundCallToAction = StartPage.Config.PARTNER_COLOR_CONFIG.body.foreground;
                     }
-                    $("<style type='text/css'>\n\t\t\n\t\t\t\t\t\t\tbody,\n\t\t\t\t\t\t\t#avsMainContainer .page.layoutDocumentProcessing,\n\t\t\t\t\t\t\t#avsMainContainer .page.layoutDocumentProcessing .imageContainer .loadingOverlay,\n\t\t\t\t\t\t\t#avsMainContainer .page.layoutError,\n\t\t\t\t\t\t\t#avsMainContainer .page.layoutStaticPage,\n\t\t\t\t\t\t\t#avsMainContainer .page.layoutTextBlock,\n\t\t\t\t\t\t\t#avsMainContainer .page.layoutTextBlock a,\n\t\t\t\t\t\t\t#avsMainContainer .page .informationArea.layoutBlack,\n\t\t\t\t\t\t\t#avsMainContainer .preloader,\n\t\t\t\t\t\t\t#avsMainContainer .page.layoutDocumentProcessing .processArea .checkOutList .checkOutItem .statusIcon {\n\t\t\t\t\t\t\t\tbackground-color: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.background + ";\n\t\t\t\t\t\t\t\tcolor: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.foreground + ";\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t#avsMainContainer .preloader {\n\t\t\t\t\t\t\t\tbackground-color: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background + ";\n\t\t\t\t\t\t\t\tcolor: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.foreground + ";\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t#avsMainContainer .page.layoutDocumentProcessing .imageContainer .loadingOverlay {\n\t\t\t\t\t\t\t\topacity: 0.7\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t#avsMainContainer .page .iconArea .iconItem .iconImage svg {\n\t\t\t\t\t\t\t\tfill: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.foreground + ";\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t#avsMainContainer .page .iconArea .iconItem.isSelected .iconImage svg {\n\t\t\t\t\t\t\t\tfill: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.foregroundCallToAction + ";\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t#avsMainContainer .page .submitArea .button,\n\t\t\t\t\t\t\t#avsMainContainer .page .submitArea .button.layoutRed,\n\t\t\t\t\t\t\t#avsMainContainer .page .submitArea .button.layoutGreen {\n\t\t\t\t\t\t\t\tcolor: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.foregroundCallToAction + ";\n\t\t\t\t\t\t\t\tbackground-color: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background + ";\n\t\t\t\t\t\t\t\tborder-color: " + Avs.Helper.Common.hexToRgbA(StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background, 0.4) + ";\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t#avsMainContainer .page .iconArea .iconItem.isSelected .iconImage,\n\t\t\t\t\t\t\t#avsMainContainer .page .introIcon,\n\t\t\t\t\t\t\t#avsMainContainer .page .introIcon.layoutRed,\n\t\t\t\t\t\t\t#avsMainContainer .page .introIcon.layoutGreen {\n\t\t\t\t\t\t\t\tfill: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.foreground + ";\n\t\t\t\t\t\t\t\tbackground-color: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background + ";\n\t\t\t\t\t\t\t\tborder-color: " + Avs.Helper.Common.hexToRgbA(StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background, 0.4) + ";\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t#avsMainContainer .page .termsArea label a {\n\t\t\t\t\t\t\t\tcolor: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.foregroundCallToAction + ";\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t#globalIframeCloseButton {\n\t\t\t\t\t\t\t\tbackground-color: " + Avs.Helper.Common.hexToRgbA(StartPage.Config.PARTNER_COLOR_CONFIG.body.background, 0.7) + ";\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t#avsMainContainer .page .iconArea .iconItem.isSelected .iconLabel .verificationTypeRadioButton {\n\t\t\t\t\t\t\t\tbackground-color: " + Avs.Helper.Common.hexToRgbA(StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background, 1) + ";\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t#avsMainContainer .page .iconArea .iconItem .iconLabel .verificationTypeRadioButton {\n\t\t\t\t\t\t\t\tborder-color: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background + ";\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t#avsMainContainer .page .iconArea .iconItem.isSelected .iconLabel .verificationTypeRadioButton:after {\n\t\t\t\t\t\t\t\tbackground-color: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.foregroundCallToAction + ";\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t#avsMainContainer .preloader {\n\t\t\t\t\t\t\t\tbackground-color: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background + ";\n\t\t\t\t\t\t\t\tcolor: " + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.foreground + ";\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t</style>").appendTo("head");
+                    $(`<style type='text/css'>
+		
+							body,
+							#avsMainContainer .page.layoutDocumentProcessing,
+							#avsMainContainer .page.layoutDocumentProcessing .imageContainer .loadingOverlay,
+							#avsMainContainer .page.layoutError,
+							#avsMainContainer .page.layoutStaticPage,
+							#avsMainContainer .page.layoutTextBlock,
+							#avsMainContainer .page.layoutTextBlock a,
+							#avsMainContainer .page .informationArea.layoutBlack,
+							#avsMainContainer .preloader,
+							#avsMainContainer .page.layoutDocumentProcessing .processArea .checkOutList .checkOutItem .statusIcon {
+								background-color: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.background + `;
+								color: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.foreground + `;
+							}
+							
+							#avsMainContainer .preloader {
+								background-color: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background + `;
+								color: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.foreground + `;
+							}
+							
+							#avsMainContainer .page.layoutDocumentProcessing .imageContainer .loadingOverlay {
+								opacity: 0.7
+							}
+							
+							#avsMainContainer .page .iconArea .iconItem .iconImage svg {
+								fill: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.foreground + `;
+							}
+							
+							#avsMainContainer .page .iconArea .iconItem.isSelected .iconImage svg {
+								fill: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.foregroundCallToAction + `;
+							}
+							
+							#avsMainContainer .page .submitArea .button,
+							#avsMainContainer .page .submitArea .button.layoutRed,
+							#avsMainContainer .page .submitArea .button.layoutGreen {
+								color: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.foregroundCallToAction + `;
+								background-color: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background + `;
+								border-color: ` + Avs.Helper.Common.hexToRgbA(StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background, 0.4) + `;
+							}
+							
+							#avsMainContainer .page .iconArea .iconItem.isSelected .iconImage,
+							#avsMainContainer .page .introIcon,
+							#avsMainContainer .page .introIcon.layoutRed,
+							#avsMainContainer .page .introIcon.layoutGreen {
+								fill: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.foreground + `;
+								background-color: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background + `;
+								border-color: ` + Avs.Helper.Common.hexToRgbA(StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background, 0.4) + `;
+							}
+							
+							#avsMainContainer .page .termsArea label a {
+								color: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.foregroundCallToAction + `;
+							}
+							
+							#globalIframeCloseButton {
+								background-color: ` + Avs.Helper.Common.hexToRgbA(StartPage.Config.PARTNER_COLOR_CONFIG.body.background, 0.7) + `;
+							}
+							
+							#avsMainContainer .page .iconArea .iconItem.isSelected .iconLabel .verificationTypeRadioButton {
+								background-color: ` + Avs.Helper.Common.hexToRgbA(StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background, 1) + `;
+							}
+							
+							#avsMainContainer .page .iconArea .iconItem .iconLabel .verificationTypeRadioButton {
+								border-color: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background + `;
+							}
+							
+							#avsMainContainer .page .iconArea .iconItem.isSelected .iconLabel .verificationTypeRadioButton:after {
+								background-color: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.foregroundCallToAction + `;
+							}
+							
+							#avsMainContainer .preloader {
+								background-color: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.background + `;
+								color: ` + StartPage.Config.PARTNER_COLOR_CONFIG.body.button.foreground + `;
+							}
+
+						</style>`).appendTo('head');
                     // go.cam logo replace disabled for now
                     // $(`.headerLogo img`).attr('src', Config.PARTNER_COLOR_CONFIG.header.logo);
                 }
-            };
-            Method.hideAllStepPages = function () {
+            }
+            static hideAllStepPages() {
                 if (!StartPage.Config.START_PAGE_LAYER.hasClass('isHidden')) {
                     StartPage.Config.START_PAGE_LAYER.addClass('isHidden');
                 }
@@ -2083,19 +2056,19 @@ var AvsFactory;
                 if (!StartPage.Config.RESULT_PAGE_FAIL_LAYER.hasClass('isHidden')) {
                     StartPage.Config.RESULT_PAGE_FAIL_LAYER.addClass('isHidden');
                 }
-            };
-            Method.showPageStep = function (step) {
+            }
+            static showPageStep(step) {
                 Method.hideAllStepPages();
                 step.removeClass('isHidden');
-            };
-            Method.setScreenOrientation = function () {
+            }
+            static setScreenOrientation() {
                 StartPage.Config.MAIN_CONTAINER_LAYER.removeClass(Avs.Helper.ResponsiveElements.DEVICE_ORIENTATION_PORTRAIT);
                 StartPage.Config.MAIN_CONTAINER_LAYER.removeClass(Avs.Helper.ResponsiveElements.DEVICE_ORIENTATION_LANDSCAPE);
-                var screenOrientation = Avs.Helper.ResponsiveElements.getDeviceOrientation();
+                const screenOrientation = Avs.Helper.ResponsiveElements.getDeviceOrientation();
                 StartPage.instance.entity.VerificationStepGlobal.screenOrientation = screenOrientation;
                 StartPage.Config.MAIN_CONTAINER_LAYER.addClass(screenOrientation);
-            };
-            Method.preloadFaceApiResources = function () {
+            }
+            static preloadFaceApiResources() {
                 //tiny_face_detector_model-weights_manifest.json
                 //tiny_face_detector_model-shard1
                 //age_gender_model-weights_manifest.json
@@ -2107,7 +2080,7 @@ var AvsFactory;
                 //face_landmark_68_model-shard1
                 //face_expression_model-weights_manifest.json
                 //face_expression_model-shard1
-                var faceApiPreloader = new Avs.Helper.FilePreloader([
+                const faceApiPreloader = new Avs.Helper.FilePreloader([
                     AvsFactory.SelfieAgeDetectionPage.Config.FACE_API_WEIGHTS_PATH + 'tiny_face_detector_model-weights_manifest.json',
                     AvsFactory.SelfieAgeDetectionPage.Config.FACE_API_WEIGHTS_PATH + 'tiny_face_detector_model-shard1',
                     AvsFactory.SelfieAgeDetectionPage.Config.FACE_API_WEIGHTS_PATH + 'age_gender_model-weights_manifest.json',
@@ -2121,19 +2094,19 @@ var AvsFactory;
                     AvsFactory.SelfieAgeDetectionPage.Config.FACE_API_WEIGHTS_PATH + 'face_expression_model-shard1'
                 ], StartPage.instance.event, StartPage.Config.FACE_API_PRELOADER_NAME);
                 faceApiPreloader.startPreloading();
-            };
-            Method.preloadTesseractResources = function () {
+            }
+            static preloadTesseractResources() {
                 // tesseract-js-core-2.0.0/tesseract-core.asm.js
                 // tesseract-js-2.1.1/worker.min.js
                 // tesseract-js-core-2.0.0/tessdata/best/fra.traineddata.gz
-                var tesseractPreloader = new Avs.Helper.FilePreloader([
+                const tesseractPreloader = new Avs.Helper.FilePreloader([
                     AvsFactory.ScanIdAgeVerificationPage.Config.TESSERACT_CORE_PATH,
                     AvsFactory.ScanIdAgeVerificationPage.Config.TESSERACT_WORKER_PATH,
                     AvsFactory.ScanIdAgeVerificationPage.Config.TESSERACT_LANGUAGE_PATH + '/fra.traineddata.gz'
                 ], StartPage.instance.event, StartPage.Config.TESSERACT_PRELOADER_NAME);
                 tesseractPreloader.startPreloading();
-            };
-            Method.renderError = function (errorCode, errorMessage) {
+            }
+            static renderError(errorCode, errorMessage) {
                 StartPage.instance.ui.ErrorMessageArea.show();
                 StartPage.instance.ui.ErrorMessageTextArea.setContent(errorCode + ': ' + errorMessage);
                 switch (errorCode) {
@@ -2154,13 +2127,12 @@ var AvsFactory;
                 }
                 AvsFactory.ResultPageFail.init();
                 AvsFactory.ResultPageFail.Method.saveError(errorCode);
-            };
-            Method.goToSuccessStep = function () {
+            }
+            static goToSuccessStep() {
                 StartPage.Method.showPageStep(StartPage.Config.RESULT_PAGE_SUCCESS_LAYER);
                 AvsFactory.ResultPageSuccess.init();
-            };
-            return Method;
-        }());
+            }
+        }
         StartPage.Method = Method;
     })(StartPage = AvsFactory.StartPage || (AvsFactory.StartPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -2168,16 +2140,14 @@ var AvsFactory;
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var StartPage;
+    let StartPage;
     (function (StartPage) {
-        var Event = /** @class */ (function () {
-            function Event() {
-            }
-            Event.init = function () {
-                StartPage.instance.event.on(Avs.Ui.Library.VerificationTypeTabs.ON_TAB_SELECTED, function (event, data) {
+        class Event {
+            static init() {
+                StartPage.instance.event.on(Avs.Ui.Library.VerificationTypeTabs.ON_TAB_SELECTED, (event, data) => {
                     StartPage.instance.entity.VerificationStepGlobal.verificationType = StartPage.instance.ui.VerificationTypeTabs.tabNumberToVerificationType(data.tabNumber);
                 });
-                StartPage.instance.event.on(Avs.Helper.FilePreloader.ON_PRELOAD_EVENT + '.' + StartPage.Config.FACE_API_PRELOADER_NAME, function (event, data) {
+                StartPage.instance.event.on(Avs.Helper.FilePreloader.ON_PRELOAD_EVENT + '.' + StartPage.Config.FACE_API_PRELOADER_NAME, (event, data) => {
                     StartPage.instance.ui.FaceApiPreloaderPercentArea.setContent(data.total.progress + '%');
                     if (data.total.progress == 100 && data.total.status === Avs.Helper.FilePreloader.FILE_STATUS_SUCCESS) {
                         StartPage.instance.entity.SelfieAgeDetection.resourcesPreloaded = true;
@@ -2190,7 +2160,7 @@ var AvsFactory;
                         return;
                     }
                 });
-                StartPage.instance.event.on(Avs.Helper.FilePreloader.ON_PRELOAD_EVENT + '.' + StartPage.Config.TESSERACT_PRELOADER_NAME, function (event, data) {
+                StartPage.instance.event.on(Avs.Helper.FilePreloader.ON_PRELOAD_EVENT + '.' + StartPage.Config.TESSERACT_PRELOADER_NAME, (event, data) => {
                     StartPage.instance.ui.TesseractPreloaderPercentArea.setContent(data.total.progress + '%');
                     if (data.total.progress == 100 && data.total.status === Avs.Helper.FilePreloader.FILE_STATUS_SUCCESS) {
                         StartPage.instance.entity.ScanIdAgeVerification.resourcesPreloaded = true;
@@ -2202,7 +2172,7 @@ var AvsFactory;
                         return;
                     }
                 });
-                StartPage.instance.event.on(Avs.StartPage.ON_POLL_DATA, function (event, data) {
+                StartPage.instance.event.on(Avs.StartPage.ON_POLL_DATA, (event, data) => {
                     if (typeof data.isValidated !== 'undefined' && data.isValidated) {
                         StartPage.instance.stopApiPolling();
                         StartPage.instance.ui.ErrorMessageArea.hide();
@@ -2210,12 +2180,11 @@ var AvsFactory;
                         StartPage.Method.goToSuccessStep();
                     }
                 });
-                StartPage.instance.event.on(Avs.StartPage.ON_POLL_ERROR, function (event, data) {
+                StartPage.instance.event.on(Avs.StartPage.ON_POLL_ERROR, (event, data) => {
                     StartPage.instance.debug.logToContainer('Qr verification polling error: ' + data.msg);
                 });
-            };
-            return Event;
-        }());
+            }
+        }
         StartPage.Event = Event;
     })(StartPage = AvsFactory.StartPage || (AvsFactory.StartPage = {}));
 })(AvsFactory || (AvsFactory = {}));
@@ -2224,20 +2193,20 @@ var AvsFactory;
 
 "use strict";
 function appGetInternalState() {
-    var verificationStepGlobal = Avs.Entity.VerificationStepGlobal.getInstance();
-    var selfieAgeDetection = Avs.Entity.SelfieAgeDetection.getInstance();
-    var scanIdAgeVerification = Avs.Entity.ScanIdAgeVerification.getInstance();
+    const verificationStepGlobal = Avs.Entity.VerificationStepGlobal.getInstance();
+    const selfieAgeDetection = Avs.Entity.SelfieAgeDetection.getInstance();
+    const scanIdAgeVerification = Avs.Entity.ScanIdAgeVerification.getInstance();
     return {
         verificationStepGlobal: verificationStepGlobal,
         selfieAgeDetection: selfieAgeDetection,
-        scanIdAgeVerification: scanIdAgeVerification
+        scanIdAgeVerification: scanIdAgeVerification,
     };
 }
 
 "use strict";
 var AvsFactory;
 (function (AvsFactory) {
-    var StartPage;
+    let StartPage;
     (function (StartPage) {
         function init() {
             StartPage.instance = new Avs.StartPage({
@@ -2246,8 +2215,8 @@ var AvsFactory;
                     pollingEndpoint: StartPage.Config.POLLING_BASE_ENDPOINT
                 },
                 event: {
-                    debugLevel: StartPage.Config.DEFAULT_DEBUG_LEVEL
-                }
+                    debugLevel: StartPage.Config.DEFAULT_DEBUG_LEVEL,
+                },
             });
             StartPage.Ui.init();
             StartPage.Event.init();

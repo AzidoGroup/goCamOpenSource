@@ -30,7 +30,7 @@ function buildJsBackend() {
 function buildJsFrontend(cb) {
   let tsResult = gulp.src(frontendJsSourceLocation).pipe(tsFrontendProject());
 
-  if (!fs.existsSync(frontendJsDestinationLocation)) {
+  if (!fs.existsSync(frontendJsDestinationLocation, { recursive: true })) {
     fs.mkdirSync(frontendJsDestinationLocation, { recursive: true });
   }
   tsResult.js.pipe(gulp.dest(frontendJsDestinationLocation));
