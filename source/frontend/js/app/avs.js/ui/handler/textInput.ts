@@ -1,57 +1,57 @@
 namespace Avs {
 
-	export namespace Ui {
+  export namespace Ui {
 
-		export namespace Handler {
+    export namespace Handler {
 
-			export class TextInput extends Common {
+      export class TextInput extends Common {
 
-				public element: JQuery;
-				public states: any;
-				public event: Avs.Event.Listener;
+        public element: JQuery;
+        public states: any;
+        public event: Avs.Event.Listener;
 
-				constructor(event: Avs.Event.Listener) {
+        constructor(event: Avs.Event.Listener) {
 
-					super(event);
+          super(event);
 
-					this.event = event;
+          this.event = event;
 
-				}
+        }
 
-				public toggleVisibility(displayAsBlock?: boolean) {
+        public toggleVisibility(displayAsBlock?: boolean) {
 
-					if (this.states.visible) {
-						return this.hide();
-					}
+          if (this.states.visible) {
+            return this.hide();
+          }
 
-					return this.show(displayAsBlock);
+          return this.show(displayAsBlock);
 
-				}
+        }
 
-				public clearValue() {
+        public clearValue() {
 
-					this.element.val('');
-					this.states.value = '';
+          this.element.val('');
+          this.states.value = '';
 
-				}
+        }
 
-				public setValue(content: string) {
+        public setValue(content: string) {
 
-					this.element.val(content);
-					this.states.value = content;
+          this.element.val(content);
+          this.states.value = content;
 
-				}
+        }
 
-				public getValue() {
+        public getValue() {
 
-					return this.states.value.trim();
+          return this.states.value.trim();
 
-				}
+        }
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

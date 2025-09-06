@@ -1,14 +1,7 @@
-const Crypto = require('crypto');
+import Crypto from 'crypto';
 
 export class AvsRandom {
-
-	static generateRandomString(length = 16) {
-
-		return Crypto
-			.randomBytes(length)
-			.toString('base64')
-			.slice(0, length);
-
-	}
-
+  static generateRandomString(length = 16) {
+    return Crypto.randomBytes(length).toString('base64').slice(0, length);
+  }
 }

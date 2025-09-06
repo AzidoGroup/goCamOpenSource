@@ -1,51 +1,51 @@
 namespace Avs {
 
-	export namespace Ui {
+  export namespace Ui {
 
-		export namespace Handler {
+    export namespace Handler {
 
-			export class Area extends Common {
+      export class Area extends Common {
 
-				public element: JQuery;
-				public states: any;
-				public event: Avs.Event.Listener;
+        public element: JQuery;
+        public states: any;
+        public event: Avs.Event.Listener;
 
-				constructor(event: Avs.Event.Listener) {
+        constructor(event: Avs.Event.Listener) {
 
-					super(event);
+          super(event);
 
-					this.event = event;
+          this.event = event;
 
-				}
+        }
 
-				public toggleVisibility() {
+        public toggleVisibility() {
 
-					if (this.states.visible) {
-						return this.hide();
-					}
+          if (this.states.visible) {
+            return this.hide();
+          }
 
-					return this.show();
+          return this.show();
 
-				}
+        }
 
-				public clearContents() {
+        public clearContents() {
 
-					this.element.html('');
-					this.states.value = '';
+          this.element.html('');
+          this.states.value = '';
 
-				}
+        }
 
-				public addContent(content: string) {
+        public addContent(content: string) {
 
-					this.element.append(content);
-					this.states.value += content;
+          this.element.append(content);
+          this.states.value += content;
 
-				}
+        }
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

@@ -1,66 +1,66 @@
 namespace Avs {
 
-	export namespace Entity {
+  export namespace Entity {
 
-		export class SelfieAgeDetection {
+    export class SelfieAgeDetection {
 
-			public static instance: SelfieAgeDetection;
+      public static instance: SelfieAgeDetection;
 
-			public videoDeviceId: string;
-			public facingMode: string;
-			public totalScanNumber: number;
-			public totalExpressionScanNumber: number;
-			public validScanNumber: number;
-			public ageResultList: Array<number>;
-			public averageAge: number;
+      public videoDeviceId: string;
+      public facingMode: string;
+      public totalScanNumber: number;
+      public totalExpressionScanNumber: number;
+      public validScanNumber: number;
+      public ageResultList: Array<number>;
+      public averageAge: number;
 
-			public totalInvalidFaceMatch: number;
+      public totalInvalidFaceMatch: number;
 
-			public resourcesPreloaded: boolean;
+      public resourcesPreloaded: boolean;
 
-			public validCanvasFaceList: Array<HTMLCanvasElement>;
-			public validFaceList: Array<any>;
+      public validCanvasFaceList: Array<HTMLCanvasElement>;
+      public validFaceList: Array<any>;
 
-			public validateSmileExpression: boolean | null;
+      public validateSmileExpression: boolean | null;
 
-			constructor() {
+      constructor() {
 
-				this.initialValues();
+        this.initialValues();
 
-			}
+      }
 
-			public static getInstance() {
+      public static getInstance() {
 
-				if (!this.instance) {
-					this.instance = new SelfieAgeDetection();
-				}
+        if (!this.instance) {
+          this.instance = new SelfieAgeDetection();
+        }
 
-				return this.instance;
+        return this.instance;
 
-			}
+      }
 
-			public initialValues() {
+      public initialValues() {
 
-				this.videoDeviceId             = null;
-				this.facingMode                = null;
-				this.totalScanNumber           = 0;
-				this.totalExpressionScanNumber = 0;
-				this.validScanNumber           = 0;
-				this.averageAge                = 0;
-				this.totalInvalidFaceMatch     = 0;
+        this.videoDeviceId             = null;
+        this.facingMode                = null;
+        this.totalScanNumber           = 0;
+        this.totalExpressionScanNumber = 0;
+        this.validScanNumber           = 0;
+        this.averageAge                = 0;
+        this.totalInvalidFaceMatch     = 0;
 
-				this.ageResultList       = [];
-				this.validCanvasFaceList = [];
-				this.validFaceList       = [];
+        this.ageResultList       = [];
+        this.validCanvasFaceList = [];
+        this.validFaceList       = [];
 
-				this.resourcesPreloaded = false;
+        this.resourcesPreloaded = false;
 
-				this.validateSmileExpression = null;
+        this.validateSmileExpression = null;
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

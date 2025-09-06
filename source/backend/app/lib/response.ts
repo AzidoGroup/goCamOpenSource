@@ -1,24 +1,18 @@
 export class AvsResponse {
+  static successResponse(data: any = {}) {
+    data.success = 1;
 
-	static successResponse(data: any = {}) {
+    return {
+      content: data,
+    };
+  }
 
-		data.success = 1;
-
-		return {
-			content: data
-		}
-
-	}
-
-	static errorResponse(code: number, msg: string) {
-
-		return {
-			error: {
-				code: code,
-				msg : msg
-			}
-		}
-
-	}
-
+  static errorResponse(code: number, msg: string) {
+    return {
+      error: {
+        code: code,
+        msg: msg,
+      },
+    };
+  }
 }

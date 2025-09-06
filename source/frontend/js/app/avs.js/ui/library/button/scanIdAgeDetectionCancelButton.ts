@@ -1,52 +1,52 @@
 namespace Avs {
 
-	export namespace Ui {
+  export namespace Ui {
 
-		export namespace Library {
+    export namespace Library {
 
-			export class ScanIdAgeDetectionCancelButton extends Avs.Ui.Handler.Button {
+      export class ScanIdAgeDetectionCancelButton extends Avs.Ui.Handler.Button {
 
-				public element: JQuery;
-				public states: any;
-				public event: Avs.Event.Listener;
+        public element: JQuery;
+        public states: any;
+        public event: Avs.Event.Listener;
 
-				constructor(event: Avs.Event.Listener, selector?: string) {
+        constructor(event: Avs.Event.Listener, selector?: string) {
 
-					super(event);
-					this.event = event;
+          super(event);
+          this.event = event;
 
-					this.getElement(selector);
-					this.initStates();
+          this.getElement(selector);
+          this.initStates();
 
-				}
+        }
 
-				public getElement(selector?: string) {
+        public getElement(selector?: string) {
 
-					if (!selector) {
-						selector = '#scanIdAgeDetectionCancelButton';
-					}
+          if (!selector) {
+            selector = '#scanIdAgeDetectionCancelButton';
+          }
 
-					this.element = $(selector);
+          this.element = $(selector);
 
-				}
+        }
 
-				public initStates() {
+        public initStates() {
 
-					let entity = Avs.Entity.Ui.getInstance();
+          const entity = Avs.Entity.Ui.getInstance();
 
-					entity.states.ScanIdAgeDetectionCancelButton = {
-						visible: this.element.is(':visible'),
-						enabled: !this.element.attr('disabled')
-					};
+          entity.states.ScanIdAgeDetectionCancelButton = {
+            visible: this.element.is(':visible'),
+            enabled: !this.element.attr('disabled')
+          };
 
-					this.states = entity.states.ScanIdAgeDetectionCancelButton;
+          this.states = entity.states.ScanIdAgeDetectionCancelButton;
 
-				}
+        }
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

@@ -1,52 +1,52 @@
 namespace Avs {
 
-	export namespace Ui {
+  export namespace Ui {
 
-		export namespace Library {
+    export namespace Library {
 
-			export class ScanIdAgeVerificationDeviceSelectionArea extends Avs.Ui.Handler.Text {
+      export class ScanIdAgeVerificationDeviceSelectionArea extends Avs.Ui.Handler.Text {
 
-				public element: JQuery;
-				public states: any;
-				public event: Avs.Event.Listener;
+        public element: JQuery;
+        public states: any;
+        public event: Avs.Event.Listener;
 
-				constructor(event: Avs.Event.Listener, selector?: string) {
+        constructor(event: Avs.Event.Listener, selector?: string) {
 
-					super(event);
-					this.event = event;
+          super(event);
+          this.event = event;
 
-					this.getElement(selector);
-					this.initStates();
+          this.getElement(selector);
+          this.initStates();
 
-				}
+        }
 
-				public getElement(selector?: string) {
+        public getElement(selector?: string) {
 
-					if (!selector) {
-						selector = '#scanIdAgeVerificationDeviceSelectionArea';
-					}
+          if (!selector) {
+            selector = '#scanIdAgeVerificationDeviceSelectionArea';
+          }
 
-					this.element = $(selector);
+          this.element = $(selector);
 
-				}
+        }
 
-				public initStates() {
+        public initStates() {
 
-					let entity = Avs.Entity.Ui.getInstance();
+          const entity = Avs.Entity.Ui.getInstance();
 
-					entity.states.ScanIdAgeVerificationDeviceSelectionArea = {
-						visible: this.element.is(':visible'),
-						value  : this.element.html()
-					};
+          entity.states.ScanIdAgeVerificationDeviceSelectionArea = {
+            visible: this.element.is(':visible'),
+            value  : this.element.html()
+          };
 
-					this.states = entity.states.ScanIdAgeVerificationDeviceSelectionArea;
+          this.states = entity.states.ScanIdAgeVerificationDeviceSelectionArea;
 
-				}
+        }
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

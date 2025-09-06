@@ -1,8 +1,8 @@
 "use strict";
 (function () {
-    var appData = document.getElementById('app-data');
+    const appData = document.getElementById('app-data');
     if (appData) {
-        var content = '';
+        let content = '';
         if ('textContent' in appData) {
             if (appData.textContent !== null) {
                 content = appData.textContent;
@@ -18,22 +18,22 @@
             window.Application = jQuery.parseJSON(content);
             jQuery(document).ready(function () {
                 if ('onDocumentReady' in Application) {
-                    var fonctionStr = Application['onDocumentReady'];
-                    var tokenList = fonctionStr.split(/\./);
-                    var currentObj_1 = window;
-                    var currentToken = void 0;
+                    const fonctionStr = Application['onDocumentReady'];
+                    const tokenList = fonctionStr.split(/\./);
+                    let currentObj = window;
+                    let currentToken;
                     while (currentToken = tokenList.shift()) {
-                        if (currentToken in currentObj_1) {
-                            currentObj_1 = currentObj_1[currentToken];
+                        if (currentToken in currentObj) {
+                            currentObj = currentObj[currentToken];
                         }
                         else {
-                            currentObj_1 = null;
+                            currentObj = null;
                             break;
                         }
                     }
-                    if (typeof currentObj_1 === "function") {
+                    if (typeof currentObj === 'function') {
                         window.setTimeout(function () {
-                            currentObj_1();
+                            currentObj();
                         }, 1);
                     }
                 }
@@ -44,46 +44,46 @@
 
 "use strict";
 
-"use strict";
+'use strict';
 var StringTool;
 (function (StringTool) {
     function escapeHtml(str) {
-        var entityMap = {
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
+        const entityMap = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
             '"': '&quot;',
-            "'": '&#39;',
-            "/": '&#x2F;'
+            '\'': '&#39;',
+            '/': '&#x2F;'
         };
-        return String(str).replace(/[&<>"'\/]/g, function (s) {
+        return String(str).replace(/[&<>"'/]/g, function (s) {
             return entityMap[s];
         });
     }
     StringTool.escapeHtml = escapeHtml;
     /*
-    export function unescapeHtml(string: string) {
-        let entityMap: any = {
-            "&amp;" : "&",
-            "&lt;"  : "<",
-            "&gt;"  : ">",
-            '&quot;': '"',
-            '&#39;' : "'",
-            '&#x2F;': "/",
-        };
-
-        return String(string).replace(/(&amp;)|(&lt;)|(&gt;)|(&quot;)|(&#39;)|(&\#x2F;)/g, function(s) {
-            return entityMap[s];
-        });
-    }
-    */
-    var Utf8;
+      export function unescapeHtml(string: string) {
+          let entityMap: any = {
+              "&amp;" : "&",
+              "&lt;"  : "<",
+              "&gt;"  : ">",
+              '&quot;': '"',
+              '&#39;' : "'",
+              '&#x2F;': "/",
+          };
+  
+          return String(string).replace(/(&amp;)|(&lt;)|(&gt;)|(&quot;)|(&#39;)|(&\#x2F;)/g, function(s) {
+              return entityMap[s];
+          });
+      }
+      */
+    let Utf8;
     (function (Utf8) {
         function encodeToUtf8(buffer) {
-            buffer = buffer.replace(/\r\n/g, "\n");
-            var bufferUtf8 = "";
-            for (var n = 0; n < buffer.length; n++) {
-                var c = buffer.charCodeAt(n);
+            buffer = buffer.replace(/\r\n/g, '\n');
+            let bufferUtf8 = '';
+            for (let n = 0; n < buffer.length; n++) {
+                const c = buffer.charCodeAt(n);
                 if (c < 128) {
                     bufferUtf8 += String.fromCharCode(c);
                 }
@@ -104,12 +104,12 @@ var StringTool;
             if (buffer === undefined || buffer === null) {
                 return [];
             }
-            buffer = buffer.replace(/\r\n/g, "\n");
-            var arrayOfBytes = [];
-            for (var n = 0; n < buffer.length; n++) {
-                var c = buffer.charCodeAt(n);
+            buffer = buffer.replace(/\r\n/g, '\n');
+            const arrayOfBytes = [];
+            for (let n = 0; n < buffer.length; n++) {
+                let c = buffer.charCodeAt(n);
                 if (c >= 0xD800 && c <= 0xDBFF) {
-                    var lowerSurrogate = buffer.charCodeAt(n + 1);
+                    const lowerSurrogate = buffer.charCodeAt(n + 1);
                     if (lowerSurrogate >= 0xDC00 && lowerSurrogate <= 0xDFFF) {
                         c = ((c & 0x03FF) << 10) + (lowerSurrogate & 0x03FF) + 0x10000;
                         n++;
@@ -155,10 +155,10 @@ var StringTool;
         }
         Utf8.encodeToUtf8Bytes = encodeToUtf8Bytes;
         function decodeFromUtf8Bytes(byteList) {
-            var buffer = "";
-            var i = 0;
-            var c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, c6 = 0;
-            var numberToChar;
+            let buffer = '';
+            let i = 0;
+            let c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0, c6 = 0;
+            let numberToChar;
             if ('fromCodePoint' in String) {
                 // ES6 supporté
                 numberToChar = String.fromCodePoint;
@@ -216,9 +216,9 @@ var StringTool;
         }
         Utf8.decodeFromUtf8Bytes = decodeFromUtf8Bytes;
         function decodeFromUtf8(strUtf8) {
-            var buffer = "";
-            var i = 0;
-            var c1 = 0, c2 = 0, c3 = 0, c4 = 0;
+            let buffer = '';
+            let i = 0;
+            let c1 = 0, c2 = 0, c3 = 0, c4 = 0;
             while (i < strUtf8.length) {
                 c1 = strUtf8.charCodeAt(i);
                 if (c1 < 128) {
@@ -249,9 +249,9 @@ var StringTool;
         }
         Utf8.decodeFromUtf8 = decodeFromUtf8;
     })(Utf8 = StringTool.Utf8 || (StringTool.Utf8 = {}));
-    var Base64;
+    let Base64;
     (function (Base64) {
-        var keyString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        const keyString = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
         function b64toUint6(charCode) {
             if ((charCode & 0x60) === 0x60) {
                 // a-z
@@ -275,16 +275,16 @@ var StringTool;
             if (charCode === 47) {
                 return 63;
             }
-            throw new Error("Charcode invalid: " + charCode);
+            throw new Error('Charcode invalid: ' + charCode);
         }
         function encodeToBase64Bytes(inputRaw) {
             // ne pas utiliser un array, cela n'optimise pas du tout les performances
-            var output = "";
+            let output = '';
             // code unicode
-            var chrUnicode1, chrUnicode2, chrUnicode3;
+            let chrUnicode1, chrUnicode2, chrUnicode3;
             // code en 6 bits
-            var enc1, enc2, enc3, enc4;
-            var i = 0;
+            let enc1, enc2, enc3, enc4;
+            let i = 0;
             while (i < inputRaw.length) {
                 chrUnicode1 = inputRaw[i++];
                 chrUnicode2 = inputRaw[i++];
@@ -307,15 +307,15 @@ var StringTool;
         }
         Base64.encodeToBase64Bytes = encodeToBase64Bytes;
         function encodeToBase64(inputRaw, disableConversionUnicodeToByte) {
-            var output = "";
+            let output = '';
             // code unicode
-            var chrUnicode1, chrUnicode2, chrUnicode3;
+            let chrUnicode1, chrUnicode2, chrUnicode3;
             // code en 6 bits
-            var enc1, enc2, enc3, enc4;
+            let enc1, enc2, enc3, enc4;
             if (!disableConversionUnicodeToByte) {
                 inputRaw = Utf8.encodeToUtf8(inputRaw);
             }
-            var i = 0;
+            let i = 0;
             while (i < inputRaw.length) {
                 chrUnicode1 = inputRaw.charCodeAt(i++);
                 chrUnicode2 = inputRaw.charCodeAt(i++);
@@ -338,10 +338,10 @@ var StringTool;
         }
         Base64.encodeToBase64 = encodeToBase64;
         function decodeFromBase64Byte(inputB64) {
-            var output = [];
-            var chr1, chr2, chr3;
-            var enc1, enc2, enc3, enc4;
-            var i = 0;
+            const output = [];
+            let chr1, chr2, chr3;
+            let enc1, enc2, enc3, enc4;
+            let i = 0;
             while (i < inputB64.length) {
                 enc1 = b64toUint6(inputB64.charCodeAt(i++));
                 enc2 = b64toUint6(inputB64.charCodeAt(i++));
@@ -362,11 +362,11 @@ var StringTool;
         }
         Base64.decodeFromBase64Byte = decodeFromBase64Byte;
         function decodeFromBase64(inputB64, disableConversionByteToUnicode) {
-            var output = "";
-            var chr1, chr2, chr3;
-            var enc1, enc2, enc3, enc4;
-            var i = 0;
-            inputB64 = inputB64.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+            let output = '';
+            let chr1, chr2, chr3;
+            let enc1, enc2, enc3, enc4;
+            let i = 0;
+            inputB64 = inputB64.replace(/[^A-Za-z0-9+/=]/g, '');
             while (i < inputB64.length) {
                 enc1 = b64toUint6(inputB64.charCodeAt(i++));
                 enc2 = b64toUint6(inputB64.charCodeAt(i++));
@@ -410,7 +410,7 @@ var StringTool;
 var Core;
 (function (Core) {
     Core.MSG_INTERNAL_ERROR = 'Internal error';
-    var Ajax;
+    let Ajax;
     (function (Ajax) {
         function extractError(data) {
             if ('content' in data) {
@@ -431,8 +431,8 @@ var Core;
                     msg: Core.MSG_INTERNAL_ERROR
                 };
             }
-            var errorInfoIn = data.error;
-            var errorInfoOut = {
+            const errorInfoIn = data.error;
+            const errorInfoOut = {
                 code: 3,
                 msg: Core.MSG_INTERNAL_ERROR
             };
@@ -449,16 +449,15 @@ var Core;
             }
             return errorInfoOut;
         }
-        function post(path, content) {
-            if (content === void 0) { content = null; }
-            var jqXHR = $.ajax({
+        function post(path, content = null) {
+            const jqXHR = $.ajax({
                 type: 'post',
                 dataType: 'json',
                 data: content,
                 url: path
             });
-            var promise = jqXHR.then(function (data) {
-                var promiseDeferred;
+            const promise = jqXHR.then(function (data) {
+                let promiseDeferred;
                 if (!data || !('content' in data)) {
                     // application error
                     promiseDeferred = $.Deferred();
@@ -467,19 +466,19 @@ var Core;
                 }
                 return data.content;
             }, function (xhr) {
-                var contentType = xhr.getResponseHeader('content-type');
-                if ((contentType === "application/json") || (contentType === "text/json")) {
+                const contentType = xhr.getResponseHeader('content-type');
+                if ((contentType === 'application/json') || (contentType === 'text/json')) {
                     if ('JSON' in window) {
-                        var dataObj = JSON.parse(xhr.responseText);
+                        const dataObj = JSON.parse(xhr.responseText);
                         if ('error' in dataObj && dataObj.error) {
-                            var errorObj_1 = dataObj.error;
-                            if (('code' in errorObj_1) && errorObj_1.code > 0) {
-                                return errorObj_1;
+                            const errorObj = dataObj.error;
+                            if (('code' in errorObj) && errorObj.code > 0) {
+                                return errorObj;
                             }
                         }
                     }
                 }
-                var errorObj = {
+                const errorObj = {
                     code: 0,
                     msg: Core.MSG_INTERNAL_ERROR
                 };
@@ -489,7 +488,7 @@ var Core;
                 else if (xhr.status == 200) {
                     errorObj.code = 5;
                 }
-                else if (xhr.statusText == "abort") {
+                else if (xhr.statusText == 'abort') {
                     errorObj.code = 7;
                 }
                 else if (xhr.status > 500 && xhr.status < 600) {
@@ -507,54 +506,54 @@ var Core;
     })(Ajax = Core.Ajax || (Core.Ajax = {}));
     function clone(obj) {
         // Handle the 3 simple types, and null or undefined
-        if (null == obj || "object" != typeof obj) {
+        if (null == obj || 'object' != typeof obj) {
             return obj;
         }
         // Handle Date
         if (obj instanceof Date) {
-            var copyDate = new Date();
+            const copyDate = new Date();
             copyDate.setTime(obj.getTime());
             return copyDate;
         }
         // Handle Array
         if (obj instanceof Array) {
-            var copyList = [];
-            for (var i = 0, len = obj.length; i < len; i++) {
+            const copyList = [];
+            for (let i = 0, len = obj.length; i < len; i++) {
                 copyList[i] = clone(obj[i]);
             }
             return copyList;
         }
         // Handle Object
         if (obj instanceof Object) {
-            var copyObj = {};
-            for (var attr in obj) {
+            const copyObj = {};
+            for (const attr in obj) {
                 if (obj.hasOwnProperty(attr)) {
                     copyObj[attr] = clone(obj[attr]);
                 }
             }
             return copyObj;
         }
-        throw new Error("Unable to copy obj! Its type isn't supported.");
+        throw new Error('Unable to copy obj! Its type isn\'t supported.');
     }
     Core.clone = clone;
     function bootstrap() {
         if ('onDocumentReady' in Application) {
-            var fonctionStr = Application['onDocumentReady'];
-            var tokenList = fonctionStr.split(/\./);
-            var currentObj_1 = window;
-            var currentToken = void 0;
+            const fonctionStr = Application['onDocumentReady'];
+            const tokenList = fonctionStr.split(/\./);
+            let currentObj = window;
+            let currentToken;
             while (currentToken = tokenList.shift()) {
-                if (currentToken in currentObj_1) {
-                    currentObj_1 = currentObj_1[currentToken];
+                if (currentToken in currentObj) {
+                    currentObj = currentObj[currentToken];
                 }
                 else {
-                    currentObj_1 = null;
+                    currentObj = null;
                     break;
                 }
             }
-            if (typeof currentObj_1 === "function") {
+            if (typeof currentObj === 'function') {
                 window.setTimeout(function () {
-                    currentObj_1();
+                    currentObj();
                 }, 1);
             }
         }
@@ -565,12 +564,12 @@ var Core;
 "use strict";
 var Translation;
 (function (Translation) {
-    var database = {};
+    const database = {};
     function load(translationData) {
         if (!translationData) {
             return;
         }
-        for (var key in translationData) {
+        for (const key in translationData) {
             if (!translationData.hasOwnProperty(key)) {
                 continue;
             }
@@ -582,32 +581,31 @@ var Translation;
         if (!(key in database)) {
             return key;
         }
-        var text = database[key];
-        if (variableList && typeof variableList == "object") {
-            var escape_1 = options && ('escape' in options) ? options.escape : true;
-            for (var variableName in variableList) {
+        let text = database[key];
+        if (variableList && typeof variableList == 'object') {
+            const escape = options && ('escape' in options) ? options.escape : true;
+            for (let variableName in variableList) {
                 if (!variableList.hasOwnProperty(variableName)) {
                     continue;
                 }
-                var currentValue = variableList[variableName];
-                if (escape_1) {
+                let currentValue = variableList[variableName];
+                if (escape) {
                     currentValue = StringTool.escapeHtml(currentValue);
                 }
                 if (variableName.match(/^[a-zA-Z]/)) {
-                    variableName = "#" + variableName + "#";
+                    variableName = '#' + variableName + '#';
                 }
                 else {
-                    variableName = "" + variableName;
+                    variableName = '' + variableName;
                 }
-                text = text.replace("" + variableName, currentValue);
+                text = text.replace('' + variableName, currentValue);
             }
         }
         return text;
     }
     Translation.tr = tr;
-    function trNumber(key, value, variableList, options) {
-        if (variableList === void 0) { variableList = {}; }
-        var variableListFull = variableList;
+    function trNumber(key, value, variableList = {}, options) {
+        const variableListFull = variableList;
         variableListFull['#NUMBER#'] = value;
         // multiple plurals forms are not yet supported
         return tr(key, variableListFull, options);
@@ -615,9 +613,9 @@ var Translation;
     Translation.trNumber = trNumber;
 })(Translation || (Translation = {}));
 (function () {
-    var translationData = document.getElementById('translation-data');
+    const translationData = document.getElementById('translation-data');
     if (translationData) {
-        var content = '';
+        let content = '';
         if ('textContent' in translationData) {
             if (translationData.textContent !== null) {
                 content = translationData.textContent;
@@ -636,28 +634,26 @@ var Translation;
 })();
 
 "use strict";
-var faceapi;
-var Tesseract;
 var AvsHome;
 (function (AvsHome) {
-    var API_BASE_URL = '/';
+    const API_BASE_URL = '/';
     function main() {
         Action.init();
     }
     AvsHome.main = main;
-    var Action;
+    let Action;
     (function (Action) {
-        var exampleImplementationStartRedirectButton = $('#exampleImplementationStartRedirectButton');
-        var exampleImplementationStartJsButton = $('#exampleImplementationStartJsButton');
-        var exampleImplementationIframeJsButton = $('#exampleImplementationIframeJsButton');
-        var colorConfigBodyBackgroundInput = $('#colorConfigBodyBackgroundInput');
-        var colorConfigBodyForegroundInput = $('#colorConfigBodyForegroundInput');
-        var colorConfigButtonBackgroundInput = $('#colorConfigButtonBackgroundInput');
-        var colorConfigButtonForegroundInput = $('#colorConfigButtonForegroundInput');
-        var colorConfigButtonForegroundCTAInput = $('#colorConfigButtonForegroundCTAInput');
-        var accessInformationCallbackUrlInput = $('#accessInformationCallbackUrlInput');
-        var ageVerificationLogTextarea = $('#ageVerificationLogTextarea');
-        var avsInstance = null;
+        const exampleImplementationStartRedirectButton = $('#exampleImplementationStartRedirectButton');
+        const exampleImplementationStartJsButton = $('#exampleImplementationStartJsButton');
+        const exampleImplementationIframeJsButton = $('#exampleImplementationIframeJsButton');
+        const colorConfigBodyBackgroundInput = $('#colorConfigBodyBackgroundInput');
+        const colorConfigBodyForegroundInput = $('#colorConfigBodyForegroundInput');
+        const colorConfigButtonBackgroundInput = $('#colorConfigButtonBackgroundInput');
+        const colorConfigButtonForegroundInput = $('#colorConfigButtonForegroundInput');
+        const colorConfigButtonForegroundCTAInput = $('#colorConfigButtonForegroundCTAInput');
+        const accessInformationCallbackUrlInput = $('#accessInformationCallbackUrlInput');
+        const ageVerificationLogTextarea = $('#ageVerificationLogTextarea');
+        let avsInstance = null;
         function init() {
             createUi();
             createBindings();
@@ -667,69 +663,69 @@ var AvsHome;
             exampleImplementationIframeJsButton.attr('disabled', 'disabled');
         }
         function createBindings() {
-            exampleImplementationStartRedirectButton.on('click', function (e) {
+            exampleImplementationStartRedirectButton.on('click', (e) => {
                 if (exampleImplementationStartRedirectButton.is('[disabled]')) {
                     return;
                 }
                 exampleImplementationStartRedirectButton.attr('disabled', 'disabled');
-                var postData = {
+                const postData = {
                     colorConfigBodyBackgroundInput: colorConfigBodyBackgroundInput.val().toString(),
                     colorConfigBodyForegroundInput: colorConfigBodyForegroundInput.val().toString(),
                     colorConfigButtonBackgroundInput: colorConfigButtonBackgroundInput.val().toString(),
                     colorConfigButtonForegroundInput: colorConfigButtonForegroundInput.val().toString(),
                     colorConfigButtonForegroundCTAInput: colorConfigButtonForegroundCTAInput.val().toString(),
-                    callbackUrl: accessInformationCallbackUrlInput.val()
+                    callbackUrl: accessInformationCallbackUrlInput.val(),
                 };
-                Ajax.getVerificationPayloadAndUrl(postData).then(function (data) {
+                Ajax.getVerificationPayloadAndUrl(postData).then((data) => {
                     exampleImplementationStartRedirectButton.removeAttr('disabled');
                     window.open(data.url);
-                }, function (error) {
+                }, (error) => {
                     exampleImplementationStartRedirectButton.removeAttr('disabled');
                     triggerError(error);
                 });
                 e.preventDefault();
             });
-            exampleImplementationStartJsButton.on('click', function (e) {
+            exampleImplementationStartJsButton.on('click', (e) => {
                 if (exampleImplementationStartJsButton.is('[disabled]')) {
                     return;
                 }
                 exampleImplementationStartJsButton.attr('disabled', 'disabled');
-                var postData = {
+                const postData = {
                     colorConfigBodyBackgroundInput: colorConfigBodyBackgroundInput.val().toString(),
                     colorConfigBodyForegroundInput: colorConfigBodyForegroundInput.val().toString(),
                     colorConfigButtonBackgroundInput: colorConfigButtonBackgroundInput.val().toString(),
                     colorConfigButtonForegroundInput: colorConfigButtonForegroundInput.val().toString(),
                     colorConfigButtonForegroundCTAInput: colorConfigButtonForegroundCTAInput.val().toString(),
-                    callbackUrl: accessInformationCallbackUrlInput.val()
+                    callbackUrl: accessInformationCallbackUrlInput.val(),
                 };
-                Ajax.getVerificationPayloadAndUrl(postData).then(function (data) {
+                Ajax.getVerificationPayloadAndUrl(postData).then((data) => {
                     iframeAvsHandler(data.iframeUrl);
-                }, function (error) {
+                }, (error) => {
                     exampleImplementationStartJsButton.removeAttr('disabled');
                     triggerError(error);
                 });
                 e.preventDefault();
             });
-            exampleImplementationIframeJsButton.on('click', function (e) {
+            exampleImplementationIframeJsButton.on('click', (e) => {
                 if (exampleImplementationIframeJsButton.is('[disabled]')) {
                     return;
                 }
                 avsInstance.iframeInstance.expand();
                 e.preventDefault();
             });
-            colorConfigBodyBackgroundInput.on('change', function (e) {
+            colorConfigBodyBackgroundInput.on('change', (e) => {
                 restartIframeVerification();
             });
-            colorConfigBodyForegroundInput.on('change', function (e) {
+            colorConfigBodyForegroundInput.on('change', (e) => {
                 restartIframeVerification();
             });
-            colorConfigButtonBackgroundInput.on('change', function (e) {
+            colorConfigButtonBackgroundInput.on('change', (e) => {
                 restartIframeVerification();
             });
-            colorConfigButtonForegroundInput.on('change', function (e) {
+            colorConfigButtonForegroundInput.on('change', (e) => {
                 restartIframeVerification();
             });
-            colorConfigButtonForegroundCTAInput.on('change', function (e) {
+            colorConfigButtonForegroundCTAInput.on('change', (e) => {
                 restartIframeVerification();
             });
         }
@@ -737,7 +733,7 @@ var AvsHome;
             alert('Error: ' + error.code + ' - ' + error.msg);
         }
         function appendToLog(message) {
-            ageVerificationLogTextarea.append(message + "\n");
+            ageVerificationLogTextarea.append(message + '\n');
             ageVerificationLogTextarea.get(0).scrollTop = ageVerificationLogTextarea.get(0).scrollHeight;
         }
         function iframeAvsHandler(iframeUrl) {
@@ -753,7 +749,7 @@ var AvsHome;
                 avsInstance.iframeInstance.iframeLocationUrl = iframeUrl;
                 avsInstance.iframeInstance.refresh();
             }
-            avsInstance.onMessage = function (eventMessage) {
+            avsInstance.onMessage = (eventMessage) => {
                 //ageVerificationLogTextarea.append('Received event: ' + eventMessage.name + "\n");
                 switch (eventMessage.name) {
                     case AvsFactoryIframeSdk.V1.Config.EVENT_ON_CHECK_IFRAME_LOADED:
@@ -764,9 +760,9 @@ var AvsHome;
                         appendToLog('Verification already completed, delete the "isAgeVerified" cookie to retry');
                         Ajax.validateVerificationPayload({
                             verificationPayload: eventMessage.data.payload
-                        }).then(function (data) {
+                        }).then((data) => {
                             appendToLog('Cookie payload integrity check success, verification session id: ' + data.sessionId);
-                        }, function (error) {
+                        }, (error) => {
                             triggerError(error);
                         });
                         break;
@@ -794,9 +790,9 @@ var AvsHome;
                         exampleImplementationIframeJsButton.attr('disabled', 'disabled');
                         Ajax.validateVerificationPayload({
                             verificationPayload: eventMessage.data.payload
-                        }).then(function (data) {
+                        }).then((data) => {
                             appendToLog('Cookie payload integrity check success, verification session id: ' + data.sessionId);
-                        }, function (error) {
+                        }, (error) => {
                             triggerError(error);
                         });
                         break;
@@ -813,7 +809,7 @@ var AvsHome;
             exampleImplementationIframeJsButton.attr('disabled', 'disabled');
         }
     })(Action = AvsHome.Action || (AvsHome.Action = {}));
-    var Ajax;
+    let Ajax;
     (function (Ajax) {
         function getVerificationPayloadAndUrl(postData) {
             return Core.Ajax.post(API_BASE_URL + 'getVerificationPayloadAndUrl', postData);
@@ -835,7 +831,7 @@ var AvsToken;
             partnerId: Application.p,
             payload: Application.d,
             sessionId: Application.sessionId,
-            partnerColorConfig: Application.partnerColorConfig
+            partnerColorConfig: Application.partnerColorConfig,
         });
         AvsFactory.StartPage.init();
     }

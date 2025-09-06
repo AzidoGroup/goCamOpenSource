@@ -1,107 +1,107 @@
 namespace AvsFactoryIframeCheck {
 
-	export class Core {
+  export class Core {
 
-		static readonly EVENT_STATUS_REQUEST                      = 'avs.statusRequest';
-		static readonly EVENT_ON_VERIFICATION_DONE                = 'avs.onVerificationDone';
-		static readonly EVENT_RESOURCE_PRELOAD                    = 'avs.resourcePreload';
-		static readonly EVENT_ON_INITIAL_VERIFICATION_SUCCESS     = 'avs.onInitialVerificationSuccess';
-		static readonly EVENT_ON_INITIAL_VERIFICATION_NOT_FOUND   = 'avs.onInitialVerificationNotFound';
-		static readonly EVENT_ON_INITIAL_VERIFICATION_FATAL_ERROR = 'avs.onInitialVerificationFatalError';
+    static readonly EVENT_STATUS_REQUEST                      = 'avs.statusRequest';
+    static readonly EVENT_ON_VERIFICATION_DONE                = 'avs.onVerificationDone';
+    static readonly EVENT_RESOURCE_PRELOAD                    = 'avs.resourcePreload';
+    static readonly EVENT_ON_INITIAL_VERIFICATION_SUCCESS     = 'avs.onInitialVerificationSuccess';
+    static readonly EVENT_ON_INITIAL_VERIFICATION_NOT_FOUND   = 'avs.onInitialVerificationNotFound';
+    static readonly EVENT_ON_INITIAL_VERIFICATION_FATAL_ERROR = 'avs.onInitialVerificationFatalError';
 
-		constructor() {
-		}
+    constructor() {
+    }
 
-		public init() {
+    public init() {
 
-			window.addEventListener("message", (event: MessageEvent) => {
+      window.addEventListener('message', (event: MessageEvent) => {
 
-				switch (event.data.name) {
+        switch (event.data.name) {
 
-					case Core.EVENT_STATUS_REQUEST:
+          case Core.EVENT_STATUS_REQUEST:
 
-						try {
+            try {
 
-							let appData     = document.getElementById('app-data');
-							let Application = JSON.parse(appData.textContent);
+              const appData     = document.getElementById('app-data');
+              const Application = JSON.parse(appData.textContent);
 
-							if (Application.isAgeVerified) {
-								window.top.postMessage({
-									name: Core.EVENT_ON_VERIFICATION_DONE,
-									data: {
-										status : true,
-										payload: Application.verificationPayload
-									}
-								}, '*');
+              if (Application.isAgeVerified) {
+                window.top.postMessage({
+                  name: Core.EVENT_ON_VERIFICATION_DONE,
+                  data: {
+                    status : true,
+                    payload: Application.verificationPayload
+                  }
+                }, '*');
 
-								window.top.postMessage({
-									name: Core.EVENT_ON_INITIAL_VERIFICATION_SUCCESS,
-									data: {
-										status : true,
-										payload: Application.verificationPayload
-									}
-								}, '*');
+                window.top.postMessage({
+                  name: Core.EVENT_ON_INITIAL_VERIFICATION_SUCCESS,
+                  data: {
+                    status : true,
+                    payload: Application.verificationPayload
+                  }
+                }, '*');
 
-								return;
-							}
-							else {
-								window.top.postMessage({
-									name: Core.EVENT_ON_VERIFICATION_DONE,
-									data: {
-										status : false,
-										payload: Application.verificationPayload
-									}
-								}, '*');
+                return;
+              }
+              else {
+                window.top.postMessage({
+                  name: Core.EVENT_ON_VERIFICATION_DONE,
+                  data: {
+                    status : false,
+                    payload: Application.verificationPayload
+                  }
+                }, '*');
 
-								window.top.postMessage({
-									name: Core.EVENT_ON_INITIAL_VERIFICATION_NOT_FOUND,
-									data: {
-										status : false,
-										payload: Application.verificationPayload
-									}
-								}, '*');
-							}
+                window.top.postMessage({
+                  name: Core.EVENT_ON_INITIAL_VERIFICATION_NOT_FOUND,
+                  data: {
+                    status : false,
+                    payload: Application.verificationPayload
+                  }
+                }, '*');
+              }
 
-						}
-						catch (e) {
+            }
+            catch (e) {
 
-							let errorMessage = '';
-							if (e instanceof Error) {
-								errorMessage = e.message;
-							}
+              let errorMessage = '';
+              if (e instanceof Error) {
+                errorMessage = e.message;
+              }
 
-							window.top.postMessage({
-								name: Core.EVENT_ON_INITIAL_VERIFICATION_FATAL_ERROR,
-								data: {
-									errorMessage: errorMessage
-								}
-							}, '*');
+              window.top.postMessage({
+                name: Core.EVENT_ON_INITIAL_VERIFICATION_FATAL_ERROR,
+                data: {
+                  errorMessage: errorMessage
+                }
+              }, '*');
 
-						}
+            }
 
-						break;
+            break;
 
-					case Core.EVENT_RESOURCE_PRELOAD:
+          case Core.EVENT_RESOURCE_PRELOAD:
 
-						window.location.href = window.location.href.replace('/iframeCheck', '/iframeRender');
+            window.location.href = window.location.href.replace('/iframeCheck', '/iframeRender');
 
-						break;
+            break;
 
-					default:
+          default:
 
 					//
 
-				}
+        }
 
-			}, false);
+      }, false);
 
-		}
+    }
 
-	}
+  }
 
 }
 
 (() => {
-	let instance = new AvsFactoryIframeCheck.Core();
-	instance.init();
+  const instance = new AvsFactoryIframeCheck.Core();
+  instance.init();
 })();

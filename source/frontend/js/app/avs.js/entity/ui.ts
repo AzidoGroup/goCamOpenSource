@@ -1,48 +1,48 @@
 namespace Avs {
 
-	export namespace Entity {
+  export namespace Entity {
 
-		/**
+    /**
 		 * Handles UI entity
 		 *
 		 */
-		export class Ui {
+    export class Ui {
 
-			public static instance: Ui;
+      public static instance: Ui;
 
-			public states: IUiStates;
+      public states: IUiStates;
 
-			public layout: string;
+      public layout: string;
 
-			constructor() {
+      constructor() {
 
-				this.initialValues();
+        this.initialValues();
 
-			}
+      }
 
-			public static getInstance() {
+      public static getInstance() {
 
-				if (!this.instance) {
-					this.instance = new Ui();
-				}
+        if (!this.instance) {
+          this.instance = new Ui();
+        }
 
-				return this.instance;
+        return this.instance;
 
-			}
+      }
 
-			public initialValues() {
+      public initialValues() {
 
-				this.states = {};
+        this.states = {};
 
-			}
+      }
 
-		}
+    }
 
-		export interface IUiStates {
-			[key: string]: any
-		}
+    export interface IUiStates {
+      [key: string]: any
+    }
 
 
-	}
+  }
 
 }

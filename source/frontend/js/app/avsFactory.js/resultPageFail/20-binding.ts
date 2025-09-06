@@ -1,21 +1,21 @@
 namespace AvsFactory {
 
-	export namespace ResultPageFail {
+  export namespace ResultPageFail {
 
-		export class Binding {
+    export class Binding {
 
-			public static init(): void {
+      public static init(): void {
 
-				instance.ui.ResultFailButton.onClick(() => {
+        instance.ui.ResultFailButton.onClick(() => {
 
-					window.location.reload();
+          window.location.reload();
 
-				});
+        });
 
-			}
+      }
 
-		}
+    }
 
-	}
+  }
 
 }

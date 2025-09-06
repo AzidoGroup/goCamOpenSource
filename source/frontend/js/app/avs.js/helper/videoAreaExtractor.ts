@@ -1,99 +1,99 @@
 namespace Avs {
 
-	export namespace Helper {
+  export namespace Helper {
 
-		export class VideoAreaExtractor {
+    export class VideoAreaExtractor {
 
-			public static calculateMaskPosition(maskElement: HTMLElement, videoElement: HTMLElement): IVideoMaskPosition {
+      public static calculateMaskPosition(maskElement: HTMLElement, videoElement: HTMLElement): IVideoMaskPosition {
 
-				let maskElementInstance  = $(maskElement);
-				let videoElementInstance = $(videoElement);
+        const maskElementInstance  = $(maskElement);
+        const videoElementInstance = $(videoElement);
 
-				let maskElementWidth    = maskElementInstance.width();
-				let maskElementHeight   = maskElementInstance.height();
-				let maskElementPosition = maskElementInstance.position();
-				let maskElementBorder   = parseInt(maskElementInstance.css('border-left-width'));
+        const maskElementWidth    = maskElementInstance.width();
+        const maskElementHeight   = maskElementInstance.height();
+        const maskElementPosition = maskElementInstance.position();
+        const maskElementBorder   = parseInt(maskElementInstance.css('border-left-width'));
 
-				let videoElementWidth  = videoElementInstance.width();
-				let videoElementHeight = videoElementInstance.height();
+        const videoElementWidth  = videoElementInstance.width();
+        const videoElementHeight = videoElementInstance.height();
 
-				let mediaWidth  = (<HTMLVideoElement>videoElementInstance.get(0)).videoWidth;
-				let mediaHeight = (<HTMLVideoElement>videoElementInstance.get(0)).videoHeight;
+        const mediaWidth  = (<HTMLVideoElement>videoElementInstance.get(0)).videoWidth;
+        const mediaHeight = (<HTMLVideoElement>videoElementInstance.get(0)).videoHeight;
 
-				let onScreenAspectRatio = videoElementWidth / videoElementHeight;
-				let mediaAspectRatio    = mediaWidth / mediaHeight;
+        const onScreenAspectRatio = videoElementWidth / videoElementHeight;
+        const mediaAspectRatio    = mediaWidth / mediaHeight;
 
-				let scalePercent    = 0;
-				let maskElementTop  = 0;
-				let maskElementLeft = 0;
+        let scalePercent    = 0;
+        let maskElementTop  = 0;
+        let maskElementLeft = 0;
 
-				if (onScreenAspectRatio > mediaAspectRatio) {
+        if (onScreenAspectRatio > mediaAspectRatio) {
 
-					scalePercent = (videoElementWidth * 100 / mediaWidth);
+          scalePercent = (videoElementWidth * 100 / mediaWidth);
 
-					maskElementTop  = ((mediaHeight - (videoElementHeight * 100 / scalePercent)) / 2) + maskElementPosition.top * 100 / scalePercent;
-					maskElementLeft = maskElementPosition.left * 100 / scalePercent;
-					maskElementTop  = maskElementTop + maskElementBorder;
-					maskElementLeft = maskElementLeft + maskElementBorder;
+          maskElementTop  = ((mediaHeight - (videoElementHeight * 100 / scalePercent)) / 2) + maskElementPosition.top * 100 / scalePercent;
+          maskElementLeft = maskElementPosition.left * 100 / scalePercent;
+          maskElementTop  = maskElementTop + maskElementBorder;
+          maskElementLeft = maskElementLeft + maskElementBorder;
 
-				}
-				else {
+        }
+        else {
 
-					scalePercent = (videoElementHeight * 100 / mediaHeight);
+          scalePercent = (videoElementHeight * 100 / mediaHeight);
 
-					maskElementTop  = maskElementPosition.top * 100 / scalePercent;
-					maskElementLeft = ((mediaWidth - (videoElementWidth * 100 / scalePercent)) / 2) + (maskElementPosition.left * 100 / scalePercent);
-					maskElementTop  = maskElementTop + maskElementBorder;
-					maskElementLeft = maskElementLeft + maskElementBorder;
+          maskElementTop  = maskElementPosition.top * 100 / scalePercent;
+          maskElementLeft = ((mediaWidth - (videoElementWidth * 100 / scalePercent)) / 2) + (maskElementPosition.left * 100 / scalePercent);
+          maskElementTop  = maskElementTop + maskElementBorder;
+          maskElementLeft = maskElementLeft + maskElementBorder;
 
-				}
+        }
 
-				return {
-					top         : maskElementTop,
-					left        : maskElementLeft,
-					width       : maskElementWidth * 100 / scalePercent,
-					height      : maskElementHeight * 100 / scalePercent,
-					scalePercent: scalePercent
-				};
+        return {
+          top         : maskElementTop,
+          left        : maskElementLeft,
+          width       : maskElementWidth * 100 / scalePercent,
+          height      : maskElementHeight * 100 / scalePercent,
+          scalePercent: scalePercent
+        };
 
-			}
+      }
 
-			public static videoMaskToCanvas(videoElement: HTMLElement, canvasElement: HTMLElement, maskPosition: IVideoMaskPosition, canvasZoom?: number) {
+      public static videoMaskToCanvas(videoElement: HTMLElement, canvasElement: HTMLElement, maskPosition: IVideoMaskPosition, canvasZoom?: number) {
 
-				let canvasZoomValue = canvasZoom || 1;
+        const canvasZoomValue = canvasZoom || 1;
 
-				let videoElementInstance                                 = $(videoElement);
-				let canvasElementInstance                                = $(canvasElement);
-				(<HTMLCanvasElement>canvasElementInstance.get(0)).width  = maskPosition.width * canvasZoomValue;
-				(<HTMLCanvasElement>canvasElementInstance.get(0)).height = maskPosition.height * canvasZoomValue;
+        const videoElementInstance                                 = $(videoElement);
+        const canvasElementInstance                                = $(canvasElement);
+        (<HTMLCanvasElement>canvasElementInstance.get(0)).width  = maskPosition.width * canvasZoomValue;
+        (<HTMLCanvasElement>canvasElementInstance.get(0)).height = maskPosition.height * canvasZoomValue;
 
-				let contextCanvasBirthDate = (<HTMLCanvasElement>canvasElementInstance.get(0)).getContext('2d');
-				(<CanvasRenderingContext2D>contextCanvasBirthDate).drawImage(
-					(<HTMLVideoElement>videoElementInstance.get(0)),
-					maskPosition.left,
-					maskPosition.top,
-					maskPosition.width,
-					maskPosition.height,
-					0,
-					0,
-					maskPosition.width * canvasZoomValue,
-					maskPosition.height * canvasZoomValue
-				);
+        const contextCanvasBirthDate = (<HTMLCanvasElement>canvasElementInstance.get(0)).getContext('2d');
+        (<CanvasRenderingContext2D>contextCanvasBirthDate).drawImage(
+          (<HTMLVideoElement>videoElementInstance.get(0)),
+          maskPosition.left,
+          maskPosition.top,
+          maskPosition.width,
+          maskPosition.height,
+          0,
+          0,
+          maskPosition.width * canvasZoomValue,
+          maskPosition.height * canvasZoomValue
+        );
 
-				return <HTMLCanvasElement>canvasElementInstance.get(0);
+        return <HTMLCanvasElement>canvasElementInstance.get(0);
 
-			}
+      }
 
-		}
+    }
 
-		export interface IVideoMaskPosition {
-			top: number,
-			left: number,
-			width: number,
-			height: number,
-			scalePercent: number
-		}
+    export interface IVideoMaskPosition {
+      top: number,
+      left: number,
+      width: number,
+      height: number,
+      scalePercent: number
+    }
 
-	}
+  }
 
 }
